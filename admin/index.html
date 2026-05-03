@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Projects Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0b;--bg2:#141410;--bg3:#1c1c17;--bg4:#232318;
+  --copper:#c8843a;--copper2:#e8a456;--copper-dim:#6b4420;
+  --teal:#3aac8c;--teal2:#52c8a4;--teal-dim:#1a5c48;
+  --red:#e05555;--red-dim:#6b2020;
+  --green:#4ade80;--green-dim:#1a5c30;
+  --ink:#f0ece4;--ink2:#a09880;--ink3:#5a5648;
+  --line:#2a2820;--line2:#3a3828;
+  --sans:'Outfit',system-ui,sans-serif;--r:8px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;font-weight:300;min-height:100vh}
+header{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:58px}
+.header-left{display:flex;align-items:center;gap:1rem}
+.logo{font-size:1rem;font-weight:600;color:var(--copper2)}
+.admin-badge{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(200,132,58,.12);border:1px solid var(--copper-dim);color:var(--copper);border-radius:100px;padding:.2rem .65rem}
+.header-actions{display:flex;gap:.75rem}
+main{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 58px)}
+aside{background:var(--bg2);border-right:1px solid var(--line);padding:1.5rem 1rem;display:flex;flex-direction:column;gap:.4rem;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.aside-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);padding:.4rem .75rem;margin-top:.5rem}
+.sidebar-btn{display:flex;align-items:center;gap:.75rem;width:100%;padding:.7rem .9rem;border-radius:6px;border:none;background:transparent;color:var(--ink2);font-family:var(--sans);font-size:.84rem;cursor:pointer;text-align:left;transition:background .2s,color .2s}
+.sidebar-btn:hover{background:var(--bg3);color:var(--ink)}
+.sidebar-btn.active{background:var(--bg4);color:var(--ink)}
+.sidebar-btn.work-btn::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--copper);flex-shrink:0}
+.sidebar-btn.hobby-btn::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.sidebar-add{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.6rem;border-radius:6px;border:1px dashed var(--line2);background:transparent;color:var(--ink3);font-family:var(--sans);font-size:.78rem;cursor:pointer;transition:all .2s;margin-top:.2rem}
+.sidebar-add:hover{border-color:var(--copper-dim);color:var(--copper2);background:rgba(200,132,58,.04)}
+.sidebar-add.teal:hover{border-color:var(--teal-dim);color:var(--teal2);background:rgba(58,172,140,.04)}
+.content{padding:2rem 2.5rem;max-width:860px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:1rem;text-align:center;color:var(--ink3)}
+.empty-state svg{width:48px;height:48px;opacity:.3}
+.empty-state p{font-size:.9rem}
+.form-card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:2rem;margin-bottom:1.5rem}
+.form-card.work-card{border-top:3px solid var(--copper)}
+.form-card.hobby-card{border-top:3px solid var(--teal)}
+.form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem}
+.form-header h2{font-size:1rem;font-weight:500;color:var(--ink)}
+.track-pill{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:.25rem .75rem;font-weight:500}
+.track-pill.work{background:rgba(200,132,58,.1);border:1px solid var(--copper-dim);color:var(--copper2)}
+.track-pill.hobby{background:rgba(58,172,140,.1);border:1px solid var(--teal-dim);color:var(--teal2)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem}
+.field-row.single{grid-template-columns:1fr}
+.field-row.triple{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:.4rem}
+label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:500}
+input[type=text],textarea,select{background:var(--bg3);border:1px solid var(--line2);border-radius:6px;color:var(--ink);font-family:var(--sans);font-size:.88rem;padding:.65rem .85rem;transition:border-color .2s;width:100%;outline:none}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--copper)}
+textarea{resize:vertical;min-height:90px;line-height:1.6}
+select option{background:var(--bg3)}
+.hint{font-size:.72rem;color:var(--ink3);margin-top:.25rem;line-height:1.55}
+code{background:var(--bg3);padding:.05rem .35rem;border-radius:3px;font-size:.85em}
+.font-preview{margin-top:.5rem;padding:.75rem 1rem;background:var(--bg4);border-radius:6px;border:1px solid var(--line);color:var(--ink2)}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:.4rem;background:var(--bg3);border:1px solid var(--line2);border-radius:6px;padding:.5rem .65rem;min-height:44px;cursor:text;transition:border-color .2s}
+.tags-wrap:focus-within{border-color:var(--copper)}
+.tag-chip{display:flex;align-items:center;gap:.3rem;background:var(--bg4);border:1px solid var(--line2);border-radius:4px;padding:.15rem .55rem;font-size:.78rem;color:var(--ink2)}
+.tag-chip button{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.8rem;line-height:1;padding:0 .1rem;transition:color .2s}
+.tag-chip button:hover{color:var(--red)}
+.tag-input{border:none;background:transparent;color:var(--ink);font-family:var(--sans);font-size:.85rem;outline:none;min-width:80px;flex:1}
+
+/* Image manager */
+.img-manager{background:var(--bg3);border:1px solid var(--line2);border-radius:6px;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.img-list{display:flex;flex-direction:column;gap:.5rem}
+.img-row{display:flex;align-items:center;gap:.6rem;background:var(--bg4);border:1px solid var(--line2);border-radius:6px;padding:.4rem .6rem}
+.img-thumb{width:52px;height:38px;border-radius:4px;object-fit:cover;background:var(--bg2);flex-shrink:0;border:1px solid var(--line)}
+.img-thumb-ph{width:52px;height:38px;border-radius:4px;background:var(--bg2);flex-shrink:0;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--ink3)}
+.img-path{flex:1;font-size:.78rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:monospace}
+.img-remove{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:.1rem .25rem;transition:color .2s}
+.img-remove:hover{color:var(--red)}
+.img-empty{text-align:center;padding:1rem;color:var(--ink3);font-size:.82rem;border:1px dashed var(--line2);border-radius:6px}
+.pick-zone{border:1.5px dashed var(--line2);border-radius:6px;padding:.9rem 1rem;display:flex;align-items:center;gap:.85rem;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
+.pick-zone:hover{border-color:var(--copper-dim);background:rgba(200,132,58,.04)}
+.pick-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.pick-icon{width:28px;height:28px;fill:none;stroke:var(--ink3);stroke-width:1.5;flex-shrink:0}
+.pick-text{font-size:.82rem;color:var(--ink2);line-height:1.4}
+.pick-text strong{color:var(--copper2);font-weight:500}
+.pick-text span{display:block;font-size:.72rem;color:var(--ink3);margin-top:.1rem}
+.manual-row{display:flex;gap:.5rem}
+.manual-row input{flex:1;font-size:.8rem;padding:.5rem .7rem}
+.manual-row button{flex-shrink:0;padding:.5rem .9rem;font-size:.78rem}
+.or-divider{display:flex;align-items:center;gap:.5rem}
+.or-divider span{font-size:.7rem;color:var(--ink3);white-space:nowrap}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--line2)}
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;border-radius:6px;font-family:var(--sans);font-size:.82rem;font-weight:500;letter-spacing:.03em;cursor:pointer;border:none;transition:all .2s;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--copper);color:var(--bg)}.btn-primary:hover{background:var(--copper2)}
+.btn-ghost{background:transparent;border:1px solid var(--line2);color:var(--ink2)}.btn-ghost:hover{border-color:var(--ink3);color:var(--ink)}
+.btn-danger{background:transparent;border:1px solid var(--red-dim);color:var(--red)}.btn-danger:hover{background:rgba(224,85,85,.08)}
+.btn-sm{padding:.45rem .9rem;font-size:.78rem}
+.btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;flex-shrink:0}
+.form-actions{display:flex;align-items:center;gap:.75rem;margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--line);flex-wrap:wrap}
+
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(8px);background:var(--bg3);border:1px solid var(--line2);border-radius:8px;padding:.75rem 1.25rem;font-size:.85rem;color:var(--ink);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:var(--green-dim);color:var(--green)}
+#toast.err{border-color:var(--red-dim);color:var(--red)}
+
+.export-panel{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:1.75rem 2rem}
+.export-panel h2{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.5rem}
+.export-panel > p{font-size:.85rem;color:var(--ink2);margin-bottom:1.25rem;line-height:1.7}
+.steps{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem}
+.step{display:flex;align-items:flex-start;gap:.85rem;font-size:.84rem;color:var(--ink2)}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--bg4);border:1px solid var(--line2);color:var(--copper2);font-size:.72rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.05rem}
+.code-block{background:var(--bg3);border:1px solid var(--line2);border-radius:6px;padding:.7rem 1rem;font-family:monospace;font-size:.8rem;color:var(--copper3);margin:.4rem 0;word-break:break-all}
+.warn-box{background:rgba(200,132,58,.07);border:1px solid var(--copper-dim);border-radius:6px;padding:.85rem 1rem;margin-bottom:1.25rem;font-size:.83rem;color:var(--copper2);line-height:1.6}
+
+@media(max-width:768px){
+  main{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .content{padding:1.5rem 1rem}
+  .field-row,.field-row.triple{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <span class="logo">W.E. Admin</span>
+    <span class="admin-badge">Projects Editor</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost btn-sm" onclick="showExport()">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export file
+    </button>
+    <a href="../index.html" class="btn btn-ghost btn-sm">← Portfolio</a>
+  </div>
+</header>
+
+<main>
+  <aside id="sidebar">
+    <div class="aside-label">Work Projects</div>
+    <div id="work-list"></div>
+    <button class="sidebar-add" onclick="addProject('work')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      Add work project
+    </button>
+    <div class="aside-label">Personal Projects</div>
+    <div id="hobby-list"></div>
+    <button class="sidebar-add teal" onclick="addProject('hobby')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      Add personal project
+    </button>
+  </aside>
+
+  <div class="content" id="content">
+    <div class="empty-state" id="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <p>Select a project from the sidebar<br>or add a new one to get started.</p>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────
+let projects = {
+  work: [
+    {id:uid(),title:"KJO Executive Energy Management Report",year:"2024",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Compiled and analysed HVAC power consumption data across 29 KJO community buildings. Produced an 11-slide executive presentation and a formal cover letter to the Executive Director of Operations, identifying demand reduction opportunities and quantified cost saving targets.",tags:["Energy Management","HVAC","Power Analysis","MS Office","KJO"],imgs:[]},
+    {id:uid(),title:"UTP / FOC Network Infrastructure Rollout",year:"2022 – Present",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Full-scope network cabling projects within KJO facilities — planning cable routes, pulling and terminating UTP Cat6 and fibre optic cables, testing with Fluke equipment, and commissioning structured cabling systems across multiple buildings.",tags:["FOC","UTP Cat6","Structured Cabling","Commissioning","KJO"],imgs:[]},
+    {id:uid(),title:"Automatic Door Control System Overhaul",year:"2023",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Supervised corrective and preventive maintenance on automatic, sliding, and rotating door control systems across the KJO community. Diagnosed control board faults, replaced defective actuators and sensors.",tags:["Control Systems","Fault Diagnosis","Maintenance","KJO"],imgs:[]},
+    {id:uid(),title:"IoT Facility Monitoring System",year:"2019 – 2021",titleSize:"1.15rem",bodySize:"0.86rem",desc:"MSc thesis at Politecnico di Torino. Designed and deployed the sensor and data collection layer — ESP8266/ESP32 nodes via MQTT to Raspberry Pi, through Node-RED into MySQL. Dataset used by a separate team for BIM integration research.",tags:["IoT","ESP32","MQTT","Node-RED","MySQL","Raspberry Pi","PoliTO"],imgs:[]},
+  ],
+  hobby: [
+    {id:uid(),title:"Raspberry Pi Digital Office Nameplate",year:"2024",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Offline digital nameplate on Raspberry Pi 4 — Node.js/Express server, kiosk mode, multi-theme UI with Arabic support, Meeting Room mode with GPIO relay toggle. Custom blank cursor fix for Wayland/wayfire.",tags:["Raspberry Pi","Node.js","GPIO","Kiosk","Wayland","Linux"],imgs:[]},
+    {id:uid(),title:"ESP32 Smart LED Lighting (WLED)",year:"2024",titleSize:"1.15rem",bodySize:"0.86rem",desc:"WS2813 LED strip system driven by ESP32 running WLED firmware. Proper level shifting, power injection, Home Assistant integration via MQTT. Clean enclosure with capacitors and correct wire gauges.",tags:["ESP32","WS2813","WLED","Home Assistant","MQTT"],imgs:[]},
+    {id:uid(),title:"Home Assistant via Cloudflare Tunnel",year:"2025",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Secure remote access to Home Assistant on Raspberry Pi using Cloudflare Tunnel — zero open ports, automatic SSL, personal domain. Integrated with portfolio site on Cloudflare Pages.",tags:["Home Assistant","Cloudflare","Raspberry Pi","Networking"],imgs:[]},
+    {id:uid(),title:"2DOF Motorised Gaming Motion Platform",year:"2023 – Present",titleSize:"1.15rem",bodySize:"0.86rem",desc:"Pitch + roll motion rig using four 12V linear actuators, Arduino Mega, and SimHub for telemetry-driven effects. Wooden/PVC frame with PS5/Xbox controllers mounted on the platform. Work in progress.",tags:["Arduino","SimHub","Linear Actuators","Motion Platform","12V"],imgs:[]},
+  ],
+};
+
+let currentId=null;
+let blobMap={}; // {projectId: {filename: blobURL}} — preview only, not persisted
+
+function uid(){return 'p_'+Math.random().toString(36).slice(2,9)}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function getTrack(id){return projects.work.find(p=>p.id===id)?'work':'hobby'}
+function getProject(id){return projects[getTrack(id)].find(p=>p.id===id)}
+
+// ── Sidebar ───────────────────────────────────────────────
+function renderSidebar(){
+  ['work','hobby'].forEach(track=>{
+    const el=document.getElementById(track+'-list');
+    el.innerHTML='';
+    projects[track].forEach(p=>{
+      const btn=document.createElement('button');
+      btn.className=`sidebar-btn ${track}-btn${p.id===currentId?' active':''}`;
+      btn.innerHTML=`<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title||'Untitled'}</span>`;
+      btn.onclick=()=>openProject(p.id);
+      el.appendChild(btn);
+    });
+  });
+}
+
+function openProject(id){
+  currentId=id;
+  renderSidebar();
+  renderForm(getProject(id),getTrack(id));
+}
+
+// ── Form ──────────────────────────────────────────────────
+function fontSizes(t){
+  return t==='title'
+    ?['0.9rem','1rem','1.05rem','1.1rem','1.15rem','1.2rem','1.3rem','1.4rem','1.5rem']
+    :['0.78rem','0.82rem','0.86rem','0.9rem','0.95rem','1rem','1.05rem'];
+}
+
+function renderForm(p,track){
+  const isWork=track==='work';
+  document.getElementById('content').innerHTML=`
+  <div class="form-card ${track}-card">
+    <div class="form-header">
+      <h2 id="fh">${esc(p.title)||'New Project'}</h2>
+      <span class="track-pill ${track}">${isWork?'Work':'Personal'}</span>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Project title</label>
+        <input type="text" id="f-title" value="${esc(p.title)}" placeholder="Project name" oninput="liveTitle(this.value)">
+      </div>
+      <div class="field">
+        <label>Year / period</label>
+        <input type="text" id="f-year" value="${esc(p.year)}" placeholder="2024 or 2022–Present">
+      </div>
+    </div>
+
+    <div class="field-row single">
+      <div class="field">
+        <label>Description</label>
+        <textarea id="f-desc" placeholder="What did you build or design?">${esc(p.desc)}</textarea>
+      </div>
+    </div>
+
+    <div class="field-row triple">
+      <div class="field">
+        <label>Title font size</label>
+        <select id="f-tsz" onchange="liveFont()">
+          ${fontSizes('title').map(s=>`<option value="${s}"${p.titleSize===s?' selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Body font size</label>
+        <select id="f-bsz" onchange="liveFont()">
+          ${fontSizes('body').map(s=>`<option value="${s}"${p.bodySize===s?' selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Preview</label>
+        <div class="font-preview">
+          <div id="fp-t" style="font-size:${p.titleSize};font-weight:500;color:var(--ink);margin-bottom:.25rem">${esc(p.title)||'Title'}</div>
+          <div id="fp-b" style="font-size:${p.bodySize};color:var(--ink2)">Body text preview.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row single">
+      <div class="field">
+        <label>Skills / Tags <span style="color:var(--ink3);text-transform:none;letter-spacing:0;font-size:.68rem">(press Enter or comma to add)</span></label>
+        <div class="tags-wrap" id="tags-wrap" onclick="document.getElementById('tag-input').focus()">
+          ${p.tags.map(t=>tagChip(t)).join('')}
+          <input id="tag-input" class="tag-input" placeholder="Add tag…" onkeydown="handleTagKey(event)">
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row single">
+      <div class="field">
+        <label>Project images <span style="color:var(--ink3);text-transform:none;letter-spacing:0;font-size:.68rem">(multiple images = auto-slideshow every 1.5s)</span></label>
+        <div class="img-manager">
+          <div class="img-list" id="img-list">${buildImgList(p)}</div>
+
+          <div class="pick-zone">
+            <input type="file" accept="image/*" multiple onchange="handleFilePick(event)">
+            <svg class="pick-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <div class="pick-text">
+              <strong>Click to pick images</strong> from your computer
+              <span>Shows a preview here instantly. Still need to copy files into <code>assets/</code> before pushing.</span>
+            </div>
+          </div>
+
+          <div class="or-divider"><span>or type path manually</span></div>
+
+          <div class="manual-row">
+            <input type="text" id="manual-path" placeholder="assets/photo.jpg">
+            <button class="btn btn-ghost btn-sm" onclick="addManualPath()">Add</button>
+          </div>
+        </div>
+        <span class="hint">⚠️ Images picked from your computer are <strong>previews only</strong>. Before pushing to GitHub, copy the files into <code>assets/</code> — the filename is pre-filled for you automatically.</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveProject()">
+        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+        Save project
+      </button>
+      <button class="btn btn-ghost" onclick="duplicateProject('${p.id}')">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Duplicate
+      </button>
+      <button class="btn btn-danger" style="margin-left:auto" onclick="deleteProject('${p.id}')">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/></svg>
+        Delete
+      </button>
+    </div>
+  </div>`;
+}
+
+// ── Image list HTML ───────────────────────────────────────
+function buildImgList(p){
+  const imgs=p.imgs||[];
+  if(!imgs.length) return `<div class="img-empty">No images yet — pick files below or type a path.</div>`;
+  return imgs.map((src,i)=>{
+    const fname=src.split('/').pop();
+    const preview=(blobMap[p.id]&&blobMap[p.id][fname])||src;
+    return `<div class="img-row">
+      <img class="img-thumb" src="${preview}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="img-thumb-ph" style="display:none">?</div>
+      <span class="img-path" title="${esc(src)}">${esc(src)}</span>
+      <button class="img-remove" onclick="removeImg(${i})" title="Remove image">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function refreshImgList(){
+  const p=getProject(currentId);
+  if(p) document.getElementById('img-list').innerHTML=buildImgList(p);
+}
+
+// ── Image actions ─────────────────────────────────────────
+function handleFilePick(e){
+  const p=getProject(currentId);
+  if(!p){toast('Save the project first','err');return;}
+  if(!blobMap[p.id]) blobMap[p.id]={};
+  if(!p.imgs) p.imgs=[];
+  [...e.target.files].forEach(file=>{
+    const url=URL.createObjectURL(file);
+    const path=`assets/${file.name}`;
+    blobMap[p.id][file.name]=url;
+    if(!p.imgs.includes(path)) p.imgs.push(path);
+  });
+  e.target.value='';
+  refreshImgList();
+  toast(`${e.target.files.length} image(s) added ✓ — remember to copy files to assets/`,'ok');
+}
+
+function addManualPath(){
+  const inp=document.getElementById('manual-path');
+  const val=inp.value.trim();
+  if(!val){toast('Enter a path first','err');return;}
+  const p=getProject(currentId);
+  if(!p.imgs) p.imgs=[];
+  if(!p.imgs.includes(val)) p.imgs.push(val);
+  inp.value='';
+  refreshImgList();
+}
+
+function removeImg(idx){
+  const p=getProject(currentId);
+  if(!p||!p.imgs) return;
+  p.imgs.splice(idx,1);
+  refreshImgList();
+}
+
+// ── Tags ──────────────────────────────────────────────────
+function tagChip(t){return `<span class="tag-chip">${esc(t)}<button type="button" onclick="removeTag(this)">×</button></span>`}
+function handleTagKey(e){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const val=e.target.value.replace(',','').trim();
+    if(!val) return;
+    const chip=document.createElement('span');
+    chip.className='tag-chip';
+    chip.innerHTML=`${esc(val)}<button type="button" onclick="removeTag(this)">×</button>`;
+    document.getElementById('tags-wrap').insertBefore(chip,document.getElementById('tag-input'));
+    e.target.value='';
+  }
+}
+function removeTag(btn){btn.parentElement.remove()}
+function getTags(){return[...document.querySelectorAll('#tags-wrap .tag-chip')].map(c=>c.childNodes[0].textContent.trim()).filter(Boolean)}
+
+// ── Live previews ─────────────────────────────────────────
+function liveTitle(v){
+  const h=document.getElementById('fh'); if(h) h.textContent=v||'New Project';
+  const t=document.getElementById('fp-t'); if(t) t.textContent=v||'Title';
+}
+function liveFont(){
+  const t=document.getElementById('f-tsz').value;
+  const b=document.getElementById('f-bsz').value;
+  document.getElementById('fp-t').style.fontSize=t;
+  document.getElementById('fp-b').style.fontSize=b;
+}
+
+// ── Save ──────────────────────────────────────────────────
+function saveProject(){
+  const track=getTrack(currentId);
+  const arr=projects[track];
+  const idx=arr.findIndex(p=>p.id===currentId);
+  if(idx===-1) return;
+  const existing=arr[idx];
+  arr[idx]={
+    id:currentId,
+    title:document.getElementById('f-title').value.trim(),
+    year:document.getElementById('f-year').value.trim(),
+    titleSize:document.getElementById('f-tsz').value,
+    bodySize:document.getElementById('f-bsz').value,
+    desc:document.getElementById('f-desc').value.trim(),
+    tags:getTags(),
+    imgs:existing.imgs||[],
+  };
+  renderSidebar();
+  toast('Saved ✓','ok');
+}
+
+// ── Add / duplicate / delete ──────────────────────────────
+function addProject(track){
+  const p={id:uid(),title:'New Project',year:String(new Date().getFullYear()),titleSize:'1.15rem',bodySize:'0.86rem',desc:'',tags:[],imgs:[]};
+  projects[track].push(p);
+  currentId=p.id;
+  renderSidebar();
+  openProject(p.id);
+}
+function duplicateProject(id){
+  const track=getTrack(id);
+  const orig=getProject(id);
+  const copy={...orig,id:uid(),title:orig.title+' (copy)',imgs:[...(orig.imgs||[])]};
+  projects[track].push(copy);
+  currentId=copy.id;
+  renderSidebar();
+  openProject(copy.id);
+  toast('Duplicated ✓','ok');
+}
+function deleteProject(id){
+  if(!confirm('Delete this project? Cannot be undone.')) return;
+  ['work','hobby'].forEach(t=>{projects[t]=projects[t].filter(p=>p.id!==id)});
+  currentId=null;
+  renderSidebar();
+  document.getElementById('content').innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><p>Deleted. Choose another project.</p></div>`;
+  toast('Deleted','ok');
+}
+
+// ── Export ────────────────────────────────────────────────
+function showExport(){
+  if(currentId){try{saveProject()}catch(e){}}
+  currentId=null;
+  renderSidebar();
+  const allBlobs=Object.values(blobMap).flatMap(b=>Object.keys(b));
+  const warnHTML=allBlobs.length
+    ?`<div class="warn-box">⚠️ You picked <strong>${allBlobs.length} local file(s)</strong> via the file picker. Copy these into <code>assets/</code> before pushing:<br><br>${allBlobs.map(f=>`<code>${f}</code>`).join('  ')}</div>`:'';
+  document.getElementById('content').innerHTML=`
+  <div class="export-panel">
+    <h2>Export &amp; deploy</h2>
+    <p>Download <code>projects_data.js</code>, replace the old file in your site folder, then push to GitHub. Cloudflare Pages redeploys in ~30 seconds.</p>
+    ${warnHTML}
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span>Copy any new photos into <code>assets/</code></div>
+      <div class="step"><span class="step-num">2</span>Download the file below and replace <code>projects_data.js</code> in your site folder</div>
+      <div class="step"><span class="step-num">3</span>Run:<div class="code-block">git add . && git commit -m "update projects" && git push</div></div>
+      <div class="step"><span class="step-num">4</span>Wait ~30 seconds — live</div>
+    </div>
+    <button class="btn btn-primary" onclick="downloadFile()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download projects_data.js
+    </button>
+  </div>`;
+}
+
+function downloadFile(){
+  const strip=p=>({title:p.title,year:p.year,titleSize:p.titleSize,bodySize:p.bodySize,desc:p.desc,tags:p.tags,imgs:p.imgs||[],img:(p.imgs&&p.imgs[0])||''});
+  const out=`// projects_data.js — generated by admin panel\n// Replace this file then push to GitHub.\n\nconst PROJECTS = ${JSON.stringify({work:projects.work.map(strip),hobby:projects.hobby.map(strip)},null,2)};\n`;
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([out],{type:'application/javascript'})),download:'projects_data.js'});
+  a.click();URL.revokeObjectURL(a.href);
+  toast('Downloaded ✓','ok');
+}
+
+// ── Toast ─────────────────────────────────────────────────
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='show '+(type||'');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.className='',2800);
+}
+
+renderSidebar();
+</script>
+</body>
+</html>

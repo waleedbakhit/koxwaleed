@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Waleed Elhadi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0b;--bg2:#141410;--bg3:#1c1c17;--bg4:#232318;
+  --copper:#c8843a;--copper2:#e8a456;--copper-dim:#6b4420;
+  --teal:#3aac8c;--teal2:#52c8a4;--teal-dim:#1a5c48;
+  --ink:#f0ece4;--ink2:#a09880;--ink3:#5a5648;
+  --line:#2a2820;--line2:#3a3828;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --max:1200px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;font-weight:300;overflow-x:hidden}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.25s}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);height:60px;background:rgba(13,13,11,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--copper2);text-decoration:none;letter-spacing:.03em}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--copper2)}
+.nav-links a.active{color:var(--copper2)}
+
+/* Hero band */
+.page-hero{padding:clamp(6rem,12vw,9rem) clamp(1.5rem,5vw,4rem) clamp(2rem,5vw,4rem);max-width:var(--max);margin:0 auto}
+.page-eyebrow{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.page-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--copper)}
+h1.page-title{font-family:var(--serif);font-size:clamp(3rem,8vw,6rem);font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--ink);margin-bottom:1rem}
+h1.page-title em{font-style:italic;color:var(--copper2)}
+.page-sub{font-size:1rem;color:var(--ink2);max-width:520px;line-height:1.8}
+
+/* Track legend */
+.legend{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:.6rem;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.legend-dot.work{background:var(--copper);box-shadow:0 0 8px rgba(200,132,58,.4)}
+.legend-dot.hobby{background:var(--teal);box-shadow:0 0 8px rgba(58,172,140,.4)}
+
+.hairline{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--line2) 20%,var(--line2) 80%,transparent)}
+
+/* ── Dual timeline ──────────────────────────────────────── */
+.dual-wrap{max-width:var(--max);margin:0 auto;padding:clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem)}
+
+/* Column headers */
+.track-headers{display:grid;grid-template-columns:1fr 80px 1fr;margin-bottom:2.5rem}
+.track-head{padding:.6rem 1rem;border-radius:4px;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.track-head.work{color:var(--copper2);border:1px solid var(--copper-dim);background:rgba(200,132,58,.06);text-align:right}
+.track-head.hobby{color:var(--teal2);border:1px solid var(--teal-dim);background:rgba(58,172,140,.06)}
+
+/* Spine */
+.dual-timeline{position:relative}
+.spine{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--line2),var(--line) 90%,transparent);transform:translateX(-50%)}
+
+/* Row */
+.tl-row{display:grid;grid-template-columns:1fr 80px 1fr;margin-bottom:2.8rem;position:relative}
+.dot-col{display:flex;align-items:flex-start;justify-content:center;padding-top:1.5rem;z-index:2;position:relative}
+.dot{width:13px;height:13px;border-radius:50%;background:var(--bg);border-width:2px;border-style:solid;flex-shrink:0;transition:box-shadow .3s}
+.dot.work{border-color:var(--copper);box-shadow:0 0 0 4px rgba(200,132,58,.1),0 0 10px rgba(200,132,58,.2)}
+.dot.hobby{border-color:var(--teal);box-shadow:0 0 0 4px rgba(58,172,140,.1),0 0 10px rgba(58,172,140,.2)}
+.tl-row:hover .dot.work{box-shadow:0 0 0 7px rgba(200,132,58,.15),0 0 20px rgba(200,132,58,.35)}
+.tl-row:hover .dot.hobby{box-shadow:0 0 0 7px rgba(58,172,140,.15),0 0 20px rgba(58,172,140,.35)}
+
+/* Cards */
+.proj-card{border-radius:8px;overflow:hidden;border-width:1px;border-style:solid;background:var(--bg2);transition:border-color .3s,background .3s}
+.proj-card.work{border-color:var(--line)}
+.proj-card.hobby{border-color:var(--line)}
+.proj-card:hover{background:var(--bg3)}
+.proj-card.work:hover{border-color:var(--copper-dim)}
+.proj-card.hobby:hover{border-color:var(--teal-dim)}
+
+/* ── Slideshow ─────────────────────────────────────────── */
+.slideshow{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--bg4)}
+.slides-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.77,0,.18,1);will-change:transform}
+.slide{flex:0 0 100%;height:100%;position:relative;overflow:hidden}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.proj-card:hover .slide img{transform:scale(1.04)}
+.proj-img-placeholder{width:100%;aspect-ratio:16/9;background:var(--bg4);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.proj-img-placeholder::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(200,132,58,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,132,58,.04) 1px,transparent 1px);background-size:24px 24px}
+.proj-img-placeholder.teal-ph::before{background-image:linear-gradient(rgba(58,172,140,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(58,172,140,.05) 1px,transparent 1px)}
+.ph-icon{width:36px;height:36px;opacity:.25;position:relative;z-index:1}
+.slide-dots{position:absolute;bottom:.6rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:10;background:rgba(0,0,0,.35);border-radius:100px;padding:.3rem .5rem}
+.slide-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .3s,transform .3s;cursor:pointer;border:none;padding:0}
+.slide-dot.active{background:#fff;transform:scale(1.25)}
+.slide-count{position:absolute;top:.65rem;right:.7rem;z-index:10;font-size:.65rem;letter-spacing:.06em;background:rgba(0,0,0,.5);color:rgba(255,255,255,.8);border-radius:100px;padding:.2rem .55rem;backdrop-filter:blur(4px);pointer-events:none}
+
+/* Card body */
+.proj-body{padding:1.4rem 1.6rem 1.6rem}
+.proj-track-tag{font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:.5rem}
+.proj-track-tag.work{color:var(--copper)}
+.proj-track-tag.hobby{color:var(--teal)}
+.proj-year{font-size:.68rem;letter-spacing:.08em;color:var(--ink3);margin-bottom:.4rem}
+.proj-title{font-family:var(--serif);font-size:1.15rem;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:.65rem}
+.proj-desc{font-size:.86rem;color:var(--ink2);line-height:1.75}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.proj-tag{font-size:.72rem;color:var(--ink3);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:3px;padding:.18rem .55rem}
+.proj-card.work:hover .proj-tag{border-color:var(--copper-dim);color:var(--ink2)}
+.proj-card.hobby:hover .proj-tag{border-color:var(--teal-dim);color:var(--ink2)}
+
+/* Left / right padding */
+.left-col{padding-right:1.5rem}
+.right-col{padding-left:1.5rem}
+
+/* Arrow nubs */
+.left-col .proj-card{position:relative}
+.left-col .proj-card::after{content:'';position:absolute;top:1.5rem;right:-7px;width:7px;height:7px;background:var(--bg2);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:rotate(45deg);transition:background .3s}
+.right-col .proj-card{position:relative}
+.right-col .proj-card::after{content:'';position:absolute;top:1.5rem;left:-7px;width:7px;height:7px;background:var(--bg2);border-bottom:1px solid var(--line);border-left:1px solid var(--line);transform:rotate(45deg);transition:background .3s}
+.left-col .proj-card:hover::after,.right-col .proj-card:hover::after{background:var(--bg3)}
+
+/* Empty col spacer */
+.empty-col{}
+
+/* ── Floating back button ─────────────────────────────── */
+.fab{position:fixed;bottom:2rem;right:2rem;z-index:100;display:flex;align-items:center;gap:.6rem;padding:.75rem 1.3rem;border-radius:100px;background:var(--bg2);border:1px solid var(--line2);color:var(--ink2);font-size:.75rem;letter-spacing:.06em;text-decoration:none;font-weight:500;transition:all .25s;backdrop-filter:blur(8px)}
+.fab:hover{border-color:var(--copper);color:var(--copper2);background:var(--bg3)}
+.fab svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;flex-shrink:0}
+
+/* ── Mobile ────────────────────────────────────────────── */
+@media(max-width:860px){
+  .nav-links{display:none}
+  .track-headers{display:none}
+  .spine{left:20px}
+  .tl-row{grid-template-columns:44px 1fr;grid-template-rows:auto}
+  .dot-col{grid-column:1;grid-row:1;justify-content:center}
+  .left-col,.right-col{grid-column:2;grid-row:1;padding:0}
+  .empty-col{display:none}
+  .left-col .proj-card::after{left:-7px;right:auto;border-top:none;border-right:none;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+}
+@media(max-width:500px){
+  .legend{gap:1.2rem}
+  .fab{bottom:1.2rem;right:1.2rem;padding:.65rem 1rem;font-size:.7rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">W.E.</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Page hero -->
+<div class="page-hero">
+  <p class="page-eyebrow reveal">Portfolio</p>
+  <h1 class="page-title reveal d1">Work &amp; <em>side projects</em></h1>
+  <p class="page-sub reveal d2">A selection of professional engineering work alongside personal builds — the two sides tend to feed each other.</p>
+  <div class="legend reveal d3">
+    <div class="legend-item"><span class="legend-dot work"></span>Work projects</div>
+    <div class="legend-item"><span class="legend-dot hobby"></span>Personal / hobby</div>
+  </div>
+</div>
+
+<div class="hairline"></div>
+
+<!-- Dual timeline -->
+<div class="dual-wrap">
+  <div class="track-headers reveal">
+    <div class="track-head work">Work projects</div>
+    <div></div>
+    <div class="track-head hobby">Personal projects</div>
+  </div>
+
+  <div class="dual-timeline" id="dual-tl">
+    <div class="spine"></div>
+  </div>
+</div>
+
+<a class="fab" href="index.html">
+  <svg viewBox="0 0 24 24"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+  Back to portfolio
+</a>
+
+<script src="projects_data.js"></script>
+<script>
+// Projects are loaded from projects_data.js (generated by admin panel).
+// On first run before you've used the admin, PROJECTS won't exist — defaults below are used.
+const WORK  = (typeof PROJECTS !== 'undefined' && PROJECTS.work)  ? PROJECTS.work  : [];
+const HOBBY = (typeof PROJECTS !== 'undefined' && PROJECTS.hobby) ? PROJECTS.hobby : [];
+
+// ── Slideshow engine ─────────────────────────────────────
+// Each slideshow is tracked independently.
+// Auto-advances only while the card is visible on screen.
+const slideshows = []; // {track, dots, total, current, interval}
+
+function buildSlideshow(imgs, title, track) {
+  // imgs: array of image paths (strings)
+  const isWork = track === 'work';
+  const uid = 'ss_' + Math.random().toString(36).slice(2,7);
+
+  const slides = imgs.map(src =>
+    `<div class="slide"><img src="${src}" alt="${title}" loading="lazy"></div>`
+  ).join('');
+
+  const dots = imgs.length > 1
+    ? `<div class="slide-dots" id="dots_${uid}">
+        ${imgs.map((_,i) => `<button class="slide-dot${i===0?' active':''}" data-ss="${uid}" data-idx="${i}"></button>`).join('')}
+       </div>`
+    : '';
+
+  const count = imgs.length > 1
+    ? `<div class="slide-count" id="count_${uid}">1 / ${imgs.length}</div>`
+    : '';
+
+  // Register for auto-play (will be wired after DOM insertion)
+  slideshows.push({ uid, total: imgs.length, current: 0, interval: null });
+
+  return `<div class="slideshow" id="${uid}">
+    <div class="slides-track" id="track_${uid}">${slides}</div>
+    ${dots}${count}
+  </div>`;
+}
+
+function goToSlide(uid, idx) {
+  const ss = slideshows.find(s => s.uid === uid);
+  if (!ss) return;
+  ss.current = (idx + ss.total) % ss.total;
+  const track = document.getElementById('track_' + uid);
+  if (track) track.style.transform = `translateX(-${ss.current * 100}%)`;
+  // update dots
+  const dotsEl = document.getElementById('dots_' + uid);
+  if (dotsEl) {
+    dotsEl.querySelectorAll('.slide-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === ss.current);
+    });
+  }
+  // update count
+  const countEl = document.getElementById('count_' + uid);
+  if (countEl) countEl.textContent = `${ss.current + 1} / ${ss.total}`;
+}
+
+function startAuto(uid) {
+  const ss = slideshows.find(s => s.uid === uid);
+  if (!ss || ss.total <= 1) return;
+  if (ss.interval) return; // already running
+  ss.interval = setInterval(() => goToSlide(uid, ss.current + 1), 1500);
+}
+
+function stopAuto(uid) {
+  const ss = slideshows.find(s => s.uid === uid);
+  if (!ss) return;
+  clearInterval(ss.interval);
+  ss.interval = null;
+}
+
+// Wire dot clicks (delegated)
+document.addEventListener('click', e => {
+  const dot = e.target.closest('.slide-dot');
+  if (!dot) return;
+  const uid = dot.dataset.ss;
+  const idx = parseInt(dot.dataset.idx, 10);
+  stopAuto(uid);
+  goToSlide(uid, idx);
+});
+
+// ── Card builder ─────────────────────────────────────────
+function normaliseImgs(p) {
+  // Support: img as string or imgs as array
+  if (Array.isArray(p.imgs) && p.imgs.length) return p.imgs.filter(Boolean);
+  if (p.img && p.img.trim()) return [p.img.trim()];
+  return [];
+}
+
+function card(p, track) {
+  const isWork = track === 'work';
+  const imgs = normaliseImgs(p);
+  const titleSize = p.titleSize || '1.15rem';
+  const bodySize  = p.bodySize  || '0.86rem';
+
+  const mediaHTML = imgs.length
+    ? buildSlideshow(imgs, p.title, track)
+    : `<div class="proj-img-placeholder ${isWork ? '' : 'teal-ph'}">
+        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+       </div>`;
+
+  return `<div class="proj-card ${track}">
+    ${mediaHTML}
+    <div class="proj-body">
+      <div class="proj-track-tag ${track}">${isWork ? 'Work project' : 'Personal project'}</div>
+      <div class="proj-year">${p.year}</div>
+      <div class="proj-title" style="font-size:${titleSize}">${p.title}</div>
+      <p class="proj-desc" style="font-size:${bodySize}">${p.desc}</p>
+      <div class="proj-tags">${(p.tags||[]).map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+// ── Render timeline ──────────────────────────────────────
+const container = document.getElementById('dual-tl');
+const maxRows = Math.max(WORK.length, HOBBY.length);
+
+for (let i = 0; i < maxRows; i++) {
+  const w = WORK[i];
+  const h = HOBBY[i];
+  const row = document.createElement('div');
+  row.className = 'tl-row reveal';
+  const dotClass = w ? 'work' : 'hobby';
+  row.innerHTML = `
+    <div class="left-col">${w ? card(w,'work') : ''}</div>
+    <div class="dot-col"><div class="dot ${dotClass}"></div></div>
+    <div class="right-col">${h ? card(h,'hobby') : ''}</div>`;
+  container.appendChild(row);
+}
+
+// ── IntersectionObserver: start/stop slideshow & reveal ─
+const ssObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    // Find all slideshows inside this element
+    const els = e.target.querySelectorAll ? e.target.querySelectorAll('.slideshow') : [];
+    els.forEach(el => {
+      if (e.isIntersecting) startAuto(el.id);
+      else stopAuto(el.id);
+    });
+    // Also handle the case where target IS the slideshow
+    if (e.target.classList && e.target.classList.contains('slideshow')) {
+      if (e.isIntersecting) startAuto(e.target.id);
+      else stopAuto(e.target.id);
+    }
+  });
+}, { threshold: 0.3 });
+
+// Observe each proj-card (contains slideshow)
+document.querySelectorAll('.proj-card').forEach(el => ssObserver.observe(el));
+
+// Reveal observer
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

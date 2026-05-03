@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — Smart Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:   #0f0e0c;
+  --bg2:  #1a1814;
+  --bg3:  #232018;
+  --ink:  #f0ede6;
+  --ink2: #8a877e;
+  --ink3: #4a4740;
+  --gold: #b8955a;
+  --gold2:#d4aa72;
+  --line: #2a2720;
+  --serif:'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --r:    14px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(184,149,90,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,149,90,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* Glow orb */
+body::after {
+  content: '';
+  position: fixed;
+  top: -20%; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,149,90,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 3.5rem);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Status dot */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74,222,128,0.6);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.status-text {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+
+/* Icon */
+.icon-wrap {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-wrap svg {
+  width: 32px; height: 32px;
+  fill: var(--gold);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.subtitle {
+  font-size: 0.88rem;
+  color: var(--ink2);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ── Tiles ─────────────────────────────────────────────── */
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.tile {
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1rem;
+  text-align: left;
+  transition: border-color 0.2s;
+}
+.tile:hover { border-color: var(--ink3); }
+.tile-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 0.3rem;
+}
+.tile-value {
+  font-size: 0.9rem;
+  color: var(--ink2);
+}
+.tile-value.active { color: #4ade80; }
+.tile-value.gold { color: var(--gold); }
+
+/* ── Enter button ──────────────────────────────────────── */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.95rem 1.5rem;
+  border-radius: 100px;
+  background: var(--gold);
+  color: #0f0e0c;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn:hover { background: var(--gold2); }
+.btn:active { transform: scale(0.98); }
+.btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* ── Back link ─────────────────────────────────────────── */
+.back-link {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--ink3);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--ink2); }
+
+/* ── Time display ──────────────────────────────────────── */
+.time-display {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.2rem;
+  line-height: 1;
+}
+.date-display {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Mobile ────────────────────────────────────────────── */
+@media (max-width: 400px) {
+  .tiles { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="status-row">
+    <span class="dot"></span>
+    <span class="status-text">System online</span>
+  </div>
+
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3L4 9v12h5v-7h6v7h5V9L12 3z"/>
+    </svg>
+  </div>
+
+  <div class="time-display" id="clock">--:--</div>
+  <div class="date-display" id="date-display">Loading...</div>
+
+  <h1>Smart Home</h1>
+  <p class="subtitle">Your Home Assistant dashboard.<br>Secure access via Cloudflare Tunnel.</p>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-label">Connection</div>
+      <div class="tile-value active" id="conn-status">Encrypted</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Access</div>
+      <div class="tile-value gold">Private</div>
+    </div>
+  </div>
+
+  <a class="btn" href="/ha/dashboard" id="enter-btn">
+    <svg viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+    Enter dashboard
+  </a>
+
+  <a class="back-link" href="/">← Back to portfolio</a>
+</div>
+
+<script>
+// Live clock
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+  document.getElementById('date-display').textContent = now.toLocaleDateString('en-US', {
+    weekday: 'long', day: 'numeric', month: 'long'
+  });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// Update the HA URL to your actual tunnel URL
+// If using subdomain approach:  https://ha.koxwaleed.com
+// If using path approach:       /ha/ (relative, already correct)
+document.getElementById('enter-btn').href = '/ha/';
+</script>
+</body>
+</html>
