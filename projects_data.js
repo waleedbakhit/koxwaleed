@@ -3,40 +3,6 @@
 
 const PROJECTS = {
   "work": [],
-      "imgs": [],
-      "img": ""
-    },
-    {
-      "title": "UTP / FOC Network Infrastructure Rollout",
-      "year": "2022 – Present",
-      "titleSize": "1.15rem",
-      "bodySize": "0.86rem",
-      "desc": "Full-scope network cabling projects within KJO facilities — planning cable routes, pulling and terminating UTP Cat6 and fibre optic cables, testing with Fluke equipment, and commissioning structured cabling systems across multiple buildings.",
-      "tags": ["FOC", "UTP Cat6", "Structured Cabling", "Commissioning", "KJO"],
-      "imgs": [],
-      "img": ""
-    },
-    {
-      "title": "Automatic Door Control System Overhaul",
-      "year": "2023",
-      "titleSize": "1.15rem",
-      "bodySize": "0.86rem",
-      "desc": "Supervised corrective and preventive maintenance on automatic, sliding, and rotating door control systems across the KJO community. Diagnosed control board faults, replaced defective actuators and sensors.",
-      "tags": ["Control Systems", "Fault Diagnosis", "Maintenance", "KJO"],
-      "imgs": [],
-      "img": ""
-    },
-    {
-      "title": "IoT Facility Monitoring System",
-      "year": "2019 – 2021",
-      "titleSize": "1.15rem",
-      "bodySize": "0.86rem",
-      "desc": "MSc thesis at Politecnico di Torino. Designed and deployed the sensor and data collection layer — ESP8266/ESP32 nodes via MQTT to Raspberry Pi, through Node-RED into MySQL. Dataset used by a separate team for BIM integration research.",
-      "tags": ["IoT", "ESP32", "MQTT", "Node-RED", "MySQL", "Raspberry Pi", "PoliTO"],
-      "imgs": [],
-      "img": ""
-    }
-  ],
   "hobby": [
     {
       "title": "Raspberry Pi Digital Office Nameplate",
