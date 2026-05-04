@@ -2,14 +2,7 @@
 // Replace this file then push to GitHub.
 
 const PROJECTS = {
-  "work": [
-    {
-      "title": "KJO Executive Energy Management Report",
-      "year": "2024",
-      "titleSize": "1.15rem",
-      "bodySize": "0.86rem",
-      "desc": "Compiled and analysed HVAC power consumption data across 29 KJO community buildings. Produced an 11-slide executive presentation and a formal cover letter to the Executive Director of Operations, identifying demand reduction opportunities and quantified cost saving targets.",
-      "tags": ["Energy Management", "HVAC", "Power Analysis", "MS Office", "KJO"],
+  "work": [],
       "imgs": [],
       "img": ""
     },
