@@ -1,0 +1,9 @@
+Created tunnel homeassistant with id 94916672-147e-4e9b-81cd-c7d6afa02957
+
+tunnel: 94916672-147e-4e9b-81cd-c7d6afa02957
+credentials-file: /home/pi/.cloudflared/YOUR-UUID.json
+
+ingress:
+  - hostname: ha.waleedelhadi.com
+    service: http://localhost:8123
+  - service: http_status:404
