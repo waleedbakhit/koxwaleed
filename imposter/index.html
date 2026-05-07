@@ -1100,11 +1100,25 @@ function initSocket(){
   if(socket) return;
   const serverUrl=window.location.hostname==='localhost'||window.location.protocol==='file:'?'http://'+window.location.hostname+':3456':'https://imposter.waleedelhadi.com';
   socket=io(serverUrl,{transports:['websocket','polling']});
-  socket.on('connect',()=>console.log('Connected:',socket.id));
-  socket.on('connect_error',e=>{toast('Cannot reach server: '+e.message,'err');console.error(e);});
+  socket.on('connect',()=>{
+    console.log('Connected:',socket.id);
+    // Auto-rejoin if we were in a room
+    if(olMyRoom&&olMyName){
+      socket.emit('rejoin_room',{code:olMyRoom,name:olMyName},res=>{
+        if(res&&res.ok){
+          olIsHost=res.room.isHost;
+          olOnRoomUpdate(res.room);
+          toast('Reconnected!','ok');
+        }
+      });
+    }
+  });
+  socket.on('connect_error',e=>{toast('Cannot reach server','err');console.error(e);});
+  socket.on('disconnect',()=>toast('Connection lost — reconnecting...','err'));
   socket.on('room_update',olOnRoomUpdate);
   socket.on('player_left',d=>toast(`${d.name} left`,'err'));
   socket.on('start_role_reveal',olOnStartReveal);
+  socket.on('ready_update', olOnReadyUpdate);
   socket.on('game_started',olOnGameStarted);
   socket.on('timer_tick',olOnTick);
   socket.on('voting_started',olOnVotingStarted);
@@ -1237,33 +1251,21 @@ function onlineLang(){
   socket.emit('set_lang',{code:olMyRoom,lang});
 }
 
-// Role reveal (online — host driven, pass phone)
-let olRevealIdx=0,olRevealTotal=0;
+// Online role reveal — each player gets their own role on their own device
 function olOnStartReveal(data){
-  olRevealIdx=0;olRevealTotal=data.totalPlayers;
   olGameData.order=data.order;olGameData.category=data.category;
-  olDoNextReveal();
-}
-
-function olDoNextReveal(){
-  socket.emit('next_reveal',{code:olMyRoom},res=>{
-    if(!res)return;
-    // Show pass screen first
-    document.getElementById('pass-name').textContent=res.name;
-    document.getElementById('t-pass-msg').innerHTML=T('pass_msg').replace(/\n/g,'<br>');
-    document.getElementById('t-show-role').textContent=T('show_role');
-    // Override show role button to reveal online role
-    document.getElementById('t-show-role').onclick=()=>olShowRole(res);
-    document.getElementById('t-done-role').onclick=()=>olDoneRole(res.isLast);
-    go('s-pass');
+  // Request my own role from server
+  socket.emit('get_my_role',{code:olMyRoom},res=>{
+    if(!res||!res.ok){toast('Could not get role','err');return;}
+    olShowMyRole(res);
   });
 }
 
-function olShowRole(res){
+function olShowMyRole(res){
   const isSpy=res.isSpy;
+  olMyRole=res;
   document.getElementById('ol-role-content').innerHTML=isSpy?`
     <div class="role-box spy">
-      <span class="r-emoji">🕵️</span>
       <div class="r-badge spy">${T('you_spy')}</div>
       <div class="r-name" style="color:var(--red2)">${res.name}</div>
       <div class="wbox">
@@ -1273,7 +1275,6 @@ function olShowRole(res){
       </div>
     </div>`:`
     <div class="role-box crew">
-      <span class="r-emoji">👁️</span>
       <div class="r-badge crew">${T('you_crew')}</div>
       <div class="r-name" style="color:var(--purple3)">${res.name}</div>
       <div class="wbox">
@@ -1284,18 +1285,23 @@ function olShowRole(res){
     </div>`;
   document.getElementById('t-ol-role-inst').textContent=T('ol_role_inst');
   document.getElementById('t-ol-ready').textContent=T('ol_ready');
-  document.getElementById('t-ol-ready').onclick=()=>go('s-role');
-  // Then done from role goes back to pass for next player
-  document.getElementById('t-done-role').onclick=()=>olDoneRole(res.isLast);
+  document.getElementById('t-ol-ready').onclick=olMarkReady;
   go('s-online-role');
 }
 
-function olDoneRole(isLast){
-  if(isLast){
-    socket.emit('reveals_done',{code:olMyRoom});
-  } else {
-    olRevealIdx++;
-    olDoNextReveal();
+let olReadyCount=0, olReadyTotal=0;
+function olMarkReady(){
+  socket.emit('player_ready',{code:olMyRoom});
+  document.getElementById('t-ol-ready').disabled=true;
+  document.getElementById('t-ol-ready').textContent='Waiting for others...';
+}
+
+function olOnReadyUpdate(data){
+  olReadyCount=data.readyCount;olReadyTotal=data.totalCount;
+  if(document.getElementById('t-ol-ready')){
+    if(!data.allReady){
+      document.getElementById('t-ol-ready').textContent=`${data.readyCount}/${data.totalCount} ready...`;
+    }
   }
 }
 
