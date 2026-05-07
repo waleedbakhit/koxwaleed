@@ -759,7 +759,7 @@ function go(id){
 // ═══════════════════════════════════════════════════════════
 // LOCAL SETUP
 // ═══════════════════════════════════════════════════════════
-function startLocal(){players=[];renderChips();go('s-setup');}
+function startLocal(){players=[];renderChips();populateCats();go('s-setup');}
 
 
 const CAT_NAMES = {
@@ -1133,7 +1133,7 @@ function initSocket(){
   socket.on('timer_tick',olOnTick);
   socket.on('voting_started',olOnVotingStarted);
   socket.on('next_voter',d=>{olCurrentVoter=d.currentVoter;olRenderVoting();});
-  socket.on('vote_cast',d=>{olVotes=d.votes;olRenderVoteTallies();});
+  // vote_cast handled below in voting section
   socket.on('spy_guess_chance',olOnSpyGuessChance);
   socket.on('vote_result',olOnVoteResult);
   socket.on('lang_changed',d=>{lang=d.lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';applyLang();});
@@ -1424,9 +1424,21 @@ socket.on('vote_cast',data=>{
     const waitMsg=document.getElementById('ol-vote-wait-msg');
     if(waitMsg) waitMsg.textContent=`${total}/${olVoteOrder.length} voted`;
   }
-  // Show confirm for host when all voted
-  if(olIsHost && Object.keys(data.votes).length>=olVoteOrder.length){
-    document.getElementById('ol-confirm-btn').style.display='flex';
+  // When all voted — show confirm to host, auto-proceed after 5s
+  if(Object.keys(data.votes).length>=olVoteOrder.length){
+    if(olIsHost){
+      document.getElementById('ol-confirm-btn').style.display='flex';
+      // Auto-confirm after 5s if host doesn't act
+      clearTimeout(window._autoConfirm);
+      window._autoConfirm=setTimeout(()=>{
+        if(document.getElementById('s-online-voting').classList.contains('active')){
+          olConfirmVotes();
+        }
+      },5000);
+    } else {
+      const wm=document.getElementById('ol-vote-wait-msg');
+      if(wm) wm.textContent='All voted! Host is confirming...';
+    }
   }
 });
 
