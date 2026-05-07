@@ -1298,9 +1298,14 @@ function olMarkReady(){
 
 function olOnReadyUpdate(data){
   olReadyCount=data.readyCount;olReadyTotal=data.totalCount;
-  if(document.getElementById('t-ol-ready')){
-    if(!data.allReady){
-      document.getElementById('t-ol-ready').textContent=`${data.readyCount}/${data.totalCount} ready...`;
+  const btn=document.getElementById('t-ol-ready');
+  if(btn){
+    if(data.allReady){
+      btn.textContent='Starting...';
+      // game_started will arrive right after — go there
+      setTimeout(()=>go('s-online-game'),300);
+    } else {
+      btn.textContent=`${data.readyCount}/${data.totalCount} ready...`;
     }
   }
 }
