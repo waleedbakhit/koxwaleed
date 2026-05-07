@@ -1174,7 +1174,7 @@ function olOnRoomUpdate(room){
   document.getElementById('ol-host-settings').style.display=olIsHost?'block':'none';
   document.getElementById('ol-waiting').style.display=olIsHost?'none':'block';
   document.getElementById('ol-players').innerHTML=(room.players||[]).map(p=>
-    `<div class="pchip"><span class="dot${p.connected?'':' off'}"></span>${p.name}${p.isYou?' 👑':''}</div>`
+    `<div class="pchip"><span class="dot${p.connected?'':' off'}"></span>${p.name}${p.name===room.hostName?' 👑':''}</div>`
   ).join('');
   if(room.settings) olSyncSettings(room.settings);
 }
