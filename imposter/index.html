@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Imposter 🕵️</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;--bg4:#222232;
+  --purple:#7c5cbf;--purple2:#9b7de0;--purple3:#c4a8ff;
+  --red:#e05555;--red2:#ff8080;
+  --green:#4ade80;--green2:#6effa0;
+  --amber:#e8a456;--amber2:#ffc070;
+  --chaos:#ff6b35;--chaos2:#ff9a6b;
+  --ink:#f0eeff;--ink2:#a090c0;--ink3:#5a5070;
+  --line:#2a2838;--line2:#3a3848;
+  --serif:'Georgia',serif;
+  --sans:system-ui,-apple-system,sans-serif;
+  --r:14px;
+}
+html{height:100%;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100%}
+.screen{display:none;flex-direction:column;min-height:100vh;padding:1.25rem;max-width:460px;margin:0 auto}
+.screen.active{display:flex}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--purple2),var(--purple3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lang-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .9rem;font-size:.78rem;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .2s}
+.lang-btn:hover{border-color:var(--purple2);color:var(--purple3)}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;margin-bottom:.9rem}
+.ctitle{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--purple2);margin-bottom:.9rem;font-weight:600}
+input[type=text],select,textarea{width:100%;background:var(--bg3);border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-family:var(--sans);font-size:1rem;padding:.75rem 1rem;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--purple2)}
+select option{background:var(--bg2)}
+
+/* Buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;font-family:var(--sans);width:100%;-webkit-appearance:none}
+.btn+.btn{margin-top:.6rem}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 4px 20px rgba(124,92,191,.3)}
+.btn-primary:active{transform:scale(.97)}
+.btn-ghost{background:transparent;border:1px solid var(--line2);color:var(--ink2)}
+.btn-ghost:hover{border-color:var(--purple2);color:var(--purple3)}
+.btn-danger{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.4);color:var(--red2)}
+.btn-chaos{background:linear-gradient(135deg,#8b2500,var(--chaos));color:#fff;box-shadow:0 4px 20px rgba(255,107,53,.3)}
+.btn-sm{padding:.55rem 1rem;font-size:.88rem;width:auto;border-radius:9px}
+.btn:disabled{opacity:.35;pointer-events:none}
+
+/* Landing */
+.landing-hero{text-align:center;padding:2.5rem 0 1.5rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.landing-icon{font-size:5rem;display:block;margin-bottom:1rem}
+.landing-title{font-family:var(--serif);font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--purple2),var(--purple3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+.landing-sub{color:var(--ink2);font-size:.95rem;line-height:1.7;margin-bottom:2rem}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;width:100%}
+.mode-card{background:var(--bg2);border:2px solid var(--line);border-radius:16px;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.mode-card:hover{border-color:var(--purple2);background:var(--bg3)}
+.mode-card.online:hover{border-color:var(--green)}
+.mode-card-icon{font-size:2.5rem;display:block;margin-bottom:.6rem}
+.mode-card-title{font-weight:700;font-size:1rem;margin-bottom:.3rem}
+.mode-card-sub{font-size:.75rem;color:var(--ink3);line-height:1.5}
+
+/* Seg */
+.seg{display:flex;background:var(--bg3);border-radius:10px;padding:3px;gap:2px}
+.seg-btn{flex:1;padding:.5rem .2rem;border-radius:8px;border:none;background:transparent;color:var(--ink3);font-size:.75rem;cursor:pointer;transition:all .2s;font-family:var(--sans);font-weight:500;text-align:center}
+.seg-btn.on{background:var(--purple);color:#fff}
+.seg-btn.chaos-btn.on{background:var(--chaos);color:#fff}
+
+/* Players */
+.prow{display:flex;gap:.5rem;margin-bottom:.5rem}
+.prow input{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.chip{display:flex;align-items:center;gap:.35rem;background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .75rem;font-size:.85rem}
+.chip-x{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:0;line-height:1}
+.chip-x:hover{color:var(--red2)}
+
+/* Settings row */
+.srow{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:none}
+.slbl{font-size:.9rem;color:var(--ink2)}
+
+/* Chaos banner */
+.chaos-banner{background:linear-gradient(135deg,rgba(139,37,0,.3),rgba(255,107,53,.15));border:1px solid var(--chaos);border-radius:10px;padding:.85rem 1rem;text-align:center;font-size:.85rem;color:var(--chaos2);margin-bottom:.9rem;display:none}
+.chaos-banner.show{display:block}
+
+/* Pass screen */
+.pass-center{flex:1;display:flex;align-items:center;justify-content:center}
+.pass-box{text-align:center;padding:1.5rem}
+.pass-name{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--purple3);margin-bottom:.5rem}
+.pass-sub{color:var(--ink2);font-size:.92rem;line-height:1.65;margin-bottom:1.5rem}
+
+/* Role */
+.role-box{border-radius:16px;padding:2rem 1.5rem;text-align:center;margin-bottom:1rem}
+.role-box.spy{background:linear-gradient(160deg,#1a0505,#2a0808);border:2px solid var(--red)}
+.role-box.crew{background:linear-gradient(160deg,#05051a,#080d2a);border:2px solid var(--purple2)}
+.r-emoji{font-size:3.5rem;display:block;margin-bottom:.75rem}
+.r-badge{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.4rem}
+.r-badge.spy{color:var(--red2)}
+.r-badge.crew{color:var(--purple3)}
+.r-name{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:1.2rem}
+.wbox{background:rgba(0,0,0,.35);border-radius:12px;padding:1.2rem 1rem}
+.wlbl{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem}
+.wval{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--amber2);margin-bottom:.25rem}
+.wsub{font-size:.88rem;color:var(--ink2)}
+
+/* Timer */
+.tcenter{display:flex;flex-direction:column;align-items:center;padding:1rem 0 .5rem}
+.ring-wrap{position:relative;width:120px;height:120px}
+.ring-wrap svg{transform:rotate(-90deg)}
+circle{fill:none;stroke-width:7;stroke-linecap:round}
+.rbg{stroke:var(--bg3)}
+.rfg{stroke:var(--purple2);transition:stroke-dashoffset 1s linear,stroke .5s}
+.ring-wrap.warn .rfg{stroke:var(--amber)}
+.ring-wrap.danger .rfg{stroke:var(--red)}
+.rtext{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.8rem;font-weight:700}
+.plbl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:.75rem}
+
+/* Order */
+.olist{display:flex;flex-direction:column;gap:.4rem}
+.oitem{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;background:var(--bg3);border-radius:10px;border:1px solid var(--line)}
+.onum{width:26px;height:26px;border-radius:50%;background:var(--purple);color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* Voting */
+.vgrid{display:flex;flex-direction:column;gap:.55rem}
+.vbtn{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;background:var(--bg3);border:1px solid var(--line2);border-radius:12px;cursor:pointer;transition:all .2s;font-family:var(--sans);color:var(--ink);font-size:.95rem;font-weight:500;width:100%;text-align:left}
+.vbtn:hover:not(:disabled){border-color:var(--purple2);background:var(--bg4)}
+.vbtn.selected{border-color:var(--purple2);background:rgba(155,125,224,.12)}
+.vbtn:disabled{opacity:.4;cursor:not-allowed}
+.vtally{font-size:1.1rem;font-weight:700;color:var(--purple3);flex-shrink:0;margin-left:.5rem}
+.vbar-wrap{height:4px;background:var(--line);border-radius:2px;margin-top:.3rem;overflow:hidden}
+.vbar{height:100%;background:var(--purple2);border-radius:2px;transition:width .4s}
+.vchips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem}
+.vchip{font-size:.7rem;background:rgba(124,92,191,.15);border:1px solid rgba(124,92,191,.3);border-radius:100px;padding:.15rem .55rem;color:var(--purple3)}
+.voter-prompt{background:var(--bg3);border:1px solid var(--purple);border-radius:10px;padding:.75rem 1rem;text-align:center;margin-bottom:.75rem;font-size:.88rem;color:var(--purple3)}
+
+/* Spy guess options */
+.guess-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.75rem 0}
+.guess-opt{background:var(--bg3);border:1.5px solid var(--line2);border-radius:12px;padding:1rem .75rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans);font-size:.95rem;font-weight:500;color:var(--ink)}
+.guess-opt:hover{border-color:var(--purple2);background:var(--bg4)}
+.guess-opt.chosen{border-color:var(--purple2);background:rgba(155,125,224,.15);color:var(--purple3)}
+.guess-opt.correct{border-color:var(--green);background:rgba(74,222,128,.1);color:var(--green2)}
+.guess-opt.wrong{border-color:var(--red);background:rgba(224,85,85,.1);color:var(--red2)}
+
+/* Result */
+.rbox{border-radius:16px;padding:2rem 1.5rem;text-align:center;margin-bottom:1rem;border:2px solid var(--line)}
+.rbox.win{border-color:var(--green);background:linear-gradient(160deg,#051a08,#081a0a)}
+.rbox.lose{border-color:var(--red);background:linear-gradient(160deg,#1a0505,#2a0505)}
+.rbox.neutral{border-color:var(--amber);background:linear-gradient(160deg,#1a1205,#2a1a05)}
+.remoji{font-size:3.5rem;display:block;margin-bottom:.75rem}
+.rtitle{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:.5rem}
+.rsub{color:var(--ink2);font-size:.9rem;line-height:1.65;margin-bottom:1rem}
+.spy-tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.5rem}
+.spy-tag{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.4);border-radius:100px;padding:.25rem .8rem;font-size:.82rem;color:var(--red2)}
+
+/* Online room */
+.rcode{font-family:var(--serif);font-size:3rem;font-weight:700;letter-spacing:.2em;color:var(--purple3);text-align:center;padding:.75rem 0}
+.pchips{display:flex;flex-wrap:wrap;gap:.4rem}
+.pchip{display:flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .8rem;font-size:.85rem}
+.pchip .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.pchip .dot.off{background:var(--ink3)}
+
+/* Toast */
+#toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);border:1px solid var(--line2);border-radius:12px;padding:.7rem 1.2rem;font-size:.88rem;color:var(--ink);opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:rgba(74,222,128,.5);color:var(--green2)}
+#toast.err{border-color:rgba(224,85,85,.5);color:var(--red2)}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div class="screen active" id="s-land">
+  <div class="top-bar">
+    <span class="logo" id="t-logo">Imposter</span>
+    <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
+  </div>
+  <div class="landing-hero">
+    <span class="landing-icon">🕵️</span>
+    <div class="landing-title" id="t-land-title">Imposter</div>
+    <p class="landing-sub" id="t-land-sub">Find the spy.<br>Or be one.</p>
+    <div class="mode-cards">
+      <div class="mode-card" onclick="startLocal()">
+        <span class="mode-card-icon">🛋️</span>
+        <div class="mode-card-title" id="t-local-title">Local</div>
+        <div class="mode-card-sub" id="t-local-sub">Pass the phone around. No internet needed.</div>
+      </div>
+      <div class="mode-card online" onclick="go('s-online-entry')">
+        <span class="mode-card-icon">🌐</span>
+        <div class="mode-card-title" id="t-online-title">Online</div>
+        <div class="mode-card-sub" id="t-online-sub">Each player uses their own phone.</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="go('s-howto')" id="t-howto" style="margin-top:1rem;max-width:300px">? How to play</button>
+  </div>
+</div>
+
+<!-- HOW TO PLAY -->
+<div class="screen" id="s-howto">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <button class="lang-btn" onclick="toggleLang()" id="t-lang-h">عربي</button>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-howto-title">How to Play</div>
+    <div id="t-howto-body" style="color:var(--ink2);font-size:.92rem;line-height:1.9"></div>
+  </div>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-h">← Back</button>
+</div>
+
+<!-- LOCAL SETUP -->
+<div class="screen" id="s-setup">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <button class="lang-btn" onclick="toggleLang()" id="t-lang-s">عربي</button>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" id="t-s-players">Players</div>
+    <div class="prow">
+      <input type="text" id="player-input" maxlength="16" placeholder="Player name..." onkeydown="if(event.key==='Enter')addPlayer()">
+      <button class="btn btn-primary btn-sm" onclick="addPlayer()" id="t-add">Add</button>
+    </div>
+    <div class="chips" id="player-chips"></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" id="t-s-cat">Category</div>
+    <select id="cat-sel" onchange="onCatChange()"></select>
+    <div id="custom-area" style="display:none;margin-top:.75rem">
+      <textarea id="custom-words" rows="3" style="font-size:.85rem;margin-bottom:.4rem" placeholder="word1, word2, word3..."></textarea>
+      <div style="font-size:.75rem;color:var(--ink3)" id="t-custom-hint">Separate with commas. Min 3 words.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" id="t-s-imp">Imposter Settings</div>
+
+    <div class="srow">
+      <span class="slbl" id="t-lbl-mode">Mode</span>
+      <div class="seg" id="mode-seg">
+        <button class="seg-btn on" onclick="setMode('fixed')" id="m-fixed">Fixed</button>
+        <button class="seg-btn" onclick="setMode('random15')" id="m-rand">15%</button>
+        <button class="seg-btn" onclick="setMode('none')" id="m-none">None</button>
+        <button class="seg-btn" onclick="setMode('all')" id="m-all">All</button>
+        <button class="seg-btn chaos-btn" onclick="setMode('chaos')" id="m-chaos">🔥</button>
+      </div>
+    </div>
+
+    <div class="srow" id="count-row">
+      <span class="slbl" id="t-lbl-count">Imposters</span>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <button class="btn btn-ghost btn-sm" onclick="adjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
+        <span id="imp-count" style="font-size:1.2rem;font-weight:700;color:var(--purple3);min-width:20px;text-align:center">1</span>
+        <button class="btn btn-ghost btn-sm" onclick="adjCount(1)" style="width:36px;height:36px;padding:0;border-radius:50%">+</button>
+      </div>
+    </div>
+
+    <div class="srow">
+      <span class="slbl" id="t-lbl-timer">Timer</span>
+      <div class="seg">
+        <button class="seg-btn" onclick="setTimer(120)" id="tim-2">2m</button>
+        <button class="seg-btn on" onclick="setTimer(300)" id="tim-5">5m</button>
+        <button class="seg-btn" onclick="setTimer(480)" id="tim-8">8m</button>
+        <button class="seg-btn" onclick="setTimer(600)" id="tim-10">10m</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chaos-banner" id="chaos-banner">🔥 <span id="t-chaos-desc">Chaos Mode — nobody knows anything until it starts</span></div>
+
+  <button class="btn btn-primary" onclick="beginLocal()" id="t-start">▶ Start Game</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-s" style="margin-top:.6rem">← Back</button>
+</div>
+
+<!-- PASS PHONE (local) -->
+<div class="screen" id="s-pass">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="pass-center">
+    <div class="pass-box">
+      <div class="pass-name" id="pass-name">Player</div>
+      <p class="pass-sub" id="t-pass-msg">Your turn to see your role.<br>Make sure nobody else is looking.</p>
+      <button class="btn btn-primary" onclick="revealRole()" id="t-show-role" style="margin-top:.5rem">👁 Show my role</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE REVEAL (local) -->
+<div class="screen" id="s-role">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div id="role-content"></div>
+  <button class="btn btn-primary" onclick="doneRole()" id="t-done-role" style="margin-top:.5rem">✓ Done, hide my role</button>
+</div>
+
+<!-- GAME / TIMER (local) -->
+<div class="screen" id="s-game">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <span style="font-size:.75rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em" id="t-round-lbl"></span>
+  </div>
+  <div class="tcenter">
+    <div class="ring-wrap" id="timer-ring">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle class="rbg" cx="60" cy="60" r="52"/>
+        <circle class="rfg" id="ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>
+      </svg>
+      <div class="rtext" id="timer-txt">5:00</div>
+    </div>
+    <div class="plbl" id="t-phase">DISCUSSION</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-game-cat">Category</div>
+    <div style="font-size:1.1rem;font-weight:600;color:var(--purple3)" id="game-cat-val">—</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-order-lbl">Turn Order</div>
+    <div class="olist" id="order-list"></div>
+  </div>
+  <button class="btn btn-danger" onclick="goVote()" id="t-go-vote">🗳 Start Voting</button>
+</div>
+
+<!-- VOTING (local pass-and-play) -->
+<div class="screen" id="s-vote">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="voter-prompt" id="voter-prompt"></div>
+  <div class="card" style="text-align:center;padding:.9rem">
+    <div style="font-size:2rem;margin-bottom:.3rem">🗳️</div>
+    <div class="ctitle" id="t-vote-title">Who is the Imposter?</div>
+    <p style="color:var(--ink2);font-size:.85rem" id="t-vote-sub">Tap a name to vote. You cannot vote for yourself.</p>
+  </div>
+  <div class="vgrid" id="vote-grid"></div>
+  <div style="display:flex;gap:.6rem;margin-top:.75rem">
+    <button class="btn btn-ghost" onclick="changeVote()" id="t-change-vote" style="flex:1">↩ Change vote</button>
+    <button class="btn btn-primary" onclick="confirmMyVote()" id="t-next-voter" style="flex:1" disabled>Next →</button>
+  </div>
+</div>
+
+<!-- SPY GUESS -->
+<div class="screen" id="s-spyguess">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div style="text-align:center;padding:1rem 0">
+    <div style="font-size:3rem;margin-bottom:.5rem">🕵️</div>
+    <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-sg-title">Caught!</div>
+    <p style="color:var(--ink2);font-size:.9rem" id="t-sg-sub">Guess the word to steal the win.</p>
+    <div id="sg-spy-names" class="spy-tags" style="justify-content:center;margin:.75rem 0"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-sg-pick">Pick the secret word</div>
+    <div class="guess-grid" id="guess-grid"></div>
+  </div>
+  <button class="btn btn-ghost" onclick="skipGuess()" id="t-sg-skip">Skip — show result</button>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="s-result">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div id="result-content"></div>
+  <button class="btn btn-primary" onclick="playAgain()" id="t-play-again">↩ Play Again</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-menu" style="margin-top:.6rem">🏠 Main Menu</button>
+</div>
+
+<!-- ONLINE ENTRY -->
+<div class="screen" id="s-online-entry">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <button class="lang-btn" onclick="toggleLang()" id="t-lang-o">عربي</button>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-your-name">Your Name</div>
+    <input type="text" id="online-name" maxlength="16" placeholder="Enter your name...">
+  </div>
+  <button class="btn btn-primary" onclick="onlineCreate()" id="t-create-room">+ Create Room</button>
+  <div style="text-align:center;color:var(--ink3);font-size:.82rem;margin:.6rem 0" id="t-or">— or —</div>
+  <div class="card">
+    <div class="ctitle" id="t-room-code">Room Code</div>
+    <input type="text" id="join-code" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;text-align:center" oninput="this.value=this.value.toUpperCase()">
+  </div>
+  <button class="btn btn-ghost" onclick="onlineJoin()" id="t-join-room">→ Join Room</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-o" style="margin-top:.6rem">← Back</button>
+</div>
+
+<!-- ONLINE LOBBY -->
+<div class="screen" id="s-online-lobby">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <button class="lang-btn" onclick="onlineLang()" id="t-lang-ol">عربي</button>
+  </div>
+  <div class="card" style="text-align:center">
+    <div class="ctitle" id="t-ol-code">Room Code</div>
+    <div class="rcode" id="ol-code">----</div>
+    <div style="font-size:.8rem;color:var(--ink3)" id="t-ol-share">Share this code with your friends</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-ol-players">Players</div>
+    <div class="pchips" id="ol-players"></div>
+  </div>
+  <div id="ol-host-settings" style="display:none">
+    <div class="card">
+      <div class="ctitle" id="t-ol-settings">Game Settings</div>
+      <div class="srow">
+        <span class="slbl" id="t-ol-cat">Category</span>
+        <select id="ol-cat" onchange="pushOlSettings()" style="width:auto;padding:.4rem .6rem;font-size:.85rem"></select>
+      </div>
+      <div class="srow">
+        <span class="slbl" id="t-ol-mode">Mode</span>
+        <div class="seg" id="ol-mode-seg">
+          <button class="seg-btn on" onclick="olSetMode('fixed')" id="ol-m-fixed">Fixed</button>
+          <button class="seg-btn" onclick="olSetMode('random15')" id="ol-m-rand">15%</button>
+          <button class="seg-btn" onclick="olSetMode('none')" id="ol-m-none">None</button>
+          <button class="seg-btn" onclick="olSetMode('all')" id="ol-m-all">All</button>
+          <button class="seg-btn chaos-btn" onclick="olSetMode('chaos')" id="ol-m-chaos">🔥</button>
+        </div>
+      </div>
+      <div class="srow" id="ol-count-row">
+        <span class="slbl" id="t-ol-count">Imposters</span>
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <button class="btn btn-ghost btn-sm" onclick="olAdjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
+          <span id="ol-imp-count" style="font-size:1.2rem;font-weight:700;color:var(--purple3);min-width:20px;text-align:center">1</span>
+          <button class="btn btn-ghost btn-sm" onclick="olAdjCount(1)" style="width:36px;height:36px;padding:0;border-radius:50%">+</button>
+        </div>
+      </div>
+      <div class="srow">
+        <span class="slbl" id="t-ol-timer">Timer</span>
+        <div class="seg">
+          <button class="seg-btn" onclick="olSetTimer(120)" id="ol-t2">2m</button>
+          <button class="seg-btn on" onclick="olSetTimer(300)" id="ol-t5">5m</button>
+          <button class="seg-btn" onclick="olSetTimer(480)" id="ol-t8">8m</button>
+          <button class="seg-btn" onclick="olSetTimer(600)" id="ol-t10">10m</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="olStartGame()" id="t-ol-start">▶ Start Game</button>
+  </div>
+  <div id="ol-waiting" style="text-align:center;color:var(--ink3);font-size:.9rem;padding:1rem" id="t-ol-wait">Waiting for host to start...</div>
+</div>
+
+<!-- ONLINE ROLE REVEAL -->
+<div class="screen" id="s-online-role">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div id="ol-role-content"></div>
+  <div class="card" style="text-align:center">
+    <p style="color:var(--ink2);font-size:.9rem" id="t-ol-role-inst">Show this only to yourself!</p>
+  </div>
+  <button class="btn btn-primary" onclick="go('s-online-game')" id="t-ol-ready">✓ I'm ready</button>
+</div>
+
+<!-- ONLINE GAME -->
+<div class="screen" id="s-online-game">
+  <div class="top-bar">
+    <span class="logo">🕵️</span>
+    <span style="font-size:.75rem;color:var(--ink3)" id="ol-round-lbl"></span>
+  </div>
+  <div class="tcenter">
+    <div class="ring-wrap" id="ol-timer-ring">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle class="rbg" cx="60" cy="60" r="52"/>
+        <circle class="rfg" id="ol-ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>
+      </svg>
+      <div class="rtext" id="ol-timer-txt">5:00</div>
+    </div>
+    <div class="plbl" id="t-ol-phase">DISCUSSION</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-ol-game-cat">Category</div>
+    <div style="font-size:1.1rem;font-weight:600;color:var(--purple3)" id="ol-cat-val">—</div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-ol-role-mini">Your Role</div>
+    <div id="ol-role-mini"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-ol-order">Turn Order</div>
+    <div class="olist" id="ol-order-list"></div>
+  </div>
+  <button class="btn btn-danger" id="ol-vote-btn" style="display:none" onclick="olStartVoting()" id="t-ol-vote">🗳 Start Voting</button>
+</div>
+
+<!-- ONLINE VOTING -->
+<div class="screen" id="s-online-voting">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="voter-prompt" id="ol-voter-prompt" style="display:none"></div>
+  <div class="card" style="text-align:center;padding:.9rem">
+    <div style="font-size:2rem;margin-bottom:.3rem">🗳️</div>
+    <div class="ctitle" id="t-ol-vote-title">Who is the Imposter?</div>
+    <p style="color:var(--ink2);font-size:.85rem" id="t-ol-vote-sub">Host passes phone to each player.</p>
+  </div>
+  <div class="vgrid" id="ol-vote-grid"></div>
+  <div style="display:flex;gap:.6rem;margin-top:.75rem">
+    <button class="btn btn-ghost" onclick="olChangeVote()" id="t-ol-change" style="flex:1">↩ Change</button>
+    <button class="btn btn-primary" onclick="olNextVoter()" id="t-ol-next-voter" style="flex:1" disabled>Next →</button>
+  </div>
+  <button class="btn btn-danger" id="ol-confirm-btn" style="display:none;margin-top:.6rem" onclick="olConfirmVotes()">✓ Confirm all votes</button>
+</div>
+
+<!-- ONLINE SPY GUESS -->
+<div class="screen" id="s-online-spyguess">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div style="text-align:center;padding:1rem 0">
+    <div style="font-size:3rem;margin-bottom:.5rem">🕵️</div>
+    <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-ol-sg-title">Caught!</div>
+    <p style="color:var(--ink2);font-size:.9rem" id="t-ol-sg-sub">Guess the word to steal the win.</p>
+    <div id="ol-sg-spy-names" class="spy-tags" style="justify-content:center;margin:.75rem 0"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-ol-pick">Pick the secret word</div>
+    <div class="guess-grid" id="ol-guess-grid"></div>
+  </div>
+  <button class="btn btn-ghost" onclick="olSkipGuess()" id="t-ol-sg-skip">Skip</button>
+</div>
+
+<!-- ONLINE RESULT -->
+<div class="screen" id="s-online-result">
+  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div id="ol-result-content"></div>
+  <button class="btn btn-primary" id="ol-new-round" style="display:none" onclick="olNewRound()">↩ New Round</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-ol-menu" style="margin-top:.6rem">🏠 Main Menu</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CATEGORIES (client-side copy, mirrors server)
+// ═══════════════════════════════════════════════════════════
+const CATS = {
+  Countries:{en:['Japan','Brazil','Egypt','France','Australia','Canada','India','Mexico','Nigeria','Thailand','Argentina','Morocco','Turkey','South Korea','Italy','Spain','Russia','Saudi Arabia','Germany','China','UAE','Sudan','Lebanon','Pakistan','Indonesia'],ar:['اليابان','البرازيل','مصر','فرنسا','أستراليا','كندا','الهند','المكسيك','نيجيريا','تايلاند','الأرجنتين','المغرب','تركيا','كوريا الجنوبية','إيطاليا','إسبانيا','روسيا','المملكة العربية السعودية','ألمانيا','الصين','الإمارات','السودان','لبنان','باكستان','إندونيسيا']},
+  Sports:{en:['Tennis','Football','Basketball','Swimming','Boxing','Volleyball','Golf','Rugby','Cricket','Skiing','Cycling','Surfing','Gymnastics','Wrestling','Baseball','Hockey','Archery','Fencing','Rowing','Diving','Karate','Judo','Handball','Badminton','Table Tennis'],ar:['تنس','كرة القدم','كرة السلة','سباحة','ملاكمة','كرة الطائرة','غولف','الراغبي','كريكيت','تزلج','ركوب الدراجات','ركوب الأمواج','جمباز','مصارعة','بيسبول','هوكي','رماية','مبارزة','تجديف','غطس','كاراتيه','جودو','كرة اليد','ريشة طائرة','تنس طاولة']},
+  Clothing:{en:['Jacket','Dress','Jeans','Suit','Scarf','Sneakers','Hat','Gloves','Swimsuit','Coat','Boots','Shorts','Blouse','Tie','Sandals','Hoodie','Belt','Socks','Skirt','Uniform','Abaya','Thobe','Turban','Kimono','Tuxedo'],ar:['جاكيت','فستان','جينز','بدلة','وشاح','حذاء رياضي','قبعة','قفازات','ملابس سباحة','معطف','حذاء طويل','شورت','بلوزة','ربطة عنق','صندل','هودي','حزام','جوارب','تنورة','زي رسمي','عباءة','ثوب','عمامة','كيمونو','سموكن']},
+  Food:{en:['Pizza','Sushi','Burger','Pasta','Tacos','Curry','Sandwich','Salad','Soup','Steak','Pancakes','Noodles','Kebab','Hummus','Falafel','Ramen','Shawarma','Biryani','Kabsa','Mansaf','Maqluba','Ful Medames','Koshari','Baklava','Mandi'],ar:['بيتزا','سوشي','برغر','مكرونة','تاكو','كاري','ساندويتش','سلطة','حساء','ستيك','فطائر','نودلز','كباب','حمص','فلافل','رامن','شاورما','برياني','كبسة','منسف','مقلوبة','فول مدمس','كشري','بقلاوة','مندي']},
+  Animals:{en:['Elephant','Shark','Eagle','Lion','Dolphin','Penguin','Crocodile','Cheetah','Gorilla','Flamingo','Kangaroo','Cobra','Panda','Polar Bear','Peacock','Octopus','Giraffe','Wolf','Parrot','Camel','Falcon','Hyena','Oryx','Meerkat','Platypus'],ar:['فيل','قرش','نسر','أسد','دولفين','بطريق','تمساح','فهد','غوريلا','فلامنغو','كنغر','كوبرا','باندا','دب قطبي','طاووس','أخطبوط','زرافة','ذئب','ببغاء','جمل','صقر','ضبع','مها','ميركات','خنزير النهر']},
+  Places:{en:['Beach','Airport','Hospital','Library','Museum','Stadium','Restaurant','Hotel','School','Market','Cinema','Park','Mosque','Church','Gym','Bank','Police Station','Farm','Casino','Space Station','Desert','Palace','Harbor','Lighthouse','Volcano'],ar:['شاطئ','مطار','مستشفى','مكتبة','متحف','ملعب','مطعم','فندق','مدرسة','سوق','سينما','حديقة','مسجد','كنيسة','صالة رياضية','بنك','مركز شرطة','مزرعة','كازينو','محطة فضاء','صحراء','قصر','ميناء','منارة','بركان']},
+  Professions:{en:['Doctor','Pilot','Chef','Engineer','Teacher','Lawyer','Astronaut','Firefighter','Architect','Journalist','Photographer','Musician','Scientist','Detective','Carpenter','Surgeon','Diplomat','Electrician','Veterinarian','Economist','Judge','Pharmacist','Dentist','Psychologist','Marine Biologist'],ar:['طبيب','طيار','طاهي','مهندس','معلم','محامي','رائد فضاء','رجل إطفاء','مهندس معماري','صحفي','مصور','موسيقي','عالم','محقق','نجار','جراح','دبلوماسي','كهربائي','طبيب بيطري','اقتصادي','قاضي','صيدلاني','طبيب أسنان','طبيب نفسي','عالم أحياء بحرية']},
+  Technology:{en:['Smartphone','Laptop','Robot','Satellite','Drone','3D Printer','Virtual Reality','Blockchain','AI','Camera','Headphones','Smartwatch','Keyboard','Monitor','Server','Router','Microchip','Battery','Solar Panel','Electric Car','GPS','Hologram','Quantum Computer','Smart Speaker','Neural Network'],ar:['هاتف ذكي','لابتوب','روبوت','قمر صناعي','طائرة مسيّرة','طابعة ثلاثية الأبعاد','واقع افتراضي','بلوكتشين','ذكاء اصطناعي','كاميرا','سماعات','ساعة ذكية','لوحة مفاتيح','شاشة','خادم','راوتر','شريحة إلكترونية','بطارية','لوح شمسي','سيارة كهربائية','جي بي إس','هولوغرام','حاسوب كمي','مكبر صوت ذكي','شبكة عصبية']},
+  Nature:{en:['Volcano','Waterfall','Desert','Forest','Ocean','Mountain','River','Cave','Island','Glacier','Canyon','Coral Reef','Rainforest','Swamp','Tundra','Savanna','Cliff','Geyser','Lake','Dune','Aurora','Oasis','Fjord','Tide Pool','Hot Spring'],ar:['بركان','شلال','صحراء','غابة','محيط','جبل','نهر','كهف','جزيرة','نهر جليدي','وادٍ عميق','شعاب مرجانية','غابة مطيرة','مستنقع','تندرا','سافانا','جرف','نافورة حارة','بحيرة','كثيب رملي','شفق قطبي','واحة','مضيق فيورد','برك مدية','ينبوع حار']},
+  Movies:{en:['Action','Comedy','Horror','Romance','Thriller','Animation','Documentary','Sci-Fi','Western','Drama','Musical','Fantasy','Mystery','Adventure','Crime','War','Biography','Superhero','Anime','Silent Film'],ar:['أكشن','كوميديا','رعب','رومانسية','إثارة','رسوم متحركة','وثائقي','خيال علمي','وسترن','دراما','موسيقي','فانتازيا','غموض','مغامرة','جريمة','حرب','سيرة ذاتية','أبطال خارقون','أنيمي','فيلم صامت']},
+  Brands:{en:['Apple','Nike','Samsung','Toyota',"McDonald's",'Coca-Cola','Amazon','Google','Tesla','Adidas','IKEA','Ferrari','Rolex','Louis Vuitton','Gucci','Disney','Netflix','Microsoft','Zara','Starbucks','Pepsi','BMW','Mercedes','PlayStation','Lego'],ar:['آبل','نايكي','سامسونغ','تويوتا','ماكدونالدز','كوكاكولا','أمازون','غوغل','تسلا','أديداس','إيكيا','فيراري','رولكس','لويس فيتون','غوتشي','ديزني','نتفليكس','مايكروسوفت','زارا','ستاربكس','بيبسي','بي إم دبليو','مرسيدس','بلايستيشن','ليغو']},
+  Adult:{en:['Blind Date','Strip Poker','Flirting','Skinny Dipping','Truth or Dare','Lap Dance','Twerking','Seduction','Roleplay','Affair','One Night Stand','Jealousy','Heartbreak','Revenge','Wild Night','Confession','Secret Crush','Forbidden Love','Temptation','Body Language'],ar:['موعد عمياء','بوكر تجريدي','مغازلة','سباحة عارية','صراحة أو جرأة','رقص مثير','تويركينغ','إغراء','لعب الأدوار','علاقة سرية','ليلة واحدة','غيرة','خيبة أمل','انتقام','ليلة مجنونة','اعتراف','سحق سري','حب محظور','إغراء','لغة الجسد']},
+};
+
+function buildRandom(l){
+  const srcs=['Countries','Sports','Clothing','Food','Animals','Places','Professions','Technology','Nature','Movies','Brands'];
+  const pool=[];
+  srcs.forEach(c=>{const ws=CATS[c][l]||CATS[c].en;const sh=[...ws].sort(()=>Math.random()-.5);pool.push(...sh.slice(0,2));});
+  return pool.sort(()=>Math.random()-.5);
+}
+
+function pickLocalWord(catKey,l,customWords){
+  if(customWords&&customWords.length){const w=customWords;return w[Math.floor(Math.random()*w.length)];}
+  if(catKey==='Random'){const p=buildRandom(l);return p[Math.floor(Math.random()*p.length)];}
+  const cat=CATS[catKey];if(!cat)return'?';
+  const ws=cat[l]||cat.en;return ws[Math.floor(Math.random()*ws.length)];
+}
+
+function getDecoys(catKey,word,l,n=5){
+  let pool;
+  if(catKey==='Random'||catKey==='Custom'){
+    // pull from multiple cats
+    pool=buildRandom(l);
+  } else {
+    const cat=CATS[catKey];
+    pool=(cat?cat[l]||cat.en:[]).filter(w=>w!==word);
+  }
+  return pool.filter(w=>w!==word).sort(()=>Math.random()-.5).slice(0,n);
+}
+
+// ═══════════════════════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════════════════════
+const TR={
+en:{
+  logo:'Imposter',land_title:'Imposter',land_sub:'Find the spy.\nOr be one.',
+  local_title:'Local',local_sub:'Pass the phone. No internet needed.',
+  online_title:'Online',online_sub:'Each player on their own phone.',
+  howto:'? How to play',howto_title:'How to Play',
+  howto_body:'<b>Setup:</b> Add players and pick a category.<br><br><b>Pass & reveal:</b> Each player sees their role privately by passing the phone. Innocent players see the secret word. Spies only see the category name as a hint.<br><br><b>Discussion:</b> Take turns asking each other questions. Spies must blend in without knowing the word. Innocents try to expose them.<br><br><b>Voting:</b> Pass the phone to each player to vote. You cannot vote for yourself and can change your vote before confirming.<br><br><b>Spy guess:</b> If caught, spies choose from 6 options — one is the real word.<br><br><b>Chaos mode 🔥:</b> Everything is random — category, word, number of spies. Even the host does not know!<br><br><b>Win:</b> Innocents win by catching all spies. Spies win by surviving or picking the right word.',
+  s_players:'Players',player_ph:'Player name...',add:'Add',
+  s_cat:'Category',custom_hint:'Separate with commas. Min 3 words.',
+  s_imp:'Imposter Settings',lbl_mode:'Mode',lbl_count:'Imposters',lbl_timer:'Timer',
+  m_fixed:'Fixed',m_rand:'15%',m_none:'None',m_all:'All',
+  chaos_desc:'Chaos Mode — nobody knows anything until it starts',
+  t2:'2m',t5:'5m',t8:'8m',t10:'10m',
+  start:'▶ Start Game',back:'← Back',
+  pass_msg:'Your turn to see your role.\nMake sure nobody else is looking.',
+  show_role:'👁 Show my role',
+  you_spy:'You are the Spy',you_crew:'You know the word',
+  the_word:'The word is:',spy_hint:'Your hint:',spy_hint_val:'Category name only — good luck!',
+  spy_tip:"Blend in! Don't reveal you don't know the word.",
+  done_role:'✓ Done, hide my role',
+  phase:'DISCUSSION',game_cat:'Category',order_lbl:'Turn Order',
+  go_vote:'🗳 Start Voting',
+  vote_title:'Who is the Imposter?',vote_sub:"Tap a name to vote. You can't vote for yourself.",
+  voter_is:'Now voting:',change_vote:'↩ Change vote',next_voter:'Next →',
+  sg_title:'Caught! Last Chance 🕵️',sg_sub:'Pick the secret word to steal the win.',sg_pick:'Pick the secret word',sg_skip:'Skip — show result',
+  r_caught:'Spies Caught! 🎉',r_caught_sub:'The innocents win.',
+  r_escaped:'Spy Escaped! 👻',r_escaped_sub:'The spy survived the vote.',
+  r_spy_right:'Spy Guessed It! 🕵️',r_spy_right_sub:'Even after being caught, the spy knew the word.',
+  r_spy_wrong:'Wrong Pick ❌',r_spy_wrong_sub:'The spy picked wrong. Innocents win!',
+  r_nospy:'No Spy Round 🕊️',r_nospy_sub:'Everyone was innocent.',
+  r_allspy:'All Spies! 🕵️',r_allspy_sub:'Chaos.',
+  r_tie:'Tie 🤝',r_tie_sub:'No one eliminated.',
+  word_was:'The word was:',spies_were:'The spies:',
+  play_again:'↩ Play Again',menu:'🏠 Main Menu',
+  err_min2:'Add at least 2 players',err_min3:'Add at least 3 words',
+  err_dup:'Name already added',added:'Added!',
+  custom_lbl:'✏️ Custom',random_lbl:'🎲 Random',adult_lbl:'🔞 +18',
+  lang:'عربي',
+  your_name:'Your Name',create_room:'+ Create Room',or:'— or —',
+  room_code:'Room Code',join_room:'→ Join Room',
+  ol_share:'Share this code with friends',ol_players:'Players',
+  ol_settings:'Game Settings',ol_start:'▶ Start Game',ol_wait:'Waiting for host...',
+  ol_role_inst:'Show this only to yourself!',ol_ready:'✓ I\'m ready',
+  ol_vote_sub:'Host passes phone to each player for voting.',
+  ol_confirm_all:'✓ Confirm all votes',new_round:'↩ New Round',
+},
+ar:{
+  logo:'المتسلل',land_title:'المتسلل',land_sub:'اعثر على الجاسوس.\nأو كن واحداً.',
+  local_title:'محلي',local_sub:'مرّر الهاتف. لا إنترنت مطلوب.',
+  online_title:'أونلاين',online_sub:'كل لاعب على هاتفه الخاص.',
+  howto:'? طريقة اللعب',howto_title:'طريقة اللعب',
+  howto_body:'<b>الإعداد:</b> أضف اللاعبين واختر فئة.<br><br><b>كشف الأدوار:</b> يرى كل لاعب دوره بشكل خاص عبر تمرير الهاتف. يرى الأبرياء الكلمة السرية. يرى الجواسيس اسم الفئة فقط كتلميح.<br><br><b>النقاش:</b> تناوب في طرح الأسئلة. يجب أن يندمج الجواسيس. يحاول الأبرياء كشفهم.<br><br><b>التصويت:</b> مرّر الهاتف لكل لاعب للتصويت. لا يمكنك التصويت لنفسك وتستطيع تغيير تصويتك قبل التأكيد.<br><br><b>تخمين الجاسوس:</b> إذا تم القبض عليه، يختار من بين 6 خيارات — واحدة هي الكلمة الصحيحة.<br><br><b>وضع الفوضى 🔥:</b> كل شيء عشوائي — الفئة والكلمة وعدد الجواسيس. حتى المضيف لا يعرف!<br><br><b>الفوز:</b> يفوز الأبرياء بالقبض على الجواسيس. يفوز الجواسيس بالنجاة أو اختيار الكلمة الصحيحة.',
+  s_players:'اللاعبون',player_ph:'اسم اللاعب...',add:'أضف',
+  s_cat:'الفئة',custom_hint:'افصل بفواصل. الحد الأدنى 3 كلمات.',
+  s_imp:'إعدادات المتسلل',lbl_mode:'الوضع',lbl_count:'المتسللون',lbl_timer:'المؤقت',
+  m_fixed:'محدد',m_rand:'15%',m_none:'لا أحد',m_all:'الكل',
+  chaos_desc:'وضع الفوضى — لا أحد يعرف أي شيء حتى يبدأ اللعب',
+  t2:'2د',t5:'5د',t8:'8د',t10:'10د',
+  start:'▶ ابدأ اللعبة',back:'→ رجوع',
+  pass_msg:'دورك لرؤية دورك.\nتأكد أن لا أحد يراك.',
+  show_role:'👁 أظهر دوري',
+  you_spy:'أنت الجاسوس',you_crew:'أنت تعرف الكلمة',
+  the_word:'الكلمة هي:',spy_hint:'تلميحك:',spy_hint_val:'اسم الفئة فقط — حظاً موفقاً!',
+  spy_tip:'اندمج! لا تكشف أنك لا تعرف الكلمة.',
+  done_role:'✓ انتهيت، أخفِ دوري',
+  phase:'نقاش',game_cat:'الفئة',order_lbl:'ترتيب الدور',
+  go_vote:'🗳 ابدأ التصويت',
+  vote_title:'من هو المتسلل؟',vote_sub:'اضغط على اسم للتصويت. لا يمكنك التصويت لنفسك.',
+  voter_is:'يصوت الآن:',change_vote:'↩ تغيير التصويت',next_voter:'التالي →',
+  sg_title:'تم القبض عليك! 🕵️',sg_sub:'اختر الكلمة السرية للفوز.',sg_pick:'اختر الكلمة السرية',sg_skip:'تخطّ — أظهر النتيجة',
+  r_caught:'تم القبض على الجواسيس! 🎉',r_caught_sub:'يفوز الأبرياء.',
+  r_escaped:'هرب الجاسوس! 👻',r_escaped_sub:'نجا الجاسوس من التصويت.',
+  r_spy_right:'الجاسوس اختار بشكل صحيح! 🕵️',r_spy_right_sub:'حتى بعد القبض عليه، عرف الجاسوس الكلمة.',
+  r_spy_wrong:'اختيار خاطئ ❌',r_spy_wrong_sub:'اختار الجاسوس بشكل خاطئ. يفوز الأبرياء!',
+  r_nospy:'جولة بلا جاسوس 🕊️',r_nospy_sub:'كان الجميع بريئاً.',
+  r_allspy:'الجميع جاسوس! 🕵️',r_allspy_sub:'فوضى.',
+  r_tie:'تعادل 🤝',r_tie_sub:'لم يتم استبعاد أحد.',
+  word_was:'كانت الكلمة:',spies_were:'الجواسيس:',
+  play_again:'↩ العب مجدداً',menu:'🏠 القائمة الرئيسية',
+  err_min2:'أضف لاعبَين على الأقل',err_min3:'أضف 3 كلمات على الأقل',
+  err_dup:'الاسم مضاف مسبقاً',added:'تمت الإضافة!',
+  custom_lbl:'✏️ مخصص',random_lbl:'🎲 عشوائي',adult_lbl:'🔞 +18',
+  lang:'English',
+  your_name:'اسمك',create_room:'+ إنشاء غرفة',or:'— أو —',
+  room_code:'رمز الغرفة',join_room:'→ انضم',
+  ol_share:'شارك هذا الرمز مع أصدقائك',ol_players:'اللاعبون',
+  ol_settings:'إعدادات اللعبة',ol_start:'▶ ابدأ اللعبة',ol_wait:'انتظار المضيف...',
+  ol_role_inst:'اعرض هذا لنفسك فقط!',ol_ready:'✓ أنا جاهز',
+  ol_vote_sub:'المضيف يمرر الهاتف لكل لاعب للتصويت.',
+  ol_confirm_all:'✓ تأكيد جميع الأصوات',new_round:'↩ جولة جديدة',
+}};
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let lang='en';
+let players=[];
+let localMode='fixed', localCount=1, localTimer=300;
+let gs={}; // local game state
+let socket=null, olMyName='', olMyRoom='', olIsHost=false, olMyRole=null, olGameData={};
+let olSettings={category:'Countries',mode:'fixed',imposterCount:1,timerDuration:300};
+let olCurrentVoter='', olMyVote='', olVotes={}, olTallies={}, olVoteIdx=0;
+let olGuessOptions=[], olGuessWord='';
+let localTimerInt=null;
+
+function T(k){return TR[lang][k]||TR.en[k]||k;}
+
+// ═══════════════════════════════════════════════════════════
+// LANG
+// ═══════════════════════════════════════════════════════════
+function toggleLang(){
+  lang=lang==='en'?'ar':'en';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  applyLang();
+}
+
+const TRANS_MAP={
+  't-logo':'logo','t-land-title':'land_title','t-land-sub':'land_sub',
+  't-local-title':'local_title','t-local-sub':'local_sub',
+  't-online-title':'online_title','t-online-sub':'online_sub',
+  't-howto':'howto','t-howto-title':'howto_title','t-howto-body':'howto_body',
+  't-back-h':'back','t-s-players':'s_players','t-add':'add','t-s-cat':'s_cat',
+  't-custom-hint':'custom_hint','t-s-imp':'s_imp','t-lbl-mode':'lbl_mode',
+  't-lbl-count':'lbl_count','t-lbl-timer':'lbl_timer',
+  'm-fixed':'m_fixed','m-rand':'m_rand','m-none':'m_none','m-all':'m_all',
+  't-chaos-desc':'chaos_desc',
+  'tim-2':'t2','tim-5':'t5','tim-8':'t8','tim-10':'t10',
+  't-start':'start','t-back-s':'back','t-pass-msg':'pass_msg','t-show-role':'show_role',
+  't-done-role':'done_role','t-phase':'phase','t-game-cat':'game_cat',
+  't-order-lbl':'order_lbl','t-go-vote':'go_vote',
+  't-vote-title':'vote_title','t-vote-sub':'vote_sub',
+  't-change-vote':'change_vote','t-next-voter':'next_voter',
+  't-sg-title':'sg_title','t-sg-sub':'sg_sub','t-sg-pick':'sg_pick','t-sg-skip':'sg_skip',
+  't-play-again':'play_again','t-menu':'menu',
+  't-lang':'lang','t-lang-h':'lang','t-lang-s':'lang','t-lang-o':'lang','t-lang-ol':'lang',
+  't-your-name':'your_name','t-create-room':'create_room','t-or':'or',
+  't-room-code':'room_code','t-join-room':'join_room','t-back-o':'back',
+  't-ol-code':'room_code','t-ol-share':'ol_share','t-ol-players':'ol_players',
+  't-ol-settings':'ol_settings','t-ol-cat':'s_cat','t-ol-mode':'lbl_mode',
+  't-ol-count':'lbl_count','t-ol-timer':'lbl_timer',
+  'ol-m-fixed':'m_fixed','ol-m-rand':'m_rand','ol-m-none':'m_none','ol-m-all':'m_all',
+  'ol-t2':'t2','ol-t5':'t5','ol-t8':'t8','ol-t10':'t10',
+  't-ol-start':'ol_start','t-ol-wait':'ol_wait','t-ol-role-inst':'ol_role_inst',
+  't-ol-ready':'ol_ready','t-ol-phase':'phase','t-ol-game-cat':'game_cat',
+  't-ol-role-mini':'your_name','t-ol-order':'order_lbl',
+  't-ol-vote-title':'vote_title','t-ol-vote-sub':'ol_vote_sub',
+  't-ol-change':'change_vote','t-ol-next-voter':'next_voter',
+  't-ol-sg-title':'sg_title','t-ol-sg-sub':'sg_sub','t-ol-pick':'sg_pick','t-ol-sg-skip':'sg_skip',
+  't-ol-menu':'menu',
+};
+
+function applyLang(){
+  Object.entries(TRANS_MAP).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=T(key).replace(/\n/g,'<br>');
+  });
+  const pi=document.getElementById('player-input');
+  if(pi) pi.placeholder=T('player_ph');
+  const on=document.getElementById('online-name');
+  if(on) on.placeholder=T('player_ph');
+  populateCats();
+  populateOlCats();
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOCAL SETUP
+// ═══════════════════════════════════════════════════════════
+function startLocal(){players=[];renderChips();go('s-setup');}
+
+function populateCats(){
+  const sel=document.getElementById('cat-sel');
+  if(!sel) return;
+  const cur=sel.value;
+  sel.innerHTML=Object.keys(CATS).map(k=>{
+    const lbl=k==='Adult'?T('adult_lbl'):k;
+    return`<option value="${k}">${lbl}</option>`;
+  }).join('');
+  sel.innerHTML+=`<option value="Random">${T('random_lbl')}</option>`;
+  sel.innerHTML+=`<option value="Custom">${T('custom_lbl')}</option>`;
+  if(cur) sel.value=cur;
+  onCatChange();
+}
+
+function onCatChange(){
+  document.getElementById('custom-area').style.display=
+    document.getElementById('cat-sel').value==='Custom'?'block':'none';
+}
+
+function addPlayer(){
+  const inp=document.getElementById('player-input');
+  const n=inp.value.trim();
+  if(!n) return;
+  if(players.find(p=>p.toLowerCase()===n.toLowerCase())){toast(T('err_dup'),'err');return;}
+  players.push(n);inp.value='';inp.focus();
+  renderChips();toast(T('added'),'ok');
+}
+
+function removePlayer(i){players.splice(i,1);renderChips();}
+
+function renderChips(){
+  document.getElementById('player-chips').innerHTML=players.map((p,i)=>
+    `<div class="chip">${p}<button class="chip-x" onclick="removePlayer(${i})">×</button></div>`
+  ).join('');
+}
+
+function setMode(m){
+  localMode=m;
+  document.querySelectorAll('#mode-seg .seg-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('m-'+m).classList.add('on');
+  document.getElementById('count-row').style.display=m==='fixed'?'flex':'none';
+  document.getElementById('chaos-banner').classList.toggle('show',m==='chaos');
+}
+
+function adjCount(d){
+  localCount=Math.max(1,Math.min(Math.max(1,players.length-1),localCount+d));
+  document.getElementById('imp-count').textContent=localCount;
+}
+
+function setTimer(v){
+  localTimer=v;
+  ['2','5','8','10'].forEach(t=>document.getElementById('tim-'+t).classList.remove('on'));
+  const m={120:'2',300:'5',480:'8',600:'10'};
+  if(m[v])document.getElementById('tim-'+m[v]).classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOCAL GAME START
+// ═══════════════════════════════════════════════════════════
+function beginLocal(){
+  if(players.length<2){toast(T('err_min2'),'err');return;}
+  const catKey=document.getElementById('cat-sel').value;
+  let customWords=[];
+  if(catKey==='Custom'){
+    const raw=document.getElementById('custom-words').value;
+    customWords=raw.split(/[,،]/).map(w=>w.trim()).filter(Boolean);
+    if(customWords.length<3){toast(T('err_min3'),'err');return;}
+  }
+
+  let mode=localMode, impCount=localCount, category=catKey;
+
+  // Chaos resolution
+  if(mode==='chaos'){
+    const cats=Object.keys(CATS);
+    category=cats[Math.floor(Math.random()*cats.length)];
+    impCount=Math.floor(Math.random()*Math.max(1,players.length-1))+1;
+    mode='fixed';
+  }
+
+  const word=pickLocalWord(category,lang,customWords);
+  const order=[...players].sort(()=>Math.random()-.5);
+  let spies=new Set();
+  if(mode==='none'){}
+  else if(mode==='all') order.forEach((_,i)=>spies.add(i));
+  else if(mode==='random15') order.forEach((_,i)=>{if(Math.random()<0.15)spies.add(i);});
+  else {
+    const cnt=Math.min(impCount,order.length-1);
+    [...Array(order.length).keys()].sort(()=>Math.random()-.5).slice(0,cnt).forEach(i=>spies.add(i));
+  }
+
+  const roles={};
+  order.forEach((n,i)=>roles[n]={isSpy:spies.has(i)});
+  const decoys=getDecoys(category,word,lang,5);
+  const guessOptions=[...decoys,word].sort(()=>Math.random()-.5);
+
+  gs={order,roles,word,category,guessOptions,cur:0,votes:{},tallies:{},eliminated:null,voteIdx:0,localTimer,customWords};
+  order.forEach(n=>gs.tallies[n]=[]);
+
+  showLocalPass();
+  go('s-pass');
+}
+
+// ─── PASS & ROLE ──────────────────────────────────────────
+function showLocalPass(){
+  document.getElementById('pass-name').textContent=gs.order[gs.cur];
+  document.getElementById('t-pass-msg').innerHTML=T('pass_msg').replace(/\n/g,'<br>');
+  document.getElementById('t-show-role').textContent=T('show_role');
+}
+
+function revealRole(){
+  const name=gs.order[gs.cur];
+  const isSpy=gs.roles[name].isSpy;
+  document.getElementById('role-content').innerHTML=isSpy?`
+    <div class="role-box spy">
+      <span class="r-emoji">🕵️</span>
+      <div class="r-badge spy">${T('you_spy')}</div>
+      <div class="r-name" style="color:var(--red2)">${name}</div>
+      <div class="wbox">
+        <div class="wlbl">${T('spy_hint')}</div>
+        <div class="wval" style="font-size:1.4rem">${gs.category}</div>
+        <div class="wsub" style="margin-top:.4rem">${T('spy_tip')}</div>
+      </div>
+    </div>`:`
+    <div class="role-box crew">
+      <span class="r-emoji">👁️</span>
+      <div class="r-badge crew">${T('you_crew')}</div>
+      <div class="r-name" style="color:var(--purple3)">${name}</div>
+      <div class="wbox">
+        <div class="wlbl">${T('the_word')}</div>
+        <div class="wval">${gs.word}</div>
+        <div class="wsub" style="color:var(--purple3)">${gs.category}</div>
+      </div>
+    </div>`;
+  document.getElementById('t-done-role').textContent=T('done_role');
+  go('s-role');
+}
+
+function doneRole(){
+  gs.cur++;
+  if(gs.cur<gs.order.length){showLocalPass();go('s-pass');}
+  else{setupLocalGame();go('s-game');}
+}
+
+// ─── GAME SCREEN ──────────────────────────────────────────
+function setupLocalGame(){
+  document.getElementById('game-cat-val').textContent=gs.category;
+  document.getElementById('t-game-cat').textContent=T('game_cat');
+  document.getElementById('t-order-lbl').textContent=T('order_lbl');
+  document.getElementById('t-phase').textContent=T('phase');
+  document.getElementById('t-go-vote').textContent=T('go_vote');
+  document.getElementById('order-list').innerHTML=gs.order.map((n,i)=>
+    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`
+  ).join('');
+  startLocalTimer();
+}
+
+// ─── TIMER ────────────────────────────────────────────────
+let localTimeLeft=300;
+const CIRC=326.73;
+
+function startLocalTimer(){
+  localTimeLeft=gs.localTimer||300;
+  renderLocalTimer();
+  if(localTimerInt) clearInterval(localTimerInt);
+  localTimerInt=setInterval(()=>{
+    localTimeLeft--;renderLocalTimer();
+    if(localTimeLeft<=0){clearInterval(localTimerInt);goVote();}
+  },1000);
+}
+
+function renderLocalTimer(){
+  const m=Math.floor(localTimeLeft/60),s=localTimeLeft%60;
+  document.getElementById('timer-txt').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  const pct=localTimeLeft/(gs.localTimer||300);
+  document.getElementById('ring-fg').style.strokeDashoffset=CIRC*(1-pct);
+  const r=document.getElementById('timer-ring');
+  r.classList.remove('warn','danger');
+  if(pct<0.2)r.classList.add('danger');
+  else if(pct<0.4)r.classList.add('warn');
+}
+
+// ─── VOTING ───────────────────────────────────────────────
+function goVote(){
+  if(localTimerInt) clearInterval(localTimerInt);
+  gs.votes={};gs.tallies={};gs.voteIdx=0;
+  gs.order.forEach(n=>gs.tallies[n]=[]);
+  gs.currentVoterVote=null;
+  renderVoteScreen();
+  go('s-vote');
+}
+
+function renderVoteScreen(){
+  const voter=gs.order[gs.voteIdx];
+  document.getElementById('voter-prompt').textContent=`${T('voter_is')} ${voter}`;
+  document.getElementById('t-vote-title').textContent=T('vote_title');
+  document.getElementById('t-vote-sub').textContent=T('vote_sub');
+  document.getElementById('t-change-vote').textContent=T('change_vote');
+  document.getElementById('t-next-voter').textContent=T('next_voter');
+  document.getElementById('t-next-voter').disabled=true;
+  gs.currentVoterVote=gs.votes[voter]||null;
+  renderVoteButtons(voter);
+}
+
+function renderVoteButtons(voter){
+  const existing=gs.votes[voter]||null;
+  document.getElementById('vote-grid').innerHTML=gs.order.map(n=>{
+    const isSelf=n===voter;
+    const isSelected=n===existing;
+    const voters=gs.tallies[n]||[];
+    return`<button class="vbtn${isSelected?' selected':''}" onclick="localCastVote('${n}')" ${isSelf?'disabled':''}>
+      <div style="flex:1">
+        <div>${n}${isSelf?` <span style="font-size:.7rem;color:var(--ink3)">(${T('voter_is').replace(':','')})</span>`:''}</div>
+        <div class="vbar-wrap"><div class="vbar" style="width:${calcPct(n)}%"></div></div>
+        <div class="vchips">${voters.map(v=>`<span class="vchip">${v}</span>`).join('')}</div>
+      </div>
+      <div class="vtally">${voters.length}</div>
+    </button>`;
+  }).join('');
+}
+
+function calcPct(name){
+  const total=Object.keys(gs.votes).length;
+  return total?Math.round((gs.tallies[name]||[]).length/total*100):0;
+}
+
+function localCastVote(target){
+  const voter=gs.order[gs.voteIdx];
+  if(target===voter) return;
+  // Remove old vote if any
+  if(gs.votes[voter]){
+    const old=gs.votes[voter];
+    gs.tallies[old]=(gs.tallies[old]||[]).filter(v=>v!==voter);
+  }
+  gs.votes[voter]=target;
+  if(!gs.tallies[target]) gs.tallies[target]=[];
+  if(!gs.tallies[target].includes(voter)) gs.tallies[target].push(voter);
+  renderVoteButtons(voter);
+  document.getElementById('t-next-voter').disabled=false;
+}
+
+function changeVote(){
+  const voter=gs.order[gs.voteIdx];
+  if(gs.votes[voter]){
+    const old=gs.votes[voter];
+    gs.tallies[old]=(gs.tallies[old]||[]).filter(v=>v!==voter);
+    delete gs.votes[voter];
+  }
+  renderVoteButtons(voter);
+  document.getElementById('t-next-voter').disabled=true;
+}
+
+function confirmMyVote(){
+  gs.voteIdx++;
+  if(gs.voteIdx<gs.order.length){renderVoteScreen();}
+  else{tallyLocalVotes();}
+}
+
+function tallyLocalVotes(){
+  let max=0,elim=null,tie=false;
+  Object.entries(gs.tallies).forEach(([n,v])=>{
+    if(v.length>max){max=v.length;elim=n;tie=false;}
+    else if(v.length===max&&v.length>0) tie=true;
+  });
+  const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
+  if(tie||!elim){showLocalResult({type:'tie',elim:null,spyNames,word:gs.word});return;}
+  gs.eliminated=elim;
+  if(gs.roles[elim]?.isSpy){showSpyGuess(spyNames);}
+  else{showLocalResult({type:'escaped',elim,spyNames,word:gs.word});}
+}
+
+// ─── SPY GUESS ────────────────────────────────────────────
+function showSpyGuess(spyNames){
+  document.getElementById('t-sg-title').textContent=T('sg_title');
+  document.getElementById('t-sg-sub').textContent=T('sg_sub');
+  document.getElementById('t-sg-pick').textContent=T('sg_pick');
+  document.getElementById('t-sg-skip').textContent=T('sg_skip');
+  document.getElementById('sg-spy-names').innerHTML=spyNames.map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('');
+  document.getElementById('guess-grid').innerHTML=gs.guessOptions.map(opt=>
+    `<div class="guess-opt" onclick="localGuess('${opt}')">${opt}</div>`
+  ).join('');
+  go('s-spyguess');
+}
+
+function localGuess(opt){
+  const correct=opt===gs.word;
+  // Show correct/wrong visually
+  document.querySelectorAll('.guess-opt').forEach(el=>{
+    el.onclick=null;
+    if(el.textContent===gs.word) el.classList.add('correct');
+    else if(el.textContent===opt&&!correct) el.classList.add('wrong');
+  });
+  const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
+  setTimeout(()=>showLocalResult({
+    type:correct?'spy_right':'spy_wrong',
+    elim:gs.eliminated,spyNames,word:gs.word,guess:opt
+  }),1200);
+}
+
+function skipGuess(){
+  const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
+  showLocalResult({type:'caught',elim:gs.eliminated,spyNames,word:gs.word});
+}
+
+// ─── RESULT ───────────────────────────────────────────────
+function showLocalResult({type,elim,spyNames,word,guess}){
+  const map={
+    caught:['🎉','r_caught','r_caught_sub','win'],
+    escaped:['👻','r_escaped','r_escaped_sub','lose'],
+    spy_right:['🕵️','r_spy_right','r_spy_right_sub','lose'],
+    spy_wrong:['❌','r_spy_wrong','r_spy_wrong_sub','win'],
+    nospy:['🕊️','r_nospy','r_nospy_sub','neutral'],
+    allspy:['🕵️','r_allspy','r_allspy_sub','neutral'],
+    tie:['🤝','r_tie','r_tie_sub','neutral']
+  };
+  const [emoji,tk,sk,cls]=map[type]||['🤝','r_tie','r_tie_sub','neutral'];
+  document.getElementById('result-content').innerHTML=`
+    <div class="rbox ${cls}">
+      <span class="remoji">${emoji}</span>
+      <div class="rtitle">${T(tk)}</div>
+      <div class="rsub">${T(sk)}</div>
+      ${elim?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Eliminated: <b style="color:var(--ink)">${elim}</b></div>`:''}
+      ${guess?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Pick: <b style="color:${guess===word?'var(--green2)':'var(--red2)'}">${guess}</b></div>`:''}
+      <div class="wbox" style="margin:.75rem 0">
+        <div class="wlbl">${T('word_was')}</div>
+        <div class="wval">${word}</div>
+      </div>
+      <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:.75rem 0 .4rem">${T('spies_were')}</div>
+      <div class="spy-tags">${spyNames.map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('')}</div>
+    </div>`;
+  document.getElementById('t-play-again').textContent=T('play_again');
+  document.getElementById('t-menu').textContent=T('menu');
+  go('s-result');
+}
+
+function playAgain(){gs.cur=0;beginLocal();}
+
+// ═══════════════════════════════════════════════════════════
+// ONLINE MODE
+// ═══════════════════════════════════════════════════════════
+function initSocket(){
+  if(socket) return;
+  socket=io();
+  socket.on('room_update',olOnRoomUpdate);
+  socket.on('player_left',d=>toast(`${d.name} left`,'err'));
+  socket.on('start_role_reveal',olOnStartReveal);
+  socket.on('game_started',olOnGameStarted);
+  socket.on('timer_tick',olOnTick);
+  socket.on('voting_started',olOnVotingStarted);
+  socket.on('next_voter',d=>{olCurrentVoter=d.currentVoter;olRenderVoting();});
+  socket.on('vote_cast',d=>{olVotes=d.votes;olRenderVoteTallies();});
+  socket.on('spy_guess_chance',olOnSpyGuessChance);
+  socket.on('vote_result',olOnVoteResult);
+  socket.on('lang_changed',d=>{lang=d.lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';applyLang();});
+}
+
+function populateOlCats(){
+  const sel=document.getElementById('ol-cat');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML=Object.keys(CATS).map(k=>{
+    const lbl=k==='Adult'?T('adult_lbl'):k;
+    return`<option value="${k}">${lbl}</option>`;
+  }).join('');
+  sel.innerHTML+=`<option value="Random">${T('random_lbl')}</option>`;
+  if(cur)sel.value=cur;
+}
+
+function onlineCreate(){
+  const name=document.getElementById('online-name').value.trim();
+  if(!name){toast(T('err_dup'),'err');return;}
+  initSocket();
+  olMyName=name;
+  socket.emit('create_room',{name},res=>{
+    if(!res.ok){toast(res.error,'err');return;}
+    olMyRoom=res.code;olIsHost=true;
+    olOnRoomUpdate(res.room);
+    go('s-online-lobby');
+  });
+}
+
+function onlineJoin(){
+  const name=document.getElementById('online-name').value.trim();
+  const code=document.getElementById('join-code').value.trim().toUpperCase();
+  if(!name){toast(T('player_ph'),'err');return;}
+  if(code.length!==4){toast('Code must be 4 chars','err');return;}
+  initSocket();
+  olMyName=name;
+  socket.emit('join_room',{code,name},res=>{
+    if(!res.ok){toast(res.error,'err');return;}
+    olMyRoom=res.code;olIsHost=false;
+    olOnRoomUpdate(res.room);
+    go('s-online-lobby');
+  });
+}
+
+function olOnRoomUpdate(room){
+  document.getElementById('ol-code').textContent=room.code;
+  olIsHost=room.isHost;
+  document.getElementById('ol-host-settings').style.display=olIsHost?'block':'none';
+  document.getElementById('ol-waiting').style.display=olIsHost?'none':'block';
+  document.getElementById('ol-players').innerHTML=(room.players||[]).map(p=>
+    `<div class="pchip"><span class="dot${p.connected?'':' off'}"></span>${p.name}${p.isYou?' 👑':''}</div>`
+  ).join('');
+  if(room.settings) olSyncSettings(room.settings);
+}
+
+function olSyncSettings(s){
+  olSettings={...olSettings,...s};
+  const cat=document.getElementById('ol-cat');
+  if(cat) cat.value=s.category||'Countries';
+  ['fixed','random15','none','all','chaos'].forEach(m=>{
+    const b=document.getElementById('ol-m-'+m.replace('random15','rand'));
+    if(b) b.classList.toggle('on',s.mode===m);
+  });
+  document.getElementById('ol-imp-count').textContent=s.imposterCount||1;
+  document.getElementById('ol-count-row').style.display=s.mode==='fixed'?'flex':'none';
+  ['2','5','8','10'].forEach(t=>{
+    const m={'2':120,'5':300,'8':480,'10':600};
+    const b=document.getElementById('ol-t'+t);
+    if(b) b.classList.toggle('on',s.timerDuration===m[t]);
+  });
+}
+
+function pushOlSettings(){
+  olSettings.category=document.getElementById('ol-cat').value;
+  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+}
+
+function olSetMode(m){
+  olSettings.mode=m;
+  ['fixed','random15','none','all','chaos'].forEach(x=>{
+    const b=document.getElementById('ol-m-'+x.replace('random15','rand'));
+    if(b) b.classList.toggle('on',x===m);
+  });
+  document.getElementById('ol-count-row').style.display=m==='fixed'?'flex':'none';
+  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+}
+
+function olAdjCount(d){
+  olSettings.imposterCount=Math.max(1,Math.min(10,(olSettings.imposterCount||1)+d));
+  document.getElementById('ol-imp-count').textContent=olSettings.imposterCount;
+  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+}
+
+function olSetTimer(v){
+  olSettings.timerDuration=v;
+  ['2','5','8','10'].forEach(t=>{
+    const m={'2':120,'5':300,'8':480,'10':600};
+    document.getElementById('ol-t'+t).classList.toggle('on',v===m[t]);
+  });
+  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+}
+
+function olStartGame(){
+  socket.emit('start_game',{code:olMyRoom},res=>{
+    if(res&&!res.ok) toast(res.error||'Cannot start','err');
+  });
+}
+
+function onlineLang(){
+  toggleLang();
+  socket.emit('set_lang',{code:olMyRoom,lang});
+}
+
+// Role reveal (online — host driven, pass phone)
+let olRevealIdx=0,olRevealTotal=0;
+function olOnStartReveal(data){
+  olRevealIdx=0;olRevealTotal=data.totalPlayers;
+  olGameData.order=data.order;olGameData.category=data.category;
+  olDoNextReveal();
+}
+
+function olDoNextReveal(){
+  socket.emit('next_reveal',{code:olMyRoom},res=>{
+    if(!res)return;
+    // Show pass screen first
+    document.getElementById('pass-name').textContent=res.name;
+    document.getElementById('t-pass-msg').innerHTML=T('pass_msg').replace(/\n/g,'<br>');
+    document.getElementById('t-show-role').textContent=T('show_role');
+    // Override show role button to reveal online role
+    document.getElementById('t-show-role').onclick=()=>olShowRole(res);
+    document.getElementById('t-done-role').onclick=()=>olDoneRole(res.isLast);
+    go('s-pass');
+  });
+}
+
+function olShowRole(res){
+  const isSpy=res.isSpy;
+  document.getElementById('ol-role-content').innerHTML=isSpy?`
+    <div class="role-box spy">
+      <span class="r-emoji">🕵️</span>
+      <div class="r-badge spy">${T('you_spy')}</div>
+      <div class="r-name" style="color:var(--red2)">${res.name}</div>
+      <div class="wbox">
+        <div class="wlbl">${T('spy_hint')}</div>
+        <div class="wval" style="font-size:1.4rem">${res.hint}</div>
+        <div class="wsub">${T('spy_tip')}</div>
+      </div>
+    </div>`:`
+    <div class="role-box crew">
+      <span class="r-emoji">👁️</span>
+      <div class="r-badge crew">${T('you_crew')}</div>
+      <div class="r-name" style="color:var(--purple3)">${res.name}</div>
+      <div class="wbox">
+        <div class="wlbl">${T('the_word')}</div>
+        <div class="wval">${res.word}</div>
+        <div class="wsub" style="color:var(--purple3)">${res.category}</div>
+      </div>
+    </div>`;
+  document.getElementById('t-ol-role-inst').textContent=T('ol_role_inst');
+  document.getElementById('t-ol-ready').textContent=T('ol_ready');
+  document.getElementById('t-ol-ready').onclick=()=>go('s-role');
+  // Then done from role goes back to pass for next player
+  document.getElementById('t-done-role').onclick=()=>olDoneRole(res.isLast);
+  go('s-online-role');
+}
+
+function olDoneRole(isLast){
+  if(isLast){
+    socket.emit('reveals_done',{code:olMyRoom});
+  } else {
+    olRevealIdx++;
+    olDoNextReveal();
+  }
+}
+
+function olOnGameStarted(data){
+  olGameData={...olGameData,...data};
+  document.getElementById('ol-cat-val').textContent=data.category;
+  document.getElementById('t-ol-game-cat').textContent=T('game_cat');
+  document.getElementById('t-ol-phase').textContent=T('phase');
+  document.getElementById('t-ol-order').textContent=T('order_lbl');
+  document.getElementById('ol-order-list').innerHTML=(data.order||[]).map((n,i)=>
+    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`
+  ).join('');
+  document.getElementById('ol-vote-btn').style.display=olIsHost?'flex':'none';
+  document.getElementById('t-ol-vote').textContent=T('go_vote');
+  go('s-online-game');
+}
+
+let olTimerDur=300;
+function olOnTick(data){
+  olTimerDur=olGameData.timerDuration||300;
+  const rem=data.remaining;
+  const m=Math.floor(rem/60),s=rem%60;
+  document.getElementById('ol-timer-txt').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  const pct=rem/olTimerDur;
+  document.getElementById('ol-ring-fg').style.strokeDashoffset=CIRC*(1-pct);
+  const r=document.getElementById('ol-timer-ring');
+  r.classList.remove('warn','danger');
+  if(pct<0.2)r.classList.add('danger');
+  else if(pct<0.4)r.classList.add('warn');
+}
+
+function olStartVoting(){socket.emit('start_voting',{code:olMyRoom});}
+
+// Online voting (pass-and-play)
+let olVoteOrder=[];
+function olOnVotingStarted(data){
+  olVoteOrder=data.players;
+  olCurrentVoter=data.currentVoter;
+  olVotes={};olTallies={};olVoteIdx=0;
+  olVoteOrder.forEach(n=>olTallies[n]=[]);
+  olMyVote='';
+  olRenderVoting();
+  document.getElementById('ol-confirm-btn').style.display='none';
+  go('s-online-voting');
+}
+
+function olRenderVoting(){
+  document.getElementById('ol-voter-prompt').style.display='block';
+  document.getElementById('ol-voter-prompt').textContent=`${T('voter_is')} ${olCurrentVoter}`;
+  document.getElementById('t-ol-vote-title').textContent=T('vote_title');
+  document.getElementById('t-ol-vote-sub').textContent=T('ol_vote_sub');
+  document.getElementById('t-ol-change').textContent=T('change_vote');
+  document.getElementById('t-ol-next-voter').textContent=T('next_voter');
+  document.getElementById('t-ol-next-voter').disabled=!olVotes[olCurrentVoter];
+  olRenderVoteButtons();
+}
+
+function olRenderVoteButtons(){
+  const voter=olCurrentVoter;
+  const existing=olVotes[voter]||null;
+  const total=Object.keys(olVotes).length;
+  document.getElementById('ol-vote-grid').innerHTML=olVoteOrder.map(n=>{
+    const isSelf=n===voter;
+    const isSelected=n===existing;
+    const voters=olTallies[n]||[];
+    const pct=total?Math.round(voters.length/total*100):0;
+    return`<button class="vbtn${isSelected?' selected':''}" onclick="olCastVote('${n}')" ${isSelf?'disabled':''}>
+      <div style="flex:1">
+        <div>${n}${isSelf?` <span style="font-size:.7rem;color:var(--ink3)">(you)</span>`:''}</div>
+        <div class="vbar-wrap"><div class="vbar" style="width:${pct}%"></div></div>
+        <div class="vchips">${voters.map(v=>`<span class="vchip">${v}</span>`).join('')}</div>
+      </div>
+      <div class="vtally">${voters.length}</div>
+    </button>`;
+  }).join('');
+}
+
+function olRenderVoteTallies(){
+  // Just refresh bars without changing current voter UI
+  olRenderVoteButtons();
+}
+
+function olCastVote(target){
+  const voter=olCurrentVoter;
+  if(target===voter)return;
+  // local update
+  if(olVotes[voter]){
+    const old=olVotes[voter];
+    olTallies[old]=(olTallies[old]||[]).filter(v=>v!==voter);
+  }
+  olVotes[voter]=target;
+  if(!olTallies[target])olTallies[target]=[];
+  if(!olTallies[target].includes(voter))olTallies[target].push(voter);
+  olRenderVoteButtons();
+  document.getElementById('t-ol-next-voter').disabled=false;
+  // Also tell server
+  socket.emit('cast_vote',{code:olMyRoom,target});
+}
+
+function olChangeVote(){
+  const voter=olCurrentVoter;
+  if(olVotes[voter]){
+    const old=olVotes[voter];
+    olTallies[old]=(olTallies[old]||[]).filter(v=>v!==voter);
+    delete olVotes[voter];
+  }
+  olRenderVoteButtons();
+  document.getElementById('t-ol-next-voter').disabled=true;
+}
+
+function olNextVoter(){
+  socket.emit('next_voter',{code:olMyRoom},res=>{
+    if(!res)return;
+    if(res.done){
+      // Show confirm button for host
+      if(olIsHost){
+        document.getElementById('ol-confirm-btn').style.display='flex';
+        document.getElementById('ol-confirm-btn').textContent=T('ol_confirm_all');
+        document.getElementById('t-ol-next-voter').style.display='none';
+        document.getElementById('t-ol-change').style.display='none';
+      } else {
+        document.getElementById('ol-voter-prompt').textContent='All voted — waiting for host to confirm...';
+      }
+    } else {
+      olCurrentVoter=res.nextVoter;
+      olMyVote='';
+      olRenderVoting();
+    }
+  });
+}
+
+function olConfirmVotes(){
+  socket.emit('confirm_votes',{code:olMyRoom});
+}
+
+function olOnSpyGuessChance(data){
+  olGuessOptions=data.guessOptions;
+  olGuessWord=data.word;
+  document.getElementById('t-ol-sg-title').textContent=T('sg_title');
+  document.getElementById('t-ol-sg-sub').textContent=T('sg_sub');
+  document.getElementById('t-ol-pick').textContent=T('sg_pick');
+  document.getElementById('t-ol-sg-skip').textContent=T('sg_skip');
+  document.getElementById('ol-sg-spy-names').innerHTML=(data.spyNames||[]).map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('');
+  document.getElementById('ol-guess-grid').innerHTML=data.guessOptions.map(opt=>
+    `<div class="guess-opt" onclick="olMakeGuess('${opt}')">${opt}</div>`
+  ).join('');
+  go('s-online-spyguess');
+}
+
+function olMakeGuess(opt){
+  document.querySelectorAll('#ol-guess-grid .guess-opt').forEach(el=>el.onclick=null);
+  socket.emit('spy_guess',{code:olMyRoom,guess:opt},res=>{
+    document.querySelectorAll('#ol-guess-grid .guess-opt').forEach(el=>{
+      if(el.textContent===olGuessWord) el.classList.add('correct');
+      else if(el.textContent===opt&&!res?.correct) el.classList.add('wrong');
+    });
+  });
+}
+
+function olSkipGuess(){
+  socket.emit('spy_guess',{code:olMyRoom,guess:'__skip__'});
+}
+
+function olOnVoteResult(data){
+  const map={};
+  if(!data.elimIsSpy&&!data.tie&&data.eliminated) map.type='escaped';
+  else if(data.tie) map.type='tie';
+  else if(data.spyGuessCorrect) map.type='spy_right';
+  else if(data.elimIsSpy&&data.spyGuess) map.type='spy_wrong';
+  else if(data.elimIsSpy) map.type='caught';
+  else map.type='escaped';
+
+  const rmap={
+    caught:['🎉','r_caught','r_caught_sub','win'],
+    escaped:['👻','r_escaped','r_escaped_sub','lose'],
+    spy_right:['🕵️','r_spy_right','r_spy_right_sub','lose'],
+    spy_wrong:['❌','r_spy_wrong','r_spy_wrong_sub','win'],
+    tie:['🤝','r_tie','r_tie_sub','neutral']
+  };
+  const [emoji,tk,sk,cls]=rmap[map.type]||['🤝','r_tie','r_tie_sub','neutral'];
+
+  document.getElementById('ol-result-content').innerHTML=`
+    <div class="rbox ${cls}">
+      <span class="remoji">${emoji}</span>
+      <div class="rtitle">${T(tk)}</div>
+      <div class="rsub">${T(sk)}</div>
+      ${data.eliminated?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Eliminated: <b style="color:var(--ink)">${data.eliminated}</b></div>`:''}
+      ${data.spyGuess?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Pick: <b style="color:${data.spyGuessCorrect?'var(--green2)':'var(--red2)'}">${data.spyGuess}</b></div>`:''}
+      <div class="wbox" style="margin:.75rem 0">
+        <div class="wlbl">${T('word_was')}</div>
+        <div class="wval">${data.word}</div>
+      </div>
+      <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:.75rem 0 .4rem">${T('spies_were')}</div>
+      <div class="spy-tags">${(data.spyNames||[]).map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('')}</div>
+    </div>`;
+  document.getElementById('ol-new-round').style.display=olIsHost?'flex':'none';
+  document.getElementById('ol-new-round').textContent=T('new_round');
+  document.getElementById('t-ol-menu').textContent=T('menu');
+  go('s-online-result');
+}
+
+function olNewRound(){socket.emit('new_round',{code:olMyRoom});}
+
+// ═══════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='show '+(type||'');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.className='',2500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+populateCats();
+populateOlCats();
+applyLang();
+</script>
+</body>
+</html>
