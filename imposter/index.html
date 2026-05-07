@@ -7,17 +7,19 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0c0c0c;--bg2:#141414;--bg3:#1e1e1e;--bg4:#262626;
-  --purple:#5a8f7b;--purple2:#6daa93;--purple3:#9dcfbd;
-  --red:#c94444;--red2:#e06060;
-  --green:#4caf80;--green2:#6ed4a0;
-  --amber:#c89040;--amber2:#e0b060;
-  --chaos:#c06030;--chaos2:#e08050;
-  --ink:#e8e8e4;--ink2:#909088;--ink3:#505050;
-  --line:#242424;--line2:#303030;
+  --bg:#0d0b08;--bg2:#161210;--bg3:#201c18;--bg4:#2a2420;
+  --gold:#c8922a;--gold2:#e0aa44;--gold3:#f0c870;
+  --red:#c04040;--red2:#e05858;
+  --green:#4a9e6a;--green2:#60c080;
+  --chaos:#b85020;--chaos2:#d87040;
+  --ink:#f0e8d8;--ink2:#a09070;--ink3:#585040;
+  --line:#2a2218;--line2:#3a3228;
   --serif:'Georgia',serif;
   --sans:system-ui,-apple-system,sans-serif;
   --r:10px;
+  /* alias purple -> gold for all existing refs */
+  --purple:var(--gold);--purple2:var(--gold2);--purple3:var(--gold3);
+  --amber:var(--gold);--amber2:var(--gold2);
 }
 html{height:100%;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100%}
@@ -484,18 +486,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE VOTING -->
 <div class="screen" id="s-online-voting">
   <div class="top-bar"><span class="logo">🕵️</span></div>
-  <div class="voter-prompt" id="ol-voter-prompt" style="display:none"></div>
   <div class="card" style="text-align:center;padding:.9rem">
-    <div style="font-size:2rem;margin-bottom:.3rem">🗳️</div>
     <div class="ctitle" id="t-ol-vote-title">Who is the Imposter?</div>
-    <p style="color:var(--ink2);font-size:.85rem" id="t-ol-vote-sub">Host passes phone to each player.</p>
+    <p style="color:var(--ink2);font-size:.85rem" id="t-ol-vote-sub">Tap who you think is the spy.</p>
   </div>
-  <div class="vgrid" id="ol-vote-grid"></div>
-  <div style="display:flex;gap:.6rem;margin-top:.75rem">
-    <button class="btn btn-ghost" onclick="olChangeVote()" id="t-ol-change" style="flex:1">↩ Change</button>
-    <button class="btn btn-primary" onclick="olNextVoter()" id="t-ol-next-voter" style="flex:1" disabled>Next →</button>
+  <!-- Pre-vote: show options -->
+  <div id="ol-prevote">
+    <div class="vgrid" id="ol-vote-grid"></div>
+    <button class="btn btn-primary" onclick="olSubmitMyVote()" id="ol-submit-vote-btn" style="margin-top:.75rem" disabled>Submit vote</button>
+    <button class="btn btn-ghost" onclick="olClearMyVote()" id="ol-clear-vote-btn" style="margin-top:.6rem">Clear</button>
   </div>
-  <button class="btn btn-danger" id="ol-confirm-btn" style="display:none;margin-top:.6rem" onclick="olConfirmVotes()">✓ Confirm all votes</button>
+  <!-- Post-vote: waiting -->
+  <div id="ol-postvote" style="display:none">
+    <div class="card" style="text-align:center">
+      <div style="font-weight:600;color:var(--gold2);font-size:1.1rem;margin-bottom:.4rem">Vote submitted</div>
+      <p style="color:var(--ink2);font-size:.85rem" id="ol-vote-wait-msg">Waiting for others...</p>
+      <div id="ol-vote-tally" style="margin-top:1rem"></div>
+    </div>
+  </div>
+  <!-- Host confirm - shown when all voted -->
+  <button class="btn btn-danger" id="ol-confirm-btn" style="display:none;margin-top:.6rem" onclick="olConfirmVotes()">Confirm all votes</button>
 </div>
 
 <!-- ONLINE SPY GUESS -->
@@ -1340,103 +1350,85 @@ function olOnTick(data){
 
 function olStartVoting(){socket.emit('start_voting',{code:olMyRoom});}
 
-// Online voting (pass-and-play)
-let olVoteOrder=[];
+// Online voting — each player votes independently on own device
+let olVoteOrder=[], olMySelectedVote='', olMyVoteSubmitted=false;
+
 function olOnVotingStarted(data){
   olVoteOrder=data.players;
-  olCurrentVoter=data.currentVoter;
-  olVotes={};olTallies={};olVoteIdx=0;
+  olVotes={};olTallies={};
   olVoteOrder.forEach(n=>olTallies[n]=[]);
-  olMyVote='';
-  olRenderVoting();
+  olMySelectedVote='';
+  olMyVoteSubmitted=false;
+  // Show pre-vote UI
+  document.getElementById('ol-prevote').style.display='block';
+  document.getElementById('ol-postvote').style.display='none';
   document.getElementById('ol-confirm-btn').style.display='none';
+  document.getElementById('ol-submit-vote-btn').disabled=true;
+  document.getElementById('t-ol-vote-title').textContent=T('vote_title');
+  document.getElementById('t-ol-vote-sub').textContent=T('vote_sub');
+  olRenderMyVoteOptions();
   go('s-online-voting');
 }
 
-function olRenderVoting(){
-  document.getElementById('ol-voter-prompt').style.display='block';
-  document.getElementById('ol-voter-prompt').textContent=`${T('voter_is')} ${olCurrentVoter}`;
-  document.getElementById('t-ol-vote-title').textContent=T('vote_title');
-  document.getElementById('t-ol-vote-sub').textContent=T('ol_vote_sub');
-  document.getElementById('t-ol-change').textContent=T('change_vote');
-  document.getElementById('t-ol-next-voter').textContent=T('next_voter');
-  document.getElementById('t-ol-next-voter').disabled=!olVotes[olCurrentVoter];
-  olRenderVoteButtons();
-}
-
-function olRenderVoteButtons(){
-  const voter=olCurrentVoter;
-  const existing=olVotes[voter]||null;
-  const total=Object.keys(olVotes).length;
+function olRenderMyVoteOptions(){
+  // Show all players except yourself as vote options
   document.getElementById('ol-vote-grid').innerHTML=olVoteOrder.map(n=>{
-    const isSelf=n===voter;
-    const isSelected=n===existing;
-    const voters=olTallies[n]||[];
-    const pct=total?Math.round(voters.length/total*100):0;
-    return`<button class="vbtn${isSelected?' selected':''}" onclick="olCastVote('${n}')" ${isSelf?'disabled':''}>
-      <div style="flex:1">
-        <div>${n}${isSelf?` <span style="font-size:.7rem;color:var(--ink3)">(you)</span>`:''}</div>
-        <div class="vbar-wrap"><div class="vbar" style="width:${pct}%"></div></div>
-        <div class="vchips">${voters.map(v=>`<span class="vchip">${v}</span>`).join('')}</div>
-      </div>
-      <div class="vtally">${voters.length}</div>
+    const isSelf=n===olMyName;
+    const isSelected=n===olMySelectedVote;
+    return`<button class="vbtn${isSelected?' selected':''}" onclick="olSelectVote('${n}')" ${isSelf?'disabled':''}>
+      <div>${n}${isSelf?' (you)':''}</div>
     </button>`;
   }).join('');
 }
 
-function olRenderVoteTallies(){
-  // Just refresh bars without changing current voter UI
-  olRenderVoteButtons();
+function olSelectVote(target){
+  if(olMyVoteSubmitted) return;
+  olMySelectedVote=target;
+  olRenderMyVoteOptions();
+  document.getElementById('ol-submit-vote-btn').disabled=false;
 }
 
-function olCastVote(target){
-  const voter=olCurrentVoter;
-  if(target===voter)return;
-  // local update
-  if(olVotes[voter]){
-    const old=olVotes[voter];
-    olTallies[old]=(olTallies[old]||[]).filter(v=>v!==voter);
+function olClearMyVote(){
+  olMySelectedVote='';
+  olRenderMyVoteOptions();
+  document.getElementById('ol-submit-vote-btn').disabled=true;
+}
+
+function olSubmitMyVote(){
+  if(!olMySelectedVote||olMyVoteSubmitted) return;
+  olMyVoteSubmitted=true;
+  socket.emit('cast_vote',{code:olMyRoom,target:olMySelectedVote});
+  // Switch to waiting view
+  document.getElementById('ol-prevote').style.display='none';
+  document.getElementById('ol-postvote').style.display='block';
+  document.getElementById('ol-voted-msg').textContent=`Voted for: ${olMySelectedVote}`;
+}
+
+// Server tells us vote was recorded + current tally
+socket.on('vote_cast',data=>{
+  olVotes=data.votes;
+  // Update tally display if visible
+  const tally=document.getElementById('ol-vote-tally');
+  if(tally){
+    // rebuild tallies from votes object
+    const t={};
+    olVoteOrder.forEach(n=>t[n]=[]);
+    Object.entries(data.votes).forEach(([voter,target])=>{if(t[target])t[target].push(voter);});
+    const total=Object.keys(data.votes).length;
+    tally.innerHTML=olVoteOrder.map(n=>`
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">
+        <span style="font-size:.85rem;color:var(--ink2);min-width:80px">${n}</span>
+        <div class="vbar-wrap" style="flex:1"><div class="vbar" style="width:${total?Math.round((t[n]||[]).length/total*100):0}%"></div></div>
+        <span style="font-size:.85rem;font-weight:700;color:var(--gold2)">${(t[n]||[]).length}</span>
+      </div>`).join('');
+    const waitMsg=document.getElementById('ol-vote-wait-msg');
+    if(waitMsg) waitMsg.textContent=`${total}/${olVoteOrder.length} voted`;
   }
-  olVotes[voter]=target;
-  if(!olTallies[target])olTallies[target]=[];
-  if(!olTallies[target].includes(voter))olTallies[target].push(voter);
-  olRenderVoteButtons();
-  document.getElementById('t-ol-next-voter').disabled=false;
-  // Also tell server
-  socket.emit('cast_vote',{code:olMyRoom,target});
-}
-
-function olChangeVote(){
-  const voter=olCurrentVoter;
-  if(olVotes[voter]){
-    const old=olVotes[voter];
-    olTallies[old]=(olTallies[old]||[]).filter(v=>v!==voter);
-    delete olVotes[voter];
+  // Show confirm for host when all voted
+  if(olIsHost && Object.keys(data.votes).length>=olVoteOrder.length){
+    document.getElementById('ol-confirm-btn').style.display='flex';
   }
-  olRenderVoteButtons();
-  document.getElementById('t-ol-next-voter').disabled=true;
-}
-
-function olNextVoter(){
-  socket.emit('next_voter',{code:olMyRoom},res=>{
-    if(!res)return;
-    if(res.done){
-      // Show confirm button for host
-      if(olIsHost){
-        document.getElementById('ol-confirm-btn').style.display='flex';
-        document.getElementById('ol-confirm-btn').textContent=T('ol_confirm_all');
-        document.getElementById('t-ol-next-voter').style.display='none';
-        document.getElementById('t-ol-change').style.display='none';
-      } else {
-        document.getElementById('ol-voter-prompt').textContent='All voted — waiting for host to confirm...';
-      }
-    } else {
-      olCurrentVoter=res.nextVoter;
-      olMyVote='';
-      olRenderVoting();
-    }
-  });
-}
+});
 
 function olConfirmVotes(){
   socket.emit('confirm_votes',{code:olMyRoom});
@@ -1508,7 +1500,18 @@ function olOnVoteResult(data){
   go('s-online-result');
 }
 
-function olNewRound(){socket.emit('new_round',{code:olMyRoom});}
+function olNewRound(){
+  socket.emit('new_round',{code:olMyRoom});
+}
+// When room_update arrives after new_round, go back to lobby
+const _origOlRoomUpdate = olOnRoomUpdate;
+// Handle room_update navigation
+socket.on('room_update', data => {
+  olOnRoomUpdate(data);
+  if(data.state==='lobby' && ['s-online-result','s-online-voting','s-online-game','s-online-spyguess'].includes(currentScreen())){
+    go('s-online-lobby');
+  }
+});
 
 // ═══════════════════════════════════════════════════════════
 function goHome(){
@@ -1518,6 +1521,11 @@ function goHome(){
 
 // TOAST
 // ═══════════════════════════════════════════════════════════
+function currentScreen(){
+  const s=document.querySelector('.screen.active');
+  return s?s.id:'';
+}
+
 function toast(msg,type='ok'){
   const el=document.getElementById('toast');
   el.textContent=msg;el.className='show '+(type||'');
