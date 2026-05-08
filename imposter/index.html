@@ -156,8 +156,85 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 
 
 
+
+/* Light theme override */
+/* Light theme — warm cream with deep gold, polished and readable */
+[data-theme="light"]{
+  --bg:#fbf6ec;
+  --bg2:#ffffff;
+  --bg3:#f5edd8;
+  --bg4:#ebe0c4;
+  --gold:#9a6418;
+  --gold2:#7d4f10;
+  --gold3:#5a3808;
+  --ink:#1a1408;
+  --ink2:#4a3818;
+  --ink3:#7a6848;
+  --line:#e8dcc0;
+  --line2:#cebd9a;
+  --red:#a83838;--red2:#8a2828;
+  --green:#3a8a5a;--green2:#286848;
+  --chaos:#9a4018;--chaos2:#7a3010;
+}
+[data-theme="light"] body{background:var(--bg);color:var(--ink)}
+[data-theme="light"] .card{background:var(--bg2);border-color:var(--line);box-shadow:0 1px 3px rgba(154,100,24,.06)}
+[data-theme="light"] .ctitle{color:var(--gold2)}
+[data-theme="light"] input[type=text],[data-theme="light"] select,[data-theme="light"] textarea{background:var(--bg3);border-color:var(--line2);color:var(--ink)}
+[data-theme="light"] .seg{background:var(--bg3)}
+[data-theme="light"] .seg-btn{color:var(--ink3)}
+[data-theme="light"] .seg-btn.on{background:var(--gold);color:#fff}
+[data-theme="light"] .btn-primary{background:var(--gold);color:#fff}
+[data-theme="light"] .btn-ghost{border-color:var(--line2);color:var(--ink2);background:var(--bg2)}
+[data-theme="light"] .home-btn,[data-theme="light"] .lang-btn,[data-theme="light"] .theme-btn,[data-theme="light"] .mute-btn{background:var(--bg2);border-color:var(--line2);color:var(--ink2)}
+[data-theme="light"] .pchip,[data-theme="light"] .chip{background:var(--bg3);border-color:var(--line2)}
+[data-theme="light"] .vbtn{background:var(--bg2);border-color:var(--line2);color:var(--ink)}
+[data-theme="light"] .oitem{background:var(--bg3);border-color:var(--line)}
+[data-theme="light"] .order-num,[data-theme="light"] .onum{background:var(--gold);color:#fff}
+[data-theme="light"] .role-box.spy{background:linear-gradient(160deg,#fff3f0,#ffe4dd);border-color:var(--red)}
+[data-theme="light"] .role-box.crew{background:linear-gradient(160deg,#fff8e8,#fff0d4);border-color:var(--gold)}
+[data-theme="light"] .wbox{background:var(--bg3)}
+[data-theme="light"] .wval{color:var(--gold2)}
+[data-theme="light"] .rbox.win{background:linear-gradient(160deg,#e8f8ee,#d8f0e0);border-color:var(--green)}
+[data-theme="light"] .rbox.lose{background:linear-gradient(160deg,#fde8e8,#f8d8d8);border-color:var(--red)}
+[data-theme="light"] .rbox.neutral{background:linear-gradient(160deg,#fff5e0,#ffe8c4);border-color:var(--chaos)}
+[data-theme="light"] .rcode{color:var(--gold2)}
+[data-theme="light"] .hero-photos{display:none}
+[data-theme="light"] #s-land{background:linear-gradient(170deg,#fbf6ec 0%,#f0e4ce 100%)}
+[data-theme="light"] .hero-main-title,[data-theme="light"] .landing-title{color:var(--gold2);text-shadow:none}
+[data-theme="light"] .logo{color:var(--gold2);text-shadow:none}
+[data-theme="light"] .hero-tagline,[data-theme="light"] .landing-sub{color:var(--ink2)}
+[data-theme="light"] .hero-mode-btn{background:var(--bg2);border-color:var(--line2)}
+[data-theme="light"] .hmb-title{color:var(--gold2)}
+[data-theme="light"] .hmb-sub{color:var(--ink3)}
+[data-theme="light"] .hero-eyebrow{color:var(--gold)}
+[data-theme="light"] .foot-links a{color:var(--ink3)}
+[data-theme="light"] .foot-links a:hover{color:var(--gold2)}
+[data-theme="light"] .skeptic-figure-sm,[data-theme="light"] .skeptic-figure-md{filter:brightness(.4) hue-rotate(-15deg)}
+[data-theme="light"] .svg-logo text:first-of-type{fill:var(--ink2)!important}
+[data-theme="light"] .svg-logo text:last-of-type{fill:var(--gold2)!important}
+[data-theme="light"] .svg-logo *[stroke]{stroke:var(--gold2)!important}
+[data-theme="light"] .svg-logo *[fill="#c8922a"]{fill:var(--gold2)!important}
+[data-theme="light"] .svg-logo *[fill="#e0aa44"]{fill:var(--gold)!important}
+
+.theme-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .7rem;font-size:.85rem;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .2s;margin-left:.4rem}
+.theme-btn:hover{border-color:var(--gold2);color:var(--gold2)}
+
+
+/* Decorative skeptic figures */
+.skeptic-figure-sm{width:55px;height:auto;opacity:.7;flex-shrink:0;align-self:stretch;object-fit:contain}
+.skeptic-figure-md{width:85px;height:auto;opacity:.75;flex-shrink:0}
+.figure-row{display:flex;align-items:stretch;gap:.8rem;margin-bottom:1rem;min-height:200px}
+.figure-row > .content-block{flex:1}
+.figure-row > svg.skeptic-figure-sm{align-self:flex-start;position:sticky;top:1rem}
+
+/* Footer links on landing */
+.foot-links{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);display:flex;gap:1.5rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);z-index:5}
+.foot-links a{color:var(--ink3);text-decoration:none;cursor:pointer;transition:color .2s}
+.foot-links a:hover{color:var(--gold2)}
+
 /* Inline SVG logo */
-.svg-logo{display:inline-block;height:32px;width:auto;vertical-align:middle}
+.svg-logo{display:inline-block;height:32px;width:110px;min-width:110px;vertical-align:middle;flex-shrink:0}
+[dir=rtl] .svg-logo{direction:ltr}
 .svg-logo-hero{display:block;height:220px;width:160px;margin:0 auto;filter:drop-shadow(0 0 18px rgba(200,146,42,.18))}
 .svg-logo-lg{display:block;height:56px;width:auto;margin:0 auto 1rem}
 
@@ -333,6 +410,7 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
+    <button class="theme-btn" onclick="toggleTheme()" id="t-theme" title="Toggle theme">☀</button>
     <button class="mute-btn" onclick="toggleMute()" title="Toggle sound">♪</button>
   </div>
 
@@ -380,6 +458,11 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
     </div>
     <button class="hero-howto" onclick="go('s-howto')" id="t-howto">How to play</button>
   </div>
+  <div class="foot-links">
+    <a onclick="go('s-about')" id="t-about-link">About</a>
+    <a onclick="go('s-terms')" id="t-terms-link">Terms</a>
+    <a onclick="go('s-howto')" id="t-howto-link">How to play</a>
+  </div>
 </div>
 
 <!-- HOW TO PLAY -->
@@ -407,9 +490,101 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 </svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang2">عربي</button>
   </div>
-  <div class="card">
-    <div class="ctitle" id="t-howto-title">How to Play</div>
-    <div id="t-howto-body" style="color:var(--ink2);font-size:.9rem;line-height:1.9"></div>
+  <div class="figure-row">
+    <svg class="skeptic-figure-sm" viewBox="0 0 240 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
+<g transform="translate(120,140)">
+<!-- Avatar circle -->
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<!-- shoulders -->
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<!-- hood -->
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g>
+<!-- Long torso & legs extending down -->
+<g transform="translate(120,260)">
+<!-- Torso -->
+<path d="M-65,0 L-55,200 L-25,300 L-25,500 L25,500 L25,300 L55,200 L65,0 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Centerline -->
+<line x1="0" y1="0" x2="0" y2="500" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Arms hanging -->
+<path d="M-65,0 L-90,80 L-92,200 L-78,205 L-58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<path d="M65,0 L90,80 L92,200 L78,205 L58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Hand hints -->
+<ellipse cx="-85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<!-- Pocket hint on torso -->
+<path d="M-30,80 L30,80 L25,140 L-25,140 Z" fill="none" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Belt line -->
+<line x1="-50" y1="200" x2="50" y2="200" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Leg seams -->
+<line x1="-20" y1="310" x2="-22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<line x1="20" y1="310" x2="22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Shoes -->
+<ellipse cx="-22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+</g>
+</svg>
+    <div class="content-block">
+      <div class="card">
+        <div class="ctitle" id="t-howto-title">How to Play</div>
+        <div id="t-howto-body" style="color:var(--ink2);font-size:.9rem;line-height:1.9"></div>
+      </div>
+    </div>
+    <svg class="skeptic-figure-sm" viewBox="0 0 240 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
+<g transform="translate(120,140)">
+<!-- Avatar circle -->
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<!-- shoulders -->
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<!-- hood -->
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g>
+<!-- Long torso & legs extending down -->
+<g transform="translate(120,260)">
+<!-- Torso -->
+<path d="M-65,0 L-55,200 L-25,300 L-25,500 L25,500 L25,300 L55,200 L65,0 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Centerline -->
+<line x1="0" y1="0" x2="0" y2="500" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Arms hanging -->
+<path d="M-65,0 L-90,80 L-92,200 L-78,205 L-58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<path d="M65,0 L90,80 L92,200 L78,205 L58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Hand hints -->
+<ellipse cx="-85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<!-- Pocket hint on torso -->
+<path d="M-30,80 L30,80 L25,140 L-25,140 Z" fill="none" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Belt line -->
+<line x1="-50" y1="200" x2="50" y2="200" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Leg seams -->
+<line x1="-20" y1="310" x2="-22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<line x1="20" y1="310" x2="22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Shoes -->
+<ellipse cx="-22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+</g>
+</svg>
   </div>
   <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-h">Back</button>
 </div>
@@ -1025,6 +1200,174 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
   <button class="btn btn-ghost" onclick="olLeave()" style="margin-top:.6rem">Main Menu</button>
 </div>
 
+
+<!-- ABOUT screen -->
+<div class="screen" id="s-about">
+  <div class="top-bar"><svg class="svg-logo" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(120,140)">
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<path d="M-26,-42 Q0,-36 26,-42 L26,-32 Q0,-28 -26,-32 Z" fill="#000" opacity=".95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g></svg><button class="lang-btn" onclick="toggleLang()" id="t-lang-a">عربي</button></div>
+  <div style="text-align:center;margin:1rem 0">
+    <svg class="skeptic-figure-md" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(100,170)">
+<ellipse cx="0" cy="40" rx="120" ry="160" fill="#c8922a" opacity=".06"/>
+<path d="M-58,40 Q-62,30 -55,15 L-50,-20 Q-48,-32 -38,-38 L38,-38 Q48,-32 50,-20 L55,15 Q62,30 58,40 L60,180 L-60,180 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<path d="M-30,80 L30,80 L25,130 L-25,130 Z" fill="none" stroke="#c8922a" stroke-width="1" opacity=".75"/>
+<line x1="-28" y1="105" x2="28" y2="105" stroke="#c8922a" stroke-width="0.8" opacity=".55"/>
+<line x1="0" y1="-30" x2="0" y2="180" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<path d="M-8,-20 Q-12,0 -10,30" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M8,-20 Q12,0 10,30" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-10" cy="32" r="2" fill="#e0aa44"/>
+<circle cx="10" cy="32" r="2" fill="#e0aa44"/>
+<path d="M-50,-20 Q-58,-50 -45,-75 Q-30,-100 0,-100 Q30,-100 45,-75 Q58,-50 50,-20 Q40,-30 0,-30 Q-40,-30 -50,-20 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-40,-28 Q-30,-42 0,-42 Q30,-42 40,-28" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-55" rx="32" ry="38" fill="#000"/>
+<path d="M-28,-58 Q0,-65 28,-58 L26,-52 Q0,-58 -26,-52 Z" fill="#000" stroke="#c8922a" stroke-width="0.9"/>
+<path d="M-22,-52 Q0,-46 22,-52 L22,-44 Q0,-40 -22,-44 Z" fill="#000" opacity=".95"/>
+<ellipse cx="-7" cy="-49" rx="1.5" ry="0.7" fill="#e0aa44" opacity=".5"/>
+<ellipse cx="7" cy="-49" rx="1.5" ry="0.7" fill="#e0aa44" opacity=".5"/>
+</g></svg>
+  </div>
+  <div class="card">
+    <div class="ctitle" id="t-about-title">About The Skeptic</div>
+    <div id="t-about-body" style="color:var(--ink2);font-size:.92rem;line-height:1.85"></div>
+  </div>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-a">← Back</button>
+</div>
+
+<!-- TERMS screen -->
+<div class="screen" id="s-terms">
+  <div class="top-bar"><svg class="svg-logo" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(120,140)">
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<path d="M-26,-42 Q0,-36 26,-42 L26,-32 Q0,-28 -26,-32 Z" fill="#000" opacity=".95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g></svg><button class="lang-btn" onclick="toggleLang()" id="t-lang-t">عربي</button></div>
+  <div class="figure-row" style="margin-top:.5rem">
+    <svg class="skeptic-figure-sm" viewBox="0 0 240 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
+<g transform="translate(120,140)">
+<!-- Avatar circle -->
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<!-- shoulders -->
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<!-- hood -->
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g>
+<!-- Long torso & legs extending down -->
+<g transform="translate(120,260)">
+<!-- Torso -->
+<path d="M-65,0 L-55,200 L-25,300 L-25,500 L25,500 L25,300 L55,200 L65,0 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Centerline -->
+<line x1="0" y1="0" x2="0" y2="500" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Arms hanging -->
+<path d="M-65,0 L-90,80 L-92,200 L-78,205 L-58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<path d="M65,0 L90,80 L92,200 L78,205 L58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Hand hints -->
+<ellipse cx="-85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<!-- Pocket hint on torso -->
+<path d="M-30,80 L30,80 L25,140 L-25,140 Z" fill="none" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Belt line -->
+<line x1="-50" y1="200" x2="50" y2="200" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Leg seams -->
+<line x1="-20" y1="310" x2="-22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<line x1="20" y1="310" x2="22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Shoes -->
+<ellipse cx="-22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+</g>
+</svg>
+    <div class="content-block">
+      <div class="card">
+        <div class="ctitle" id="t-terms-title">Terms & Privacy</div>
+        <div id="t-terms-body" style="color:var(--ink2);font-size:.9rem;line-height:1.8"></div>
+      </div>
+    </div>
+    <svg class="skeptic-figure-sm" viewBox="0 0 240 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
+<g transform="translate(120,140)">
+<!-- Avatar circle -->
+<circle cx="0" cy="0" r="120" fill="#161210" stroke="#c8922a" stroke-width="1.8"/>
+<circle cx="0" cy="0" r="112" fill="none" stroke="#e0aa44" stroke-width="0.5" opacity=".4"/>
+<ellipse cx="0" cy="50" rx="90" ry="60" fill="#c8922a" opacity=".06"/>
+<!-- shoulders -->
+<path d="M-90,120 L-75,30 Q-72,5 -55,-5 L55,-5 Q72,5 75,30 L90,120 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.3"/>
+<!-- hood -->
+<path d="M-65,-5 Q-78,-45 -60,-72 Q-38,-100 0,-100 Q38,-100 60,-72 Q78,-45 65,-5 Q50,-18 0,-18 Q-50,-18 -65,-5 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.4"/>
+<path d="M-52,-15 Q-42,-32 0,-32 Q42,-32 52,-15" fill="none" stroke="#c8922a" stroke-width="0.9" opacity=".6"/>
+<ellipse cx="0" cy="-48" rx="38" ry="42" fill="#000"/>
+<path d="M-32,-50 Q0,-58 32,-50 L30,-42 Q0,-50 -30,-42 Z" fill="#000" stroke="#c8922a" stroke-width="0.95"/>
+<ellipse cx="-8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<ellipse cx="8" cy="-44" rx="1.8" ry="0.9" fill="#e0aa44" opacity=".55"/>
+<path d="M-9,-18 Q-13,5 -11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<path d="M9,-18 Q13,5 11,40" fill="none" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+<circle cx="-11" cy="42" r="2.2" fill="#e0aa44"/>
+<circle cx="11" cy="42" r="2.2" fill="#e0aa44"/>
+</g>
+<!-- Long torso & legs extending down -->
+<g transform="translate(120,260)">
+<!-- Torso -->
+<path d="M-65,0 L-55,200 L-25,300 L-25,500 L25,500 L25,300 L55,200 L65,0 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Centerline -->
+<line x1="0" y1="0" x2="0" y2="500" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Arms hanging -->
+<path d="M-65,0 L-90,80 L-92,200 L-78,205 L-58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<path d="M65,0 L90,80 L92,200 L78,205 L58,90 Z" fill="#0a0807" stroke="#c8922a" stroke-width="1.2"/>
+<!-- Hand hints -->
+<ellipse cx="-85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="85" cy="210" rx="9" ry="7" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<!-- Pocket hint on torso -->
+<path d="M-30,80 L30,80 L25,140 L-25,140 Z" fill="none" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Belt line -->
+<line x1="-50" y1="200" x2="50" y2="200" stroke="#c8922a" stroke-width="0.7" opacity=".5"/>
+<!-- Leg seams -->
+<line x1="-20" y1="310" x2="-22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<line x1="20" y1="310" x2="22" y2="490" stroke="#c8922a" stroke-width="0.5" opacity=".35"/>
+<!-- Shoes -->
+<ellipse cx="-22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+<ellipse cx="22" cy="510" rx="14" ry="6" fill="#0a0807" stroke="#c8922a" stroke-width="0.9"/>
+</g>
+</svg>
+  </div>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-t">← Back</button>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -1082,6 +1425,12 @@ en:{
   local_title:'Local',local_sub:'Pass the phone. No internet needed.',
   online_title:'Online',online_sub:'Each player on their own phone.',
   howto:'How to play',howto_title:'How to Play',
+  
+  about_title:'About The Skeptic',
+  about_body:'<p><strong>The Skeptic</strong> is a social deduction game built for friends. One player is secretly the spy. The others all share a secret word. Through conversation, the innocents try to expose the spy — and the spy tries to blend in long enough to survive the vote.</p><br><p>Built by <strong>Waleed Elhadi</strong> as a personal project, designed for couches, road trips, and group chats. No accounts, no ads, no tracking.</p><br><p>Two ways to play: <em>Local</em> (pass one phone around) or <em>Online</em> (each player on their own device, joined through a 4-letter room code).</p>',
+  terms_title:'Terms & Privacy',
+  terms_body:'<p><strong>What we collect:</strong> Nothing. No accounts, no analytics, no tracking pixels. Your name only exists during the room session and is forgotten when you leave.</p><br><p><strong>Online rooms:</strong> Held in temporary memory on the game server. When everyone disconnects, the room and all its data are deleted within 10 minutes.</p><br><p><strong>Custom words:</strong> Stay on your device. Only shared with players in your current room.</p><br><p><strong>Adults category:</strong> Intended for players 18+ — contains suggestive (not explicit) content. Skip it if not appropriate for your group.</p><br><p><strong>Liability:</strong> The Skeptic is provided as-is for entertainment. The developer is not responsible for game outcomes, hurt feelings, or revealed secrets.</p><br><p style="color:var(--ink3);font-size:.8rem">© Waleed Elhadi · waleedelhadi.com</p>',
+  about:'About', terms:'Terms',
   howto_body:'<b>Setup:</b> Add players and pick a category.<br><br><b>Pass & reveal (Local):</b> Pass the phone to each player. Innocents see the word. Spies see only the category name.<br><br><b>Online reveal:</b> Each player sees their role on their own phone automatically.<br><br><b>Discussion:</b> Take turns asking questions. Spies must blend in.<br><br><b>Voting:</b> Vote for who you think is the spy. You cannot vote for yourself.<br><br><b>Spy guess:</b> If caught, the spy picks from 6 options to try to steal the win.<br><br><b>Chaos mode:</b> Everything is random — category, word, spy count. Nobody knows anything.',
   s_players:'Players',player_ph:'Player name...',add:'Add',
   s_cat:'Category',custom_hint:'Separate with commas. Min 3 words.',
@@ -1120,6 +1469,12 @@ ar:{
   local_title:'محلي',local_sub:'مرّر الهاتف. لا إنترنت مطلوب.',
   online_title:'أونلاين',online_sub:'كل لاعب على هاتفه.',
   howto:'طريقة اللعب',howto_title:'طريقة اللعب',
+  
+  about_title:'عن المتشكك',
+  about_body:'<p><strong>المتشكك</strong> لعبة استنتاج اجتماعية للأصدقاء. أحد اللاعبين هو الجاسوس سراً. والباقي يعرفون الكلمة السرية. من خلال الحوار، يحاول الأبرياء كشف الجاسوس — والجاسوس يحاول الاندماج حتى ينجو من التصويت.</p><br><p>طوّرها <strong>وليد الهادي</strong> كمشروع شخصي، مصممة للاستراحات والرحلات والمحادثات الجماعية. لا حسابات، لا إعلانات، لا تتبع.</p><br><p>طريقتان للعب: <em>محلي</em> (تمرير هاتف واحد) أو <em>أونلاين</em> (كل لاعب على هاتفه، يدخلون برمز غرفة من 4 أحرف).</p>',
+  terms_title:'الشروط والخصوصية',
+  terms_body:'<p><strong>ما نجمعه:</strong> لا شيء. لا حسابات، لا تحليلات، لا تتبع. اسمك يوجد فقط أثناء جلسة الغرفة ويُنسى عند مغادرتك.</p><br><p><strong>الغرف الأونلاين:</strong> محفوظة مؤقتاً في ذاكرة الخادم. عندما يغادر الجميع، تُحذف الغرفة وبياناتها خلال 10 دقائق.</p><br><p><strong>الكلمات المخصصة:</strong> تبقى على جهازك. تُشارك فقط مع لاعبي غرفتك الحالية.</p><br><p><strong>فئة الكبار:</strong> مخصصة لمن هم فوق 18 — تحتوي محتوى موحٍ (وليس صريحاً). تخطّاها إذا لم تكن مناسبة لمجموعتك.</p><br><p><strong>المسؤولية:</strong> اللعبة مقدمة كما هي للترفيه. المطوّر غير مسؤول عن نتائج اللعبة أو المشاعر أو الأسرار المكشوفة.</p><br><p style="color:var(--ink3);font-size:.8rem">© وليد الهادي · waleedelhadi.com</p>',
+  about:'عن', terms:'الشروط',
   howto_body:'<b>الإعداد:</b> أضف اللاعبين واختر فئة.<br><br><b>كشف الأدوار (محلي):</b> مرّر الهاتف لكل لاعب. الأبرياء يرون الكلمة. الجواسيس يرون اسم الفئة فقط.<br><br><b>أونلاين:</b> كل لاعب يرى دوره على هاتفه تلقائياً.<br><br><b>النقاش:</b> تناوب في طرح الأسئلة. يجب أن يندمج الجواسيس.<br><br><b>التصويت:</b> صوّت على من تعتقد أنه الجاسوس. لا يمكنك التصويت لنفسك.<br><br><b>تخمين الجاسوس:</b> إذا تم القبض عليه، يختار من 6 خيارات للفوز.<br><br><b>وضع الفوضى:</b> كل شيء عشوائي — لا أحد يعرف أي شيء.',
   s_players:'اللاعبون',player_ph:'اسم اللاعب...',add:'أضف',
   s_cat:'الفئة',custom_hint:'افصل بفواصل. الحد الأدنى 3 كلمات.',
@@ -1171,13 +1526,32 @@ function T(k){return TR[lang][k]||TR.en[k]||k;}
 // ═══════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════
+// Screen history for Android back gesture
+window._screenHistory=[];
 function go(id){
+  const cur=document.querySelector('.screen.active');
+  if(cur&&cur.id!==id) window._screenHistory.push(cur.id);
+  if(window._screenHistory.length>20) window._screenHistory.shift();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.getElementById(id)&&document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
-  SFX.page();
+  if(typeof SFX!=='undefined') SFX.page();
+  if(id==='s-about'||id==='s-terms'||id==='s-howto') applyLang();
 }
 function activeScreen(){const s=document.querySelector('.screen.active');return s?s.id:'';}
+function goBack(){
+  while(window._screenHistory.length>0){
+    var prev=window._screenHistory.pop();
+    var cur=document.querySelector('.screen.active');
+    if(cur&&prev!==cur.id&&document.getElementById(prev)){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+      document.getElementById(prev).classList.add('active');
+      window.scrollTo(0,0);
+      return true;
+    }
+  }
+  return false;
+}
 
 // ═══════════════════════════════════════════
 // LANGUAGE
@@ -1209,6 +1583,10 @@ const TMAP={
   't-ol-phase':'phase','t-ol-game-cat':'game_cat','t-ol-my-role':'your_name','t-ol-order':'order_lbl',
   't-ol-vote-title':'vote_title','t-ol-vote-sub':'ol_vote_sub',
   't-ol-sg-title':'sg_title','t-ol-sg-sub':'sg_sub','t-ol-sg-pick':'sg_pick','t-ol-sg-skip':'sg_skip',
+  't-about-title':'about_title','t-about-body':'about_body',
+  't-terms-title':'terms_title','t-terms-body':'terms_body',
+  't-about-link':'about','t-terms-link':'terms','t-howto-link':'howto',
+  't-back-a':'back','t-back-t':'back','t-lang-a':'lang','t-lang-t':'lang',
 };
 
 function applyLang(){
@@ -1226,6 +1604,24 @@ function applyLang(){
   populateCatSelect('ol-cat-sel');
 }
 
+
+
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  const next=cur==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',next);
+  document.querySelectorAll('.theme-btn').forEach(b=>b.textContent=next==='light'?'☾':'☀');
+  try{localStorage.setItem('skeptic-theme',next);}catch(e){}
+  if(typeof SFX!=='undefined') SFX.tap();
+}
+// Load saved theme
+try{
+  const saved=localStorage.getItem('skeptic-theme');
+  if(saved){
+    document.documentElement.setAttribute('data-theme',saved);
+    setTimeout(()=>{document.querySelectorAll('.theme-btn').forEach(b=>b.textContent=saved==='light'?'☾':'☀');},0);
+  }
+}catch(e){}
 
 function toggleMute(){
   const on=!SFX.isEnabled();
