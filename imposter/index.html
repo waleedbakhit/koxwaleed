@@ -26,6 +26,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16p
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
 .logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--gold2)}
 .lang-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .9rem;font-size:.78rem;color:var(--ink2);cursor:pointer;font-family:var(--sans)}
+.mute-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.8rem;padding:.3rem .5rem;font-family:var(--sans);opacity:.7;transition:opacity .2s}
+.mute-btn:hover{opacity:1}
 .home-btn{background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:.35rem .85rem;font-size:.75rem;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
 
 .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;margin-bottom:.9rem}
@@ -331,6 +333,7 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
+    <button class="mute-btn" onclick="toggleMute()" title="Toggle sound">♪</button>
   </div>
 
   <!-- Content -->
@@ -1172,6 +1175,7 @@ function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
+  SFX.page();
 }
 function activeScreen(){const s=document.querySelector('.screen.active');return s?s.id:'';}
 
@@ -1222,6 +1226,13 @@ function applyLang(){
   populateCatSelect('ol-cat-sel');
 }
 
+
+function toggleMute(){
+  const on=!SFX.isEnabled();
+  SFX.toggle(on);
+  document.querySelectorAll('.mute-btn').forEach(b=>b.textContent=on?'♪':'♪̶');
+  if(on) SFX.tap();
+}
 function toggleLang(){lang=lang==='en'?'ar':'en';applyLang();}
 function olToggleLang(){lang=lang==='en'?'ar':'en';applyLang();if(socket)socket.emit('set_lang',{code:olRoom,lang});}
 
@@ -1352,6 +1363,7 @@ function showLocalPass(){
 function revealRole(){
   const name=gs.order[gs.cur];
   const isSpy=gs.roles[name].isSpy;
+  // No sound here — friends are watching, different sounds reveal the role
   document.getElementById('role-content').innerHTML=roleHTML(name,isSpy,gs.word,gs.category);
   document.getElementById('t-done-role').textContent=T('done_role');
   go('s-role');
@@ -1441,6 +1453,7 @@ function renderLocalVoteScreen(){
   document.getElementById('t-vote-sub').textContent=T('vote_sub');
   document.getElementById('t-change-vote').textContent=T('change_vote');
   document.getElementById('t-next-voter').textContent=T('next_voter');
+  SFX.vote();
   document.getElementById('t-next-voter').disabled=!gs.votes[voter];
   renderLocalVoteBtns(voter);
 }
@@ -1568,6 +1581,9 @@ function resultHTML(type,elim,spyNames,word,guess,cat){
 }
 
 function showLocalResult({type,elim,spyNames,guess}){
+  if(type==='caught'||type==='spy_wrong') SFX.win();
+  else if(type==='escaped'||type==='spy_right') SFX.lose();
+  else SFX.neutral();
   document.getElementById('result-content').innerHTML=resultHTML(type,elim,spyNames,gs.word,guess,gs.category);
   document.getElementById('t-play-again').textContent=T('play_again');
   document.getElementById('t-menu').textContent=T('menu');
@@ -1699,6 +1715,7 @@ function olOnReveal(data){
   socket.emit('get_my_role',{code:olRoom},res=>{
     if(!res||!res.ok){toast('Could not get role','err');return;}
     olMyRole=res;
+    if(res.isSpy) SFX.spy(); else SFX.reveal();
     document.getElementById('ol-role-content').innerHTML=roleHTML(res.name,res.isSpy,res.word,res.category||data.category);
     document.getElementById('t-ol-role-inst').textContent=T('ol_role_inst');
     const btn=document.getElementById('ol-ready-btn');
@@ -1778,6 +1795,7 @@ function renderOlVoteOptions(){
 function olSelectVote(target){
   if(olVoteSubmitted)return;
   olMyVote=target;
+  SFX.tap();
   renderOlVoteOptions();
   document.getElementById('ol-submit-btn').disabled=false;
 }
@@ -1791,6 +1809,7 @@ function olClearVote(){
 function olSubmitVote(){
   if(!olMyVote||olVoteSubmitted)return;
   olVoteSubmitted=true;
+  SFX.vote();
   socket.emit('cast_vote',{code:olRoom,target:olMyVote});
   document.getElementById('ol-prevote').style.display='none';
   document.getElementById('ol-postvote').style.display='block';
@@ -1818,6 +1837,7 @@ function olOnVoteCast(data){
   const waitMsg=document.getElementById('ol-vote-wait-msg');
   if(waitMsg) waitMsg.textContent=`${total}/${olVoteOrder.length} voted`;
   // Show confirm to host when all voted
+  if(total>=olVoteOrder.length) SFX.allVoted();
   if(olIsHost&&total>=olVoteOrder.length){
     const confirmBtn=document.getElementById('ol-confirm-btn');
     if(confirmBtn) confirmBtn.style.display='flex';
@@ -1876,6 +1896,9 @@ function olOnVoteResult(data){
   else type='escaped';
 
   const guess=(data.spyGuess&&data.spyGuess!=='__skip__')?data.spyGuess:null;
+  if(type==='caught'||type==='spy_wrong') SFX.win();
+  else if(type==='escaped'||type==='spy_right') SFX.lose();
+  else SFX.neutral();
   document.getElementById('ol-result-content').innerHTML=
     resultHTML(type,data.eliminated,data.spyNames,data.word,guess,null);
 
@@ -1885,6 +1908,98 @@ function olOnVoteResult(data){
 }
 
 function olNewRound(){socket.emit('new_round',{code:olRoom});}
+
+
+// ═══════════════════════════════════════════
+// SOUND ENGINE (Web Audio API — no files)
+// ═══════════════════════════════════════════
+const SFX = (() => {
+  let ctx = null;
+  let enabled = true;
+
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  function tone(freq, type, duration, vol, delay=0, fadeOut=true) {
+    if (!enabled) return;
+    try {
+      const ac = getCtx();
+      const osc = ac.createOscillator();
+      const gain = ac.createGain();
+      osc.connect(gain);
+      gain.connect(ac.destination);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ac.currentTime + delay);
+      gain.gain.setValueAtTime(0, ac.currentTime + delay);
+      gain.gain.linearRampToValueAtTime(vol, ac.currentTime + delay + 0.01);
+      if (fadeOut) gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + duration);
+      osc.start(ac.currentTime + delay);
+      osc.stop(ac.currentTime + delay + duration + 0.05);
+    } catch(e) {}
+  }
+
+  return {
+    // Very soft page transition click
+    page() {
+      tone(320, 'sine', 0.06, 0.04);
+    },
+
+    // Subtle tap when adding a player or selecting
+    tap() {
+      tone(480, 'sine', 0.08, 0.05);
+    },
+
+    // Vote cast — gentle confirm
+    vote() {
+      tone(520, 'sine', 0.12, 0.06);
+      tone(640, 'sine', 0.1,  0.04, 0.1);
+    },
+
+    // All voted — tension build (two low tones)
+    allVoted() {
+      tone(260, 'sine', 0.18, 0.07);
+      tone(300, 'sine', 0.15, 0.05, 0.15);
+    },
+
+    // Win / spies caught — ascending chime
+    win() {
+      tone(440, 'sine', 0.18, 0.08);
+      tone(554, 'sine', 0.18, 0.08, 0.15);
+      tone(660, 'sine', 0.28, 0.08, 0.30);
+    },
+
+    // Lose / spy escaped — descending soft tones
+    lose() {
+      tone(440, 'sine', 0.18, 0.07);
+      tone(370, 'sine', 0.18, 0.06, 0.18);
+      tone(294, 'sine', 0.28, 0.06, 0.36);
+    },
+
+    // Neutral / tie
+    neutral() {
+      tone(400, 'sine', 0.15, 0.06);
+      tone(400, 'sine', 0.2,  0.04, 0.2);
+    },
+
+    // Role reveal — mysterious low tone
+    reveal() {
+      tone(220, 'sine', 0.3, 0.06);
+      tone(330, 'sine', 0.2, 0.04, 0.2);
+    },
+
+    // Spy identity — tense low pulse
+    spy() {
+      tone(180, 'sine', 0.25, 0.07);
+      tone(160, 'sine', 0.3,  0.05, 0.22);
+    },
+
+    toggle(on) { enabled = on; },
+    isEnabled() { return enabled; }
+  };
+})();
 
 // ═══════════════════════════════════════════
 // TOAST
