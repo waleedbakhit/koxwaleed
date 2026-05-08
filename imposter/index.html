@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Imposter</title>
+<title>The Skeptic</title>
 <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -152,6 +152,12 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 .pchip .dot.off{background:var(--ink3)}
 .rcode{font-family:var(--serif);font-size:3rem;font-weight:700;letter-spacing:.2em;color:var(--gold3);text-align:center;padding:.75rem 0}
 
+
+
+/* Inline SVG logo */
+.svg-logo{display:inline-block;height:32px;width:auto;vertical-align:middle}
+.svg-logo-hero{display:block;height:220px;width:160px;margin:0 auto;filter:drop-shadow(0 0 18px rgba(200,146,42,.18))}
+.svg-logo-lg{display:block;height:56px;width:auto;margin:0 auto 1rem}
 
 /* ── Cinematic landing hero ─────────────────────────── */
 #s-land{padding:0;overflow:hidden;position:relative}
@@ -304,14 +310,60 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 
   <!-- Nav -->
   <div class="top-bar">
-    <span class="logo" id="t-logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
   </div>
 
   <!-- Content -->
   <div class="hero-content">
-    <div class="hero-eyebrow">Social Deduction Game</div>
-    <div class="hero-main-title" id="t-land-title">Imposter</div>
+    <svg class="svg-logo-hero" viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(80,100)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="5" ry="8" stroke="#c8922a" stroke-width="2" opacity=".9"/>
+<path d="M-10,-16 C-5,-24 5,-24 10,-16 C14,-8 14,8 10,16 C5,24 -5,24 -10,16" stroke="#c8922a" stroke-width="1.9" opacity=".8"/>
+<path d="M-10,-16 C-15,-8 -15,8 -10,16" stroke="#c8922a" stroke-width="1.9" opacity=".75"/>
+<path d="M-20,-28 C-10,-42 10,-42 20,-28" stroke="#c8922a" stroke-width="1.7" opacity=".62"/>
+<path d="M-20,28 C-10,42 10,42 20,28" stroke="#c8922a" stroke-width="1.7" opacity=".52"/>
+<path d="M20,-28 C26,-18 26,18 20,28" stroke="#c8922a" stroke-width="1.7" opacity=".16"/>
+<path d="M-20,-28 C-26,-18 -26,18 -20,28" stroke="#c8922a" stroke-width="1.7" opacity=".6"/>
+<path d="M-30,-40 C-14,-60 14,-60 30,-40" stroke="#c8922a" stroke-width="1.5" opacity=".42"/>
+<path d="M-30,40 C-14,60 14,60 30,40" stroke="#c8922a" stroke-width="1.5" opacity=".32"/>
+<path d="M-30,-40 C-38,-24 -38,24 -30,40" stroke="#c8922a" stroke-width="1.5" opacity=".48"/>
+<path d="M30,-40 C36,-26 36,-8 34,6" stroke="#c8922a" stroke-width="1.5" opacity=".11"/>
+<path d="M-14,-64 C-4,-70 8,-69 20,-63" stroke="#c8922a" stroke-width="1.3" opacity=".28"/>
+<path d="M-38,-28 C-46,-12 -46,16 -38,32" stroke="#c8922a" stroke-width="1.3" opacity=".32"/>
+<path d="M-28,52 C-14,64 2,68 16,63" stroke="#c8922a" stroke-width="1.3" opacity=".18"/>
+<path d="M-8,-74 C2,-78 14,-76 24,-70" stroke="#c8922a" stroke-width="1.1" opacity=".13"/>
+<path d="M-46,-14 C-52,2 -50,20 -44,34" stroke="#c8922a" stroke-width="1.1" opacity=".15"/>
+<circle cx="33" cy="14"  r="1.6" fill="#c8922a" opacity=".2"/>
+<circle cx="35" cy="24"  r="1.2" fill="#c8922a" opacity=".13"/>
+<circle cx="33" cy="34"  r=".9"  fill="#c8922a" opacity=".08"/>
+<circle cx="30" cy="-20" r="1.4" fill="#c8922a" opacity=".15"/>
+<circle cx="26" cy="-30" r="1"   fill="#c8922a" opacity=".09"/>
+<circle cx="18" cy="66"  r="1.2" fill="#c8922a" opacity=".11"/>
+<circle cx="6"  cy="70"  r=".9"  fill="#c8922a" opacity=".07"/>
+</g>
+<text x="80" y="174" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" letter-spacing="5" fill="#5a4c38">THE</text>
+<text x="80" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="28" font-weight="700" letter-spacing="3" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <p class="hero-tagline" id="t-land-sub">Find the spy — or be one.</p>
     <div class="hero-mode-btns">
       <div class="hero-mode-btn" onclick="startLocal()">
@@ -330,7 +382,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- HOW TO PLAY -->
 <div class="screen" id="s-howto">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang2">عربي</button>
   </div>
   <div class="card">
@@ -343,7 +414,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL SETUP -->
 <div class="screen" id="s-setup">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <div style="display:flex;gap:.5rem">
       <button class="home-btn" onclick="go('s-land')" id="t-home-s">Home</button>
       <button class="lang-btn" onclick="toggleLang()" id="t-lang3">عربي</button>
@@ -369,7 +459,7 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
   </div>
 
   <div class="card">
-    <div class="ctitle" id="t-s-imp">Imposter Settings</div>
+    <div class="ctitle" id="t-s-imp">Spy Settings</div>
     <div class="srow">
       <span class="slbl" id="t-lbl-mode">Mode</span>
       <div class="seg">
@@ -381,7 +471,7 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
       </div>
     </div>
     <div class="srow" id="count-row">
-      <span class="slbl" id="t-lbl-count">Imposters</span>
+      <span class="slbl" id="t-lbl-count">Spies</span>
       <div style="display:flex;align-items:center;gap:.75rem">
         <button class="btn btn-ghost btn-sm" onclick="adjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
         <span id="imp-count" style="font-size:1.2rem;font-weight:700;color:var(--gold3);min-width:20px;text-align:center">1</span>
@@ -406,7 +496,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: PASS PHONE -->
 <div class="screen" id="s-pass">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="endGame()" id="t-home-p">Home</button>
   </div>
   <div class="pass-center">
@@ -421,7 +530,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: ROLE REVEAL -->
 <div class="screen" id="s-role">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="endGame()" id="t-home-r">Home</button>
   </div>
   <div id="role-content"></div>
@@ -431,7 +559,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: GAME / TIMER -->
 <div class="screen" id="s-game">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="endGame()" id="t-home-g">Home</button>
   </div>
   <div class="tcenter">
@@ -458,12 +605,31 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: VOTING -->
 <div class="screen" id="s-vote">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="endGame()" id="t-home-v">Home</button>
   </div>
   <div style="background:var(--bg3);border:1px solid var(--gold);border-radius:10px;padding:.75rem 1rem;text-align:center;margin-bottom:.75rem;font-size:.88rem;color:var(--gold3)" id="voter-prompt"></div>
   <div class="card" style="text-align:center;padding:.9rem">
-    <div class="ctitle" id="t-vote-title">Who is the Imposter?</div>
+    <div class="ctitle" id="t-vote-title">Who is the Spy?</div>
     <p style="color:var(--ink2);font-size:.85rem" id="t-vote-sub">Tap to vote. You cannot vote for yourself.</p>
   </div>
   <div class="vgrid" id="vote-grid"></div>
@@ -476,7 +642,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: SPY GUESS -->
 <div class="screen" id="s-spyguess">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="endGame()" id="t-home-sg">Home</button>
   </div>
   <div style="text-align:center;padding:1rem 0">
@@ -494,7 +679,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- LOCAL: RESULT -->
 <div class="screen" id="s-result">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="go('s-land')" id="t-home-res">Home</button>
   </div>
   <div id="result-content"></div>
@@ -505,7 +709,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: ENTRY -->
 <div class="screen" id="s-ol-entry">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <div style="display:flex;gap:.5rem">
       <button class="home-btn" onclick="go('s-land')">Home</button>
       <button class="lang-btn" onclick="toggleLang()" id="t-lang-o">عربي</button>
@@ -528,7 +751,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: LOBBY -->
 <div class="screen" id="s-ol-lobby">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <div style="display:flex;gap:.5rem">
       <button class="home-btn" onclick="olLeave()">Home</button>
       <button class="lang-btn" onclick="olToggleLang()" id="t-lang-ol">عربي</button>
@@ -562,7 +804,7 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
         </div>
       </div>
       <div class="srow" id="ol-count-row">
-        <span class="slbl" id="t-ol-count">Imposters</span>
+        <span class="slbl" id="t-ol-count">Spies</span>
         <div style="display:flex;align-items:center;gap:.75rem">
           <button class="btn btn-ghost btn-sm" onclick="olAdjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
           <span id="ol-imp-count" style="font-size:1.2rem;font-weight:700;color:var(--gold3);min-width:20px;text-align:center">1</span>
@@ -587,7 +829,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: ROLE REVEAL -->
 <div class="screen" id="s-ol-role">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div id="ol-role-content"></div>
@@ -600,7 +861,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: GAME / TIMER -->
 <div class="screen" id="s-ol-game">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div class="tcenter">
@@ -631,11 +911,30 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: VOTING (each player on own device) -->
 <div class="screen" id="s-ol-vote">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div class="card" style="text-align:center;padding:.9rem">
-    <div class="ctitle" id="t-ol-vote-title">Who is the Imposter?</div>
+    <div class="ctitle" id="t-ol-vote-title">Who is the Spy?</div>
     <p style="color:var(--ink2);font-size:.85rem" id="t-ol-vote-sub">Tap who you think is the spy.</p>
   </div>
   <!-- Before submitting -->
@@ -659,7 +958,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: SPY GUESS -->
 <div class="screen" id="s-ol-spyguess">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div style="text-align:center;padding:1rem 0">
@@ -677,7 +995,26 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <!-- ONLINE: RESULT -->
 <div class="screen" id="s-ol-result">
   <div class="top-bar">
-    <span class="logo">Imposter</span>
+    <svg class="svg-logo" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(16,18)" fill="none" stroke-linecap="round">
+<ellipse cx="0" cy="0" rx="3" ry="5" stroke="#c8922a" stroke-width="1.6" opacity=".9"/>
+<path d="M-6,-10 C-3,-15 3,-15 6,-10 C8,-5 8,5 6,10 C3,15 -3,15 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".78"/>
+<path d="M-6,-10 C-9,-5 -9,5 -6,10" stroke="#c8922a" stroke-width="1.4" opacity=".75"/>
+<path d="M-12,-17 C-6,-26 6,-26 12,-17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-12,17 C-6,26 6,26 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".45"/>
+<path d="M12,-17 C16,-10 16,10 12,17" stroke="#c8922a" stroke-width="1.3" opacity=".14"/>
+<path d="M-12,-17 C-16,-10 -16,10 -12,17" stroke="#c8922a" stroke-width="1.3" opacity=".55"/>
+<path d="M-18,-23 C-8,-35 8,-35 18,-23" stroke="#c8922a" stroke-width="1.1" opacity=".35"/>
+<path d="M-18,23 C-8,35 8,35 18,23" stroke="#c8922a" stroke-width="1.1" opacity=".25"/>
+<path d="M-18,-23 C-23,-14 -23,14 -18,23" stroke="#c8922a" stroke-width="1.1" opacity=".38"/>
+<path d="M18,-23 C21,-16 21,-6 20,2" stroke="#c8922a" stroke-width="1.1" opacity=".1"/>
+<circle cx="20" cy="8"  r="1" fill="#c8922a" opacity=".18"/>
+<circle cx="19" cy="14" r=".7" fill="#c8922a" opacity=".11"/>
+<circle cx="17" cy="20" r=".5" fill="#c8922a" opacity=".07"/>
+</g>
+<text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
+<text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
+</svg>
     <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div id="ol-result-content"></div>
@@ -738,14 +1075,14 @@ function catLabel(key){ return (CAT_DISPLAY[lang]||CAT_DISPLAY.en)[key]||key; }
 // ═══════════════════════════════════════════
 const TR={
 en:{
-  logo:'Imposter',land_title:'Imposter',land_sub:'Find the spy — or be one.',
+  logo:'The Skeptic',land_title:'The Skeptic',land_sub:'Find the spy — or be one.',
   local_title:'Local',local_sub:'Pass the phone. No internet needed.',
   online_title:'Online',online_sub:'Each player on their own phone.',
   howto:'How to play',howto_title:'How to Play',
   howto_body:'<b>Setup:</b> Add players and pick a category.<br><br><b>Pass & reveal (Local):</b> Pass the phone to each player. Innocents see the word. Spies see only the category name.<br><br><b>Online reveal:</b> Each player sees their role on their own phone automatically.<br><br><b>Discussion:</b> Take turns asking questions. Spies must blend in.<br><br><b>Voting:</b> Vote for who you think is the spy. You cannot vote for yourself.<br><br><b>Spy guess:</b> If caught, the spy picks from 6 options to try to steal the win.<br><br><b>Chaos mode:</b> Everything is random — category, word, spy count. Nobody knows anything.',
   s_players:'Players',player_ph:'Player name...',add:'Add',
   s_cat:'Category',custom_hint:'Separate with commas. Min 3 words.',
-  s_imp:'Imposter Settings',lbl_mode:'Mode',lbl_count:'Imposters',lbl_timer:'Timer',
+  s_imp:'Spy Settings',lbl_mode:'Mode',lbl_count:'Spies',lbl_timer:'Timer',
   m_fixed:'Fixed',m_rand:'15%',m_none:'None',m_all:'All',m_chaos:'Chaos',
   chaos_desc:'Chaos Mode — nobody knows anything, not even the host.',
   t2:'2m',t5:'5m',t8:'8m',t10:'10m',start:'Start Game',back:'Back',
@@ -755,7 +1092,7 @@ en:{
   the_word:'The word is:',spy_hint:'Your hint (category only):',spy_tip:"Blend in. Don't reveal you don't know the word.",
   done_role:'Done — hide my role',
   game_cat:'Category',order_lbl:'Turn Order',go_vote:'Start Voting',
-  vote_title:'Who is the Imposter?',vote_sub:"Tap to vote. You can't vote for yourself.",
+  vote_title:'Who is the Spy?',vote_sub:"Tap to vote. You can't vote for yourself.",
   change_vote:'Change',next_voter:'Next',
   sg_title:'Caught!',sg_sub:'Pick the secret word to steal the win.',sg_pick:'Pick the word',sg_skip:'Skip — show result',
   r_caught:'Spies Caught!',r_caught_sub:'The innocents win.',
@@ -776,14 +1113,14 @@ en:{
   ol_confirm:'Confirm all votes',new_round:'New Round',
 },
 ar:{
-  logo:'المتسلل',land_title:'المتسلل',land_sub:'اعثر على الجاسوس — أو كن واحداً.',
+  logo:'المتشكك',land_title:'المتشكك',land_sub:'اعثر على الجاسوس — أو كن واحداً.',
   local_title:'محلي',local_sub:'مرّر الهاتف. لا إنترنت مطلوب.',
   online_title:'أونلاين',online_sub:'كل لاعب على هاتفه.',
   howto:'طريقة اللعب',howto_title:'طريقة اللعب',
   howto_body:'<b>الإعداد:</b> أضف اللاعبين واختر فئة.<br><br><b>كشف الأدوار (محلي):</b> مرّر الهاتف لكل لاعب. الأبرياء يرون الكلمة. الجواسيس يرون اسم الفئة فقط.<br><br><b>أونلاين:</b> كل لاعب يرى دوره على هاتفه تلقائياً.<br><br><b>النقاش:</b> تناوب في طرح الأسئلة. يجب أن يندمج الجواسيس.<br><br><b>التصويت:</b> صوّت على من تعتقد أنه الجاسوس. لا يمكنك التصويت لنفسك.<br><br><b>تخمين الجاسوس:</b> إذا تم القبض عليه، يختار من 6 خيارات للفوز.<br><br><b>وضع الفوضى:</b> كل شيء عشوائي — لا أحد يعرف أي شيء.',
   s_players:'اللاعبون',player_ph:'اسم اللاعب...',add:'أضف',
   s_cat:'الفئة',custom_hint:'افصل بفواصل. الحد الأدنى 3 كلمات.',
-  s_imp:'إعدادات المتسلل',lbl_mode:'الوضع',lbl_count:'المتسللون',lbl_timer:'المؤقت',
+  s_imp:'إعدادات الجاسوس',lbl_mode:'الوضع',lbl_count:'الجواسيس',lbl_timer:'المؤقت',
   m_fixed:'محدد',m_rand:'15%',m_none:'لا أحد',m_all:'الكل',m_chaos:'فوضى',
   chaos_desc:'وضع الفوضى — لا أحد يعرف أي شيء، حتى المضيف.',
   t2:'2د',t5:'5د',t8:'8د',t10:'10د',start:'ابدأ اللعبة',back:'رجوع',
@@ -793,7 +1130,7 @@ ar:{
   the_word:'الكلمة هي:',spy_hint:'تلميحك (اسم الفئة فقط):',spy_tip:'اندمج. لا تكشف أنك لا تعرف الكلمة.',
   done_role:'انتهيت — أخفِ دوري',
   game_cat:'الفئة',order_lbl:'ترتيب الدور',go_vote:'ابدأ التصويت',
-  vote_title:'من هو المتسلل؟',vote_sub:'اضغط للتصويت. لا يمكنك التصويت لنفسك.',
+  vote_title:'من هو الجاسوس؟',vote_sub:'اضغط للتصويت. لا يمكنك التصويت لنفسك.',
   change_vote:'تغيير',next_voter:'التالي',
   sg_title:'تم القبض عليك!',sg_sub:'اختر الكلمة السرية للفوز.',sg_pick:'اختر الكلمة',sg_skip:'تخطّ — أظهر النتيجة',
   r_caught:'تم القبض على الجواسيس!',r_caught_sub:'يفوز الأبرياء.',
