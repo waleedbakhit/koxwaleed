@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Imposter 🕵️</title>
+<title>Imposter</title>
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,93 +15,86 @@
   --chaos:#b85020;--chaos2:#d87040;
   --ink:#f0e8d8;--ink2:#a09070;--ink3:#585040;
   --line:#2a2218;--line2:#3a3228;
-  --serif:'Georgia',serif;
-  --sans:system-ui,-apple-system,sans-serif;
-  --r:10px;
-  /* alias purple -> gold for all existing refs */
-  --purple:var(--gold);--purple2:var(--gold2);--purple3:var(--gold3);
-  --amber:var(--gold);--amber2:var(--gold2);
+  --serif:'Georgia',serif;--sans:system-ui,-apple-system,sans-serif;--r:10px;
 }
 html{height:100%;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;min-height:100%}
+
 .screen{display:none;flex-direction:column;min-height:100vh;padding:1.25rem;max-width:460px;margin:0 auto}
 .screen.active{display:flex}
+
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--purple3)}
-.lang-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .9rem;font-size:.78rem;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .2s}
-.lang-btn:hover{border-color:var(--purple2);color:var(--purple3)}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--gold2)}
+.lang-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .9rem;font-size:.78rem;color:var(--ink2);cursor:pointer;font-family:var(--sans)}
+.home-btn{background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:.35rem .85rem;font-size:.75rem;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
+
 .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;margin-bottom:.9rem}
-.ctitle{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--purple2);margin-bottom:.9rem;font-weight:600}
+.ctitle{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:.9rem;font-weight:600}
+
 input[type=text],select,textarea{width:100%;background:var(--bg3);border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-family:var(--sans);font-size:1rem;padding:.75rem 1rem;outline:none;transition:border-color .2s}
-input:focus,select:focus,textarea:focus{border-color:var(--purple2)}
+input:focus,select:focus,textarea:focus{border-color:var(--gold2)}
 select option{background:var(--bg2)}
 
-/* Buttons */
-.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;font-family:var(--sans);width:100%;-webkit-appearance:none}
+.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;font-family:var(--sans);width:100%}
 .btn+.btn{margin-top:.6rem}
-.btn-primary{background:var(--purple2);color:#fff;}
-.btn-primary:active{transform:scale(.97)}
+.btn-primary{background:var(--gold);color:var(--bg)}
+.btn-primary:active{transform:scale(.97);filter:brightness(.9)}
 .btn-ghost{background:transparent;border:1px solid var(--line2);color:var(--ink2)}
-.btn-ghost:hover{border-color:var(--purple2);color:var(--purple3)}
-.btn-danger{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.4);color:var(--red2)}
-.btn-chaos{background:var(--chaos);color:#fff;}
+.btn-ghost:hover{border-color:var(--gold2);color:var(--gold3)}
+.btn-danger{background:rgba(192,64,64,.12);border:1px solid var(--red);color:var(--red2)}
+.btn-chaos{background:var(--chaos);color:var(--ink)}
 .btn-sm{padding:.55rem 1rem;font-size:.88rem;width:auto;border-radius:9px}
 .btn:disabled{opacity:.35;pointer-events:none}
 
 /* Landing */
-.landing-hero{text-align:center;padding:2.5rem 0 1.5rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.landing-icon{font-size:5rem;display:block;margin-bottom:1rem}
-.landing-title{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--purple3);margin-bottom:.5rem}
-.landing-sub{color:var(--ink2);font-size:.95rem;line-height:1.7;margin-bottom:2rem}
+.hero{text-align:center;padding:2.5rem 0 1.5rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero-title{font-family:var(--serif);font-size:3.2rem;font-weight:700;color:var(--gold2);margin-bottom:.5rem}
+.hero-sub{color:var(--ink2);font-size:.95rem;line-height:1.7;margin-bottom:2rem}
 .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;width:100%}
-.mode-card{background:var(--bg2);border:2px solid var(--line);border-radius:16px;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans)}
-.mode-card:hover{border-color:var(--purple2);background:var(--bg3)}
-.mode-card.online:hover{border-color:var(--green)}
-.mode-card-icon{font-size:2.5rem;display:block;margin-bottom:.6rem}
-.mode-card-title{font-weight:700;font-size:1rem;margin-bottom:.3rem}
+.mode-card{background:var(--bg2);border:2px solid var(--line);border-radius:16px;padding:1.4rem 1rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.mode-card:hover{border-color:var(--gold);background:var(--bg3)}
+.mode-card-title{font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.3rem}
 .mode-card-sub{font-size:.75rem;color:var(--ink3);line-height:1.5}
 
 /* Seg */
 .seg{display:flex;background:var(--bg3);border-radius:10px;padding:3px;gap:2px}
-.seg-btn{flex:1;padding:.5rem .2rem;border-radius:8px;border:none;background:transparent;color:var(--ink3);font-size:.75rem;cursor:pointer;transition:all .2s;font-family:var(--sans);font-weight:500;text-align:center}
-.seg-btn.on{background:var(--purple);color:#fff}
-.seg-btn.chaos-btn.on{background:var(--chaos);color:#fff}
+.seg-btn{flex:1;padding:.5rem .2rem;border-radius:8px;border:none;background:transparent;color:var(--ink3);font-size:.75rem;cursor:pointer;transition:all .2s;font-family:var(--sans);font-weight:500}
+.seg-btn.on{background:var(--gold);color:var(--bg)}
+.seg-btn.chaos-on{background:var(--chaos);color:var(--ink)}
 
-/* Players */
+/* Players chips */
 .prow{display:flex;gap:.5rem;margin-bottom:.5rem}
 .prow input{flex:1}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .chip{display:flex;align-items:center;gap:.35rem;background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .75rem;font-size:.85rem}
 .chip-x{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:0;line-height:1}
-.chip-x:hover{color:var(--red2)}
 
-/* Settings row */
+/* Setting row */
 .srow{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
 .srow:last-child{border-bottom:none}
 .slbl{font-size:.9rem;color:var(--ink2)}
 
 /* Chaos banner */
-.chaos-banner{background:linear-gradient(135deg,rgba(139,37,0,.3),rgba(255,107,53,.15));border:1px solid var(--chaos);border-radius:10px;padding:.85rem 1rem;text-align:center;font-size:.85rem;color:var(--chaos2);margin-bottom:.9rem;display:none}
+.chaos-banner{background:rgba(184,80,32,.12);border:1px solid var(--chaos);border-radius:10px;padding:.75rem 1rem;text-align:center;font-size:.82rem;color:var(--chaos2);margin-bottom:.9rem;display:none}
 .chaos-banner.show{display:block}
 
 /* Pass screen */
 .pass-center{flex:1;display:flex;align-items:center;justify-content:center}
 .pass-box{text-align:center;padding:1.5rem}
-.pass-name{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--purple3);margin-bottom:.5rem}
-.pass-sub{color:var(--ink2);font-size:.92rem;line-height:1.65;margin-bottom:1.5rem}
+.pass-name{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--gold3);margin-bottom:.5rem}
+.pass-sub{color:var(--ink2);font-size:.9rem;line-height:1.65;margin-bottom:1.5rem}
 
-/* Role */
+/* Role box */
 .role-box{border-radius:16px;padding:2rem 1.5rem;text-align:center;margin-bottom:1rem}
-.role-box.spy{background:linear-gradient(160deg,#1a0505,#2a0808);border:2px solid var(--red)}
-.role-box.crew{background:linear-gradient(160deg,#05051a,#080d2a);border:2px solid var(--purple2)}
-.r-emoji{font-size:3.5rem;display:block;margin-bottom:.75rem}
-.r-badge{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.4rem}
+.role-box.spy{background:linear-gradient(160deg,#1a0505,#250808);border:2px solid var(--red)}
+.role-box.crew{background:linear-gradient(160deg,#0d0c08,#161208);border:2px solid var(--gold)}
+.r-badge{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.5rem}
 .r-badge.spy{color:var(--red2)}
-.r-badge.crew{color:var(--purple3)}
+.r-badge.crew{color:var(--gold3)}
 .r-name{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:1.2rem}
 .wbox{background:rgba(0,0,0,.35);border-radius:12px;padding:1.2rem 1rem}
 .wlbl{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem}
-.wval{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--amber2);margin-bottom:.25rem}
+.wval{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--gold2);margin-bottom:.25rem}
 .wsub{font-size:.88rem;color:var(--ink2)}
 
 /* Timer */
@@ -109,118 +103,251 @@ select option{background:var(--bg2)}
 .ring-wrap svg{transform:rotate(-90deg)}
 circle{fill:none;stroke-width:7;stroke-linecap:round}
 .rbg{stroke:var(--bg3)}
-.rfg{stroke:var(--purple2);transition:stroke-dashoffset 1s linear,stroke .5s}
-.ring-wrap.warn .rfg{stroke:var(--amber)}
-.ring-wrap.danger .rfg{stroke:var(--red)}
+.rfg{stroke:var(--gold2);transition:stroke-dashoffset 1s linear,stroke .5s}
+.ring-wrap.warn .rfg{stroke:var(--chaos2)}
+.ring-wrap.danger .rfg{stroke:var(--red2)}
 .rtext{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.8rem;font-weight:700}
 .plbl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:.75rem}
 
-/* Order */
+/* Order list */
 .olist{display:flex;flex-direction:column;gap:.4rem}
 .oitem{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;background:var(--bg3);border-radius:10px;border:1px solid var(--line)}
-.onum{width:26px;height:26px;border-radius:50%;background:var(--purple);color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.onum{width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--bg);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* Voting */
+/* Vote buttons */
 .vgrid{display:flex;flex-direction:column;gap:.55rem}
 .vbtn{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;background:var(--bg3);border:1px solid var(--line2);border-radius:12px;cursor:pointer;transition:all .2s;font-family:var(--sans);color:var(--ink);font-size:.95rem;font-weight:500;width:100%;text-align:left}
-.vbtn:hover:not(:disabled){border-color:var(--purple2);background:var(--bg4)}
-.vbtn.selected{border-color:var(--purple2);background:rgba(155,125,224,.12)}
-.vbtn:disabled{opacity:.4;cursor:not-allowed}
-.vtally{font-size:1.1rem;font-weight:700;color:var(--purple3);flex-shrink:0;margin-left:.5rem}
+.vbtn:hover:not(:disabled){border-color:var(--gold2);background:var(--bg4)}
+.vbtn.selected{border-color:var(--gold);background:rgba(200,146,42,.1);color:var(--gold3)}
+.vbtn:disabled{opacity:.35;cursor:not-allowed}
+.vtally{font-size:1.1rem;font-weight:700;color:var(--gold2);flex-shrink:0;margin-left:.5rem}
 .vbar-wrap{height:4px;background:var(--line);border-radius:2px;margin-top:.3rem;overflow:hidden}
-.vbar{height:100%;background:var(--purple2);border-radius:2px;transition:width .4s}
+.vbar{height:100%;background:var(--gold2);border-radius:2px;transition:width .4s}
 .vchips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem}
-.vchip{font-size:.7rem;background:rgba(124,92,191,.15);border:1px solid rgba(124,92,191,.3);border-radius:100px;padding:.15rem .55rem;color:var(--purple3)}
-.voter-prompt{background:var(--bg3);border:1px solid var(--purple);border-radius:10px;padding:.75rem 1rem;text-align:center;margin-bottom:.75rem;font-size:.88rem;color:var(--purple3)}
+.vchip{font-size:.7rem;background:rgba(200,146,42,.1);border:1px solid rgba(200,146,42,.3);border-radius:100px;padding:.15rem .55rem;color:var(--gold3)}
 
-/* Spy guess options */
+/* Guess options */
 .guess-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.75rem 0}
-.guess-opt{background:var(--bg3);border:1.5px solid var(--line2);border-radius:12px;padding:1rem .75rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans);font-size:.95rem;font-weight:500;color:var(--ink)}
-.guess-opt:hover{border-color:var(--purple2);background:var(--bg4)}
-.guess-opt.chosen{border-color:var(--purple2);background:rgba(155,125,224,.15);color:var(--purple3)}
-.guess-opt.correct{border-color:var(--green);background:rgba(74,222,128,.1);color:var(--green2)}
-.guess-opt.wrong{border-color:var(--red);background:rgba(224,85,85,.1);color:var(--red2)}
+.gopt{background:var(--bg3);border:1.5px solid var(--line2);border-radius:12px;padding:1rem .75rem;text-align:center;cursor:pointer;transition:all .2s;font-family:var(--sans);font-size:.95rem;font-weight:500;color:var(--ink)}
+.gopt:hover{border-color:var(--gold2);background:var(--bg4)}
+.gopt.chosen{border-color:var(--gold2);background:rgba(200,146,42,.12);color:var(--gold3)}
+.gopt.correct{border-color:var(--green);background:rgba(74,158,106,.12);color:var(--green2)}
+.gopt.wrong{border-color:var(--red);background:rgba(192,64,64,.12);color:var(--red2)}
 
 /* Result */
 .rbox{border-radius:16px;padding:2rem 1.5rem;text-align:center;margin-bottom:1rem;border:2px solid var(--line)}
-.rbox.win{border-color:var(--green);background:linear-gradient(160deg,#051a08,#081a0a)}
-.rbox.lose{border-color:var(--red);background:linear-gradient(160deg,#1a0505,#2a0505)}
-.rbox.neutral{border-color:var(--amber);background:linear-gradient(160deg,#1a1205,#2a1a05)}
-.remoji{font-size:3.5rem;display:block;margin-bottom:.75rem}
+.rbox.win{border-color:var(--green);background:linear-gradient(160deg,#050f08,#081508)}
+.rbox.lose{border-color:var(--red);background:linear-gradient(160deg,#150505,#200808)}
+.rbox.neutral{border-color:var(--gold);background:linear-gradient(160deg,#100d05,#181205)}
+.remoji{font-size:3rem;display:block;margin-bottom:.5rem}
 .rtitle{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:.5rem}
-.rsub{color:var(--ink2);font-size:.9rem;line-height:1.65;margin-bottom:1rem}
+.rsub{color:var(--ink2);font-size:.9rem;line-height:1.65;margin-bottom:.75rem}
 .spy-tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.5rem}
-.spy-tag{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.4);border-radius:100px;padding:.25rem .8rem;font-size:.82rem;color:var(--red2)}
+.spy-tag{background:rgba(192,64,64,.1);border:1px solid rgba(192,64,64,.4);border-radius:100px;padding:.25rem .8rem;font-size:.82rem;color:var(--red2)}
 
-/* Online room */
-.rcode{font-family:var(--serif);font-size:3rem;font-weight:700;letter-spacing:.2em;color:var(--purple3);text-align:center;padding:.75rem 0}
+/* Online lobby chips */
 .pchips{display:flex;flex-wrap:wrap;gap:.4rem}
 .pchip{display:flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .8rem;font-size:.85rem}
 .pchip .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
 .pchip .dot.off{background:var(--ink3)}
+.rcode{font-family:var(--serif);font-size:3rem;font-weight:700;letter-spacing:.2em;color:var(--gold3);text-align:center;padding:.75rem 0}
 
 
-/* Home button - always visible */
-.home-btn{position:fixed;top:12px;left:clamp(1rem,4vw,2rem);z-index:300;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:.4rem .9rem;font-size:.78rem;color:var(--ink3);cursor:pointer;font-family:var(--sans);transition:all .2s}
-.home-btn:hover{border-color:var(--purple2);color:var(--purple3)}
-[dir=rtl] .home-btn{left:auto;right:clamp(1rem,4vw,2rem)}
+/* ── Cinematic landing hero ─────────────────────────── */
+#s-land{padding:0;overflow:hidden;position:relative}
+
+.hero-photos{
+  position:absolute;inset:0;z-index:0;
+  display:grid;grid-template-columns:1fr 1fr;
+  height:100%;
+}
+.hero-photo{
+  position:relative;overflow:hidden;
+}
+.hero-photo img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.45) saturate(.8);
+  transition:filter 3s ease;
+}
+.hero-photo:nth-child(2) img{
+  object-position:center top;
+}
+/* Sliding crossfade */
+@keyframes slidePhoto{
+  0%,45%{opacity:1}
+  50%,95%{opacity:0}
+  100%{opacity:1}
+}
+.hero-photo:nth-child(1){animation:fadePhoto1 8s ease-in-out infinite}
+.hero-photo:nth-child(2){animation:fadePhoto2 8s ease-in-out infinite}
+@keyframes fadePhoto1{0%,40%{opacity:1}50%,90%{opacity:0}100%{opacity:1}}
+@keyframes fadePhoto2{0%,40%{opacity:0}50%,90%{opacity:1}100%{opacity:0}}
+
+/* Dark vignette + gradient overlays */
+.hero-photo::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at center, transparent 20%, rgba(13,11,8,.7) 100%),
+    linear-gradient(to bottom, rgba(13,11,8,.5) 0%, transparent 30%, transparent 60%, rgba(13,11,8,.95) 100%);
+}
+/* Center divider line */
+.hero-photos::after{
+  content:'';position:absolute;
+  left:50%;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(200,146,42,.3) 30%,rgba(200,146,42,.3) 70%,transparent);
+  transform:translateX(-50%);
+}
+
+/* Content over photos */
+.hero-content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
+  min-height:100vh;
+  padding:2rem 1.5rem 3rem;
+  text-align:center;
+}
+
+.hero-eyebrow{
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(200,146,42,.7);margin-bottom:.75rem;
+  animation:fadeUp .8s .2s both;
+}
+
+.hero-main-title{
+  font-family:var(--serif);
+  font-size:clamp(3.5rem,18vw,5.5rem);
+  font-weight:700;
+  color:var(--gold2);
+  letter-spacing:-.02em;
+  line-height:1;
+  margin-bottom:.5rem;
+  text-shadow:0 4px 40px rgba(200,146,42,.3);
+  animation:fadeUp .8s .35s both;
+}
+
+.hero-tagline{
+  font-size:.9rem;color:rgba(240,232,216,.6);
+  margin-bottom:2.5rem;letter-spacing:.05em;
+  animation:fadeUp .8s .5s both;
+}
+
+.hero-mode-btns{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.75rem;width:100%;max-width:340px;
+  animation:fadeUp .8s .65s both;
+}
+.hero-mode-btn{
+  background:rgba(13,11,8,.6);
+  border:1px solid rgba(200,146,42,.35);
+  border-radius:12px;
+  padding:1.1rem .75rem;
+  cursor:pointer;font-family:var(--sans);
+  transition:all .25s;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.hero-mode-btn:hover{
+  background:rgba(200,146,42,.12);
+  border-color:var(--gold2);
+}
+.hmb-title{font-size:.95rem;font-weight:700;color:var(--gold3);margin-bottom:.3rem}
+.hmb-sub{font-size:.72rem;color:rgba(240,232,216,.5);line-height:1.4}
+
+.hero-howto{
+  margin-top:1.25rem;
+  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(240,232,216,.35);cursor:pointer;
+  background:none;border:none;font-family:var(--sans);
+  animation:fadeUp .8s .8s both;
+  transition:color .2s;
+}
+.hero-howto:hover{color:rgba(240,232,216,.7)}
+
+/* Lang button repositioned for hero */
+#s-land .top-bar{
+  position:absolute;top:1.25rem;left:1.25rem;right:1.25rem;
+  z-index:3;margin-bottom:0;
+  background:transparent;
+}
+#s-land .logo{
+  color:var(--gold2);
+  text-shadow:0 2px 20px rgba(200,146,42,.4);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
 /* Toast */
 #toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);border:1px solid var(--line2);border-radius:12px;padding:.7rem 1.2rem;font-size:.88rem;color:var(--ink);opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast.ok{border-color:rgba(74,222,128,.5);color:var(--green2)}
-#toast.err{border-color:rgba(224,85,85,.5);color:var(--red2)}
+#toast.ok{border-color:rgba(74,158,106,.5);color:var(--green2)}
+#toast.err{border-color:rgba(192,64,64,.5);color:var(--red2)}
 </style>
-<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 </head>
 <body>
 
-<button class="home-btn" id="global-home-btn" onclick="goHome()">Home</button>
-
 <!-- LANDING -->
 <div class="screen active" id="s-land">
+  <!-- Cinematic photo background -->
+  <div class="hero-photos">
+    <div class="hero-photo">
+      <img src="assets/game-photo-1.png" alt="" id="hero-img-1">
+    </div>
+    <div class="hero-photo">
+      <img src="assets/game-photo-2.png" alt="" id="hero-img-2">
+    </div>
+  </div>
+
+  <!-- Nav -->
   <div class="top-bar">
     <span class="logo" id="t-logo">Imposter</span>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
   </div>
-  <div class="landing-hero">
-    
-    <div class="landing-title" id="t-land-title">Imposter</div>
-    <p class="landing-sub" id="t-land-sub">Find the spy.<br>Or be one.</p>
-    <div class="mode-cards">
-      <div class="mode-card" onclick="startLocal()">
-        
-        <div class="mode-card-title" id="t-local-title">Local</div>
-        <div class="mode-card-sub" id="t-local-sub">Pass the phone around. No internet needed.</div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">Social Deduction Game</div>
+    <div class="hero-main-title" id="t-land-title">Imposter</div>
+    <p class="hero-tagline" id="t-land-sub">Find the spy — or be one.</p>
+    <div class="hero-mode-btns">
+      <div class="hero-mode-btn" onclick="startLocal()">
+        <div class="hmb-title" id="t-local-title">Local</div>
+        <div class="hmb-sub" id="t-local-sub">Pass the phone around</div>
       </div>
-      <div class="mode-card online" onclick="go('s-online-entry')">
-        
-        <div class="mode-card-title" id="t-online-title">Online</div>
-        <div class="mode-card-sub" id="t-online-sub">Each player uses their own phone.</div>
+      <div class="hero-mode-btn" onclick="go('s-ol-entry')">
+        <div class="hmb-title" id="t-online-title">Online</div>
+        <div class="hmb-sub" id="t-online-sub">Each player on own phone</div>
       </div>
     </div>
-    <button class="btn btn-ghost" onclick="go('s-howto')" id="t-howto" style="margin-top:1rem;max-width:300px">? How to play</button>
+    <button class="hero-howto" onclick="go('s-howto')" id="t-howto">How to play</button>
   </div>
 </div>
 
 <!-- HOW TO PLAY -->
 <div class="screen" id="s-howto">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <button class="lang-btn" onclick="toggleLang()" id="t-lang-h">عربي</button>
+    <span class="logo">Imposter</span>
+    <button class="lang-btn" onclick="toggleLang()" id="t-lang2">عربي</button>
   </div>
   <div class="card">
     <div class="ctitle" id="t-howto-title">How to Play</div>
-    <div id="t-howto-body" style="color:var(--ink2);font-size:.92rem;line-height:1.9"></div>
+    <div id="t-howto-body" style="color:var(--ink2);font-size:.9rem;line-height:1.9"></div>
   </div>
-  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-h">← Back</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-h">Back</button>
 </div>
 
 <!-- LOCAL SETUP -->
 <div class="screen" id="s-setup">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <button class="lang-btn" onclick="toggleLang()" id="t-lang-s">عربي</button>
+    <span class="logo">Imposter</span>
+    <div style="display:flex;gap:.5rem">
+      <button class="home-btn" onclick="go('s-land')" id="t-home-s">Home</button>
+      <button class="lang-btn" onclick="toggleLang()" id="t-lang3">عربي</button>
+    </div>
   </div>
 
   <div class="card">
@@ -243,27 +370,24 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 
   <div class="card">
     <div class="ctitle" id="t-s-imp">Imposter Settings</div>
-
     <div class="srow">
       <span class="slbl" id="t-lbl-mode">Mode</span>
-      <div class="seg" id="mode-seg">
+      <div class="seg">
         <button class="seg-btn on" onclick="setMode('fixed')" id="m-fixed">Fixed</button>
         <button class="seg-btn" onclick="setMode('random15')" id="m-rand">15%</button>
         <button class="seg-btn" onclick="setMode('none')" id="m-none">None</button>
         <button class="seg-btn" onclick="setMode('all')" id="m-all">All</button>
-        <button class="seg-btn chaos-btn" onclick="setMode('chaos')" id="m-chaos">🔥</button>
+        <button class="seg-btn" onclick="setMode('chaos')" id="m-chaos">Chaos</button>
       </div>
     </div>
-
     <div class="srow" id="count-row">
       <span class="slbl" id="t-lbl-count">Imposters</span>
       <div style="display:flex;align-items:center;gap:.75rem">
         <button class="btn btn-ghost btn-sm" onclick="adjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
-        <span id="imp-count" style="font-size:1.2rem;font-weight:700;color:var(--purple3);min-width:20px;text-align:center">1</span>
+        <span id="imp-count" style="font-size:1.2rem;font-weight:700;color:var(--gold3);min-width:20px;text-align:center">1</span>
         <button class="btn btn-ghost btn-sm" onclick="adjCount(1)" style="width:36px;height:36px;padding:0;border-radius:50%">+</button>
       </div>
     </div>
-
     <div class="srow">
       <span class="slbl" id="t-lbl-timer">Timer</span>
       <div class="seg">
@@ -275,36 +399,40 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
     </div>
   </div>
 
-  <div class="chaos-banner" id="chaos-banner">🔥 <span id="t-chaos-desc">Chaos Mode — nobody knows anything until it starts</span></div>
-
-  <button class="btn btn-primary" onclick="beginLocal()" id="t-start">▶ Start Game</button>
-  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-s" style="margin-top:.6rem">← Back</button>
+  <div class="chaos-banner" id="chaos-banner" id="t-chaos-desc">Chaos Mode — nobody knows anything, not even the host.</div>
+  <button class="btn btn-primary" onclick="beginLocal()" id="t-start">Start Game</button>
 </div>
 
-<!-- PASS PHONE (local) -->
+<!-- LOCAL: PASS PHONE -->
 <div class="screen" id="s-pass">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="endGame()" id="t-home-p">Home</button>
+  </div>
   <div class="pass-center">
     <div class="pass-box">
       <div class="pass-name" id="pass-name">Player</div>
-      <p class="pass-sub" id="t-pass-msg">Your turn to see your role.<br>Make sure nobody else is looking.</p>
-      <button class="btn btn-primary" onclick="revealRole()" id="t-show-role" style="margin-top:.5rem">👁 Show my role</button>
+      <p class="pass-sub" id="t-pass-msg">Your turn. Make sure nobody else is looking.</p>
+      <button class="btn btn-primary" onclick="revealRole()" id="t-show-role" style="margin-top:.5rem">Show my role</button>
     </div>
   </div>
 </div>
 
-<!-- ROLE REVEAL (local) -->
+<!-- LOCAL: ROLE REVEAL -->
 <div class="screen" id="s-role">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="endGame()" id="t-home-r">Home</button>
+  </div>
   <div id="role-content"></div>
-  <button class="btn btn-primary" onclick="doneRole()" id="t-done-role" style="margin-top:.5rem">✓ Done, hide my role</button>
+  <button class="btn btn-primary" onclick="doneRole()" id="t-done-role" style="margin-top:.5rem">Done — hide my role</button>
 </div>
 
-<!-- GAME / TIMER (local) -->
+<!-- LOCAL: GAME / TIMER -->
 <div class="screen" id="s-game">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <span style="font-size:.75rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em" id="t-round-lbl"></span>
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="endGame()" id="t-home-g">Home</button>
   </div>
   <div class="tcenter">
     <div class="ring-wrap" id="timer-ring">
@@ -318,112 +446,126 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
   </div>
   <div class="card">
     <div class="ctitle" id="t-game-cat">Category</div>
-    <div style="font-size:1.1rem;font-weight:600;color:var(--purple3)" id="game-cat-val">—</div>
+    <div style="font-size:1.1rem;font-weight:600;color:var(--gold3)" id="game-cat-val">—</div>
   </div>
   <div class="card">
     <div class="ctitle" id="t-order-lbl">Turn Order</div>
     <div class="olist" id="order-list"></div>
   </div>
-  <button class="btn btn-danger" onclick="goVote()" id="t-go-vote">🗳 Start Voting</button>
+  <button class="btn btn-danger" onclick="goVote()" id="t-go-vote">Start Voting</button>
 </div>
 
-<!-- VOTING (local pass-and-play) -->
+<!-- LOCAL: VOTING -->
 <div class="screen" id="s-vote">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
-  <div class="voter-prompt" id="voter-prompt"></div>
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="endGame()" id="t-home-v">Home</button>
+  </div>
+  <div style="background:var(--bg3);border:1px solid var(--gold);border-radius:10px;padding:.75rem 1rem;text-align:center;margin-bottom:.75rem;font-size:.88rem;color:var(--gold3)" id="voter-prompt"></div>
   <div class="card" style="text-align:center;padding:.9rem">
-    <div style="font-size:2rem;margin-bottom:.3rem">🗳️</div>
     <div class="ctitle" id="t-vote-title">Who is the Imposter?</div>
-    <p style="color:var(--ink2);font-size:.85rem" id="t-vote-sub">Tap a name to vote. You cannot vote for yourself.</p>
+    <p style="color:var(--ink2);font-size:.85rem" id="t-vote-sub">Tap to vote. You cannot vote for yourself.</p>
   </div>
   <div class="vgrid" id="vote-grid"></div>
   <div style="display:flex;gap:.6rem;margin-top:.75rem">
-    <button class="btn btn-ghost" onclick="changeVote()" id="t-change-vote" style="flex:1">↩ Change vote</button>
-    <button class="btn btn-primary" onclick="confirmMyVote()" id="t-next-voter" style="flex:1" disabled>Next →</button>
+    <button class="btn btn-ghost" onclick="localChangeVote()" id="t-change-vote" style="flex:1">Change</button>
+    <button class="btn btn-primary" onclick="localNextVoter()" id="t-next-voter" style="flex:1" disabled>Next</button>
   </div>
 </div>
 
-<!-- SPY GUESS -->
+<!-- LOCAL: SPY GUESS -->
 <div class="screen" id="s-spyguess">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="endGame()" id="t-home-sg">Home</button>
+  </div>
   <div style="text-align:center;padding:1rem 0">
-    <div style="font-size:3rem;margin-bottom:.5rem">🕵️</div>
     <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-sg-title">Caught!</div>
-    <p style="color:var(--ink2);font-size:.9rem" id="t-sg-sub">Guess the word to steal the win.</p>
+    <p style="color:var(--ink2);font-size:.9rem" id="t-sg-sub">Pick the secret word to steal the win.</p>
     <div id="sg-spy-names" class="spy-tags" style="justify-content:center;margin:.75rem 0"></div>
   </div>
   <div class="card">
-    <div class="ctitle" id="t-sg-pick">Pick the secret word</div>
+    <div class="ctitle" id="t-sg-pick">Pick the word</div>
     <div class="guess-grid" id="guess-grid"></div>
   </div>
   <button class="btn btn-ghost" onclick="skipGuess()" id="t-sg-skip">Skip — show result</button>
 </div>
 
-<!-- RESULT -->
+<!-- LOCAL: RESULT -->
 <div class="screen" id="s-result">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="go('s-land')" id="t-home-res">Home</button>
+  </div>
   <div id="result-content"></div>
-  <button class="btn btn-primary" onclick="playAgain()" id="t-play-again">↩ Play Again</button>
-  <button class="btn btn-ghost" onclick="go('s-land')" id="t-menu" style="margin-top:.6rem">🏠 Main Menu</button>
+  <button class="btn btn-primary" onclick="playAgain()" id="t-play-again">Play Again</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-menu" style="margin-top:.6rem">Main Menu</button>
 </div>
 
-<!-- ONLINE ENTRY -->
-<div class="screen" id="s-online-entry">
+<!-- ONLINE: ENTRY -->
+<div class="screen" id="s-ol-entry">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <button class="lang-btn" onclick="toggleLang()" id="t-lang-o">عربي</button>
+    <span class="logo">Imposter</span>
+    <div style="display:flex;gap:.5rem">
+      <button class="home-btn" onclick="go('s-land')">Home</button>
+      <button class="lang-btn" onclick="toggleLang()" id="t-lang-o">عربي</button>
+    </div>
   </div>
   <div class="card">
     <div class="ctitle" id="t-your-name">Your Name</div>
-    <input type="text" id="online-name" maxlength="16" placeholder="Enter your name...">
+    <input type="text" id="ol-name" maxlength="16" placeholder="Enter your name...">
   </div>
-  <button class="btn btn-primary" onclick="onlineCreate()" id="t-create-room">+ Create Room</button>
-  <div style="text-align:center;color:var(--ink3);font-size:.82rem;margin:.6rem 0" id="t-or">— or —</div>
+  <button class="btn btn-primary" onclick="olCreate()" id="t-create-room">Create Room</button>
+  <div style="text-align:center;color:var(--ink3);font-size:.82rem;margin:.6rem 0">— or —</div>
   <div class="card">
-    <div class="ctitle" id="t-room-code">Room Code</div>
-    <input type="text" id="join-code" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;text-align:center" oninput="this.value=this.value.toUpperCase()">
+    <div class="ctitle" id="t-room-code-lbl">Room Code</div>
+    <input type="text" id="ol-join-code" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;text-align:center" oninput="this.value=this.value.toUpperCase()">
   </div>
-  <button class="btn btn-ghost" onclick="onlineJoin()" id="t-join-room">→ Join Room</button>
-  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-o" style="margin-top:.6rem">← Back</button>
+  <button class="btn btn-ghost" onclick="olJoin()" id="t-join-room">Join Room</button>
+  <button class="btn btn-ghost" onclick="go('s-land')" id="t-back-o" style="margin-top:.6rem">Back</button>
 </div>
 
-<!-- ONLINE LOBBY -->
-<div class="screen" id="s-online-lobby">
+<!-- ONLINE: LOBBY -->
+<div class="screen" id="s-ol-lobby">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <button class="lang-btn" onclick="onlineLang()" id="t-lang-ol">عربي</button>
+    <span class="logo">Imposter</span>
+    <div style="display:flex;gap:.5rem">
+      <button class="home-btn" onclick="olLeave()">Home</button>
+      <button class="lang-btn" onclick="olToggleLang()" id="t-lang-ol">عربي</button>
+    </div>
   </div>
   <div class="card" style="text-align:center">
-    <div class="ctitle" id="t-ol-code">Room Code</div>
-    <div class="rcode" id="ol-code">----</div>
-    <div style="font-size:.8rem;color:var(--ink3)" id="t-ol-share">Share this code with your friends</div>
+    <div class="ctitle" id="t-ol-code-lbl">Room Code</div>
+    <div class="rcode" id="ol-room-code">----</div>
+    <div style="font-size:.8rem;color:var(--ink3)" id="t-ol-share">Share this code with friends</div>
   </div>
   <div class="card">
     <div class="ctitle" id="t-ol-players">Players</div>
-    <div class="pchips" id="ol-players"></div>
+    <div class="pchips" id="ol-player-chips"></div>
   </div>
-  <div id="ol-host-settings" style="display:none">
+  <!-- Host only settings -->
+  <div id="ol-host-panel" style="display:none">
     <div class="card">
       <div class="ctitle" id="t-ol-settings">Game Settings</div>
       <div class="srow">
         <span class="slbl" id="t-ol-cat">Category</span>
-        <select id="ol-cat" onchange="pushOlSettings()" style="width:auto;padding:.4rem .6rem;font-size:.85rem"></select>
+        <select id="ol-cat-sel" onchange="olPushSettings()" style="width:auto;padding:.4rem .6rem;font-size:.85rem"></select>
       </div>
       <div class="srow">
         <span class="slbl" id="t-ol-mode">Mode</span>
-        <div class="seg" id="ol-mode-seg">
+        <div class="seg">
           <button class="seg-btn on" onclick="olSetMode('fixed')" id="ol-m-fixed">Fixed</button>
           <button class="seg-btn" onclick="olSetMode('random15')" id="ol-m-rand">15%</button>
           <button class="seg-btn" onclick="olSetMode('none')" id="ol-m-none">None</button>
           <button class="seg-btn" onclick="olSetMode('all')" id="ol-m-all">All</button>
-          <button class="seg-btn chaos-btn" onclick="olSetMode('chaos')" id="ol-m-chaos">🔥</button>
+          <button class="seg-btn" onclick="olSetMode('chaos')" id="ol-m-chaos">Chaos</button>
         </div>
       </div>
       <div class="srow" id="ol-count-row">
         <span class="slbl" id="t-ol-count">Imposters</span>
         <div style="display:flex;align-items:center;gap:.75rem">
           <button class="btn btn-ghost btn-sm" onclick="olAdjCount(-1)" style="width:36px;height:36px;padding:0;border-radius:50%">−</button>
-          <span id="ol-imp-count" style="font-size:1.2rem;font-weight:700;color:var(--purple3);min-width:20px;text-align:center">1</span>
+          <span id="ol-imp-count" style="font-size:1.2rem;font-weight:700;color:var(--gold3);min-width:20px;text-align:center">1</span>
           <button class="btn btn-ghost btn-sm" onclick="olAdjCount(1)" style="width:36px;height:36px;padding:0;border-radius:50%">+</button>
         </div>
       </div>
@@ -437,26 +579,29 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="olStartGame()" id="t-ol-start">▶ Start Game</button>
+    <button class="btn btn-primary" onclick="olStartGame()" id="t-ol-start">Start Game</button>
   </div>
-  <div id="ol-waiting" style="text-align:center;color:var(--ink3);font-size:.9rem;padding:1rem" id="t-ol-wait">Waiting for host to start...</div>
+  <div id="ol-wait-msg" style="text-align:center;color:var(--ink3);font-size:.9rem;padding:1rem" id="t-ol-wait">Waiting for host to start...</div>
 </div>
 
-<!-- ONLINE ROLE REVEAL -->
-<div class="screen" id="s-online-role">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
-  <div id="ol-role-content"></div>
-  <div class="card" style="text-align:center">
-    <p style="color:var(--ink2);font-size:.9rem" id="t-ol-role-inst">Show this only to yourself!</p>
-  </div>
-  <button class="btn btn-primary" onclick="go('s-online-game')" id="t-ol-ready">✓ I'm ready</button>
-</div>
-
-<!-- ONLINE GAME -->
-<div class="screen" id="s-online-game">
+<!-- ONLINE: ROLE REVEAL -->
+<div class="screen" id="s-ol-role">
   <div class="top-bar">
-    <span class="logo">🕵️</span>
-    <span style="font-size:.75rem;color:var(--ink3)" id="ol-round-lbl"></span>
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="olLeave()">Home</button>
+  </div>
+  <div id="ol-role-content"></div>
+  <div class="card" style="text-align:center;margin-top:.5rem">
+    <p style="color:var(--ink2);font-size:.88rem" id="t-ol-role-inst">This is your role. Keep it secret!</p>
+  </div>
+  <button class="btn btn-primary" onclick="olMarkReady()" id="ol-ready-btn">I am ready</button>
+</div>
+
+<!-- ONLINE: GAME / TIMER -->
+<div class="screen" id="s-ol-game">
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div class="tcenter">
     <div class="ring-wrap" id="ol-timer-ring">
@@ -470,74 +615,82 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
   </div>
   <div class="card">
     <div class="ctitle" id="t-ol-game-cat">Category</div>
-    <div style="font-size:1.1rem;font-weight:600;color:var(--purple3)" id="ol-cat-val">—</div>
+    <div style="font-size:1.1rem;font-weight:600;color:var(--gold3)" id="ol-cat-val">—</div>
   </div>
   <div class="card">
-    <div class="ctitle" id="t-ol-role-mini">Your Role</div>
+    <div class="ctitle" id="t-ol-my-role">Your Role</div>
     <div id="ol-role-mini"></div>
   </div>
   <div class="card">
     <div class="ctitle" id="t-ol-order">Turn Order</div>
     <div class="olist" id="ol-order-list"></div>
   </div>
-  <button class="btn btn-danger" id="ol-vote-btn" style="display:none" onclick="olStartVoting()" id="t-ol-vote">🗳 Start Voting</button>
+  <button class="btn btn-danger" id="ol-vote-btn" style="display:none" onclick="olRequestVoting()">Start Voting</button>
 </div>
 
-<!-- ONLINE VOTING -->
-<div class="screen" id="s-online-voting">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+<!-- ONLINE: VOTING (each player on own device) -->
+<div class="screen" id="s-ol-vote">
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="olLeave()">Home</button>
+  </div>
   <div class="card" style="text-align:center;padding:.9rem">
     <div class="ctitle" id="t-ol-vote-title">Who is the Imposter?</div>
     <p style="color:var(--ink2);font-size:.85rem" id="t-ol-vote-sub">Tap who you think is the spy.</p>
   </div>
-  <!-- Pre-vote: show options -->
+  <!-- Before submitting -->
   <div id="ol-prevote">
     <div class="vgrid" id="ol-vote-grid"></div>
-    <button class="btn btn-primary" onclick="olSubmitMyVote()" id="ol-submit-vote-btn" style="margin-top:.75rem" disabled>Submit vote</button>
-    <button class="btn btn-ghost" onclick="olClearMyVote()" id="ol-clear-vote-btn" style="margin-top:.6rem">Clear</button>
+    <button class="btn btn-primary" onclick="olSubmitVote()" id="ol-submit-btn" style="margin-top:.75rem" disabled>Submit vote</button>
+    <button class="btn btn-ghost" onclick="olClearVote()" style="margin-top:.6rem">Clear</button>
   </div>
-  <!-- Post-vote: waiting -->
+  <!-- After submitting -->
   <div id="ol-postvote" style="display:none">
     <div class="card" style="text-align:center">
-      <div style="font-weight:600;color:var(--gold2);font-size:1.1rem;margin-bottom:.4rem">Vote submitted</div>
-      <p style="color:var(--ink2);font-size:.85rem" id="ol-vote-wait-msg">Waiting for others...</p>
-      <div id="ol-vote-tally" style="margin-top:1rem"></div>
+      <div style="font-weight:600;color:var(--gold2);font-size:1.1rem;margin-bottom:.5rem">Vote submitted</div>
+      <div id="ol-vote-wait-msg" style="color:var(--ink2);font-size:.85rem;margin-bottom:1rem">Waiting for others...</div>
+      <div id="ol-live-tally"></div>
     </div>
+    <!-- Host confirm -->
+    <button class="btn btn-danger" id="ol-confirm-btn" style="display:none;margin-top:.75rem" onclick="olConfirmVotes()">Confirm all votes</button>
   </div>
-  <!-- Host confirm - shown when all voted -->
-  <button class="btn btn-danger" id="ol-confirm-btn" style="display:none;margin-top:.6rem" onclick="olConfirmVotes()">Confirm all votes</button>
 </div>
 
-<!-- ONLINE SPY GUESS -->
-<div class="screen" id="s-online-spyguess">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+<!-- ONLINE: SPY GUESS -->
+<div class="screen" id="s-ol-spyguess">
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="olLeave()">Home</button>
+  </div>
   <div style="text-align:center;padding:1rem 0">
-    <div style="font-size:3rem;margin-bottom:.5rem">🕵️</div>
     <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-ol-sg-title">Caught!</div>
-    <p style="color:var(--ink2);font-size:.9rem" id="t-ol-sg-sub">Guess the word to steal the win.</p>
+    <p style="color:var(--ink2);font-size:.9rem" id="t-ol-sg-sub">Pick the secret word to steal the win.</p>
     <div id="ol-sg-spy-names" class="spy-tags" style="justify-content:center;margin:.75rem 0"></div>
   </div>
   <div class="card">
-    <div class="ctitle" id="t-ol-pick">Pick the secret word</div>
+    <div class="ctitle" id="t-ol-sg-pick">Pick the word</div>
     <div class="guess-grid" id="ol-guess-grid"></div>
   </div>
   <button class="btn btn-ghost" onclick="olSkipGuess()" id="t-ol-sg-skip">Skip</button>
 </div>
 
-<!-- ONLINE RESULT -->
-<div class="screen" id="s-online-result">
-  <div class="top-bar"><span class="logo">🕵️</span></div>
+<!-- ONLINE: RESULT -->
+<div class="screen" id="s-ol-result">
+  <div class="top-bar">
+    <span class="logo">Imposter</span>
+    <button class="home-btn" onclick="olLeave()">Home</button>
+  </div>
   <div id="ol-result-content"></div>
-  <button class="btn btn-primary" id="ol-new-round" style="display:none" onclick="olNewRound()">↩ New Round</button>
-  <button class="btn btn-ghost" onclick="go('s-land')" id="t-ol-menu" style="margin-top:.6rem">🏠 Main Menu</button>
+  <button class="btn btn-primary" id="ol-new-round-btn" style="display:none" onclick="olNewRound()">New Round</button>
+  <button class="btn btn-ghost" onclick="olLeave()" style="margin-top:.6rem">Main Menu</button>
 </div>
 
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// CATEGORIES (client-side copy, mirrors server)
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// CATEGORIES
+// ═══════════════════════════════════════════
 const CATS = {
   Countries:{en:['Japan','Brazil','Egypt','France','Australia','Canada','India','Mexico','Nigeria','Thailand','Argentina','Morocco','Turkey','South Korea','Italy','Spain','Russia','Saudi Arabia','Germany','China','UAE','Sudan','Lebanon','Pakistan','Indonesia'],ar:['اليابان','البرازيل','مصر','فرنسا','أستراليا','كندا','الهند','المكسيك','نيجيريا','تايلاند','الأرجنتين','المغرب','تركيا','كوريا الجنوبية','إيطاليا','إسبانيا','روسيا','المملكة العربية السعودية','ألمانيا','الصين','الإمارات','السودان','لبنان','باكستان','إندونيسيا']},
   Sports:{en:['Tennis','Football','Basketball','Swimming','Boxing','Volleyball','Golf','Rugby','Cricket','Skiing','Cycling','Surfing','Gymnastics','Wrestling','Baseball','Hockey','Archery','Fencing','Rowing','Diving','Karate','Judo','Handball','Badminton','Table Tennis'],ar:['تنس','كرة القدم','كرة السلة','سباحة','ملاكمة','كرة الطائرة','غولف','الراغبي','كريكيت','تزلج','ركوب الدراجات','ركوب الأمواج','جمباز','مصارعة','بيسبول','هوكي','رماية','مبارزة','تجديف','غطس','كاراتيه','جودو','كرة اليد','ريشة طائرة','تنس طاولة']},
@@ -545,240 +698,208 @@ const CATS = {
   Food:{en:['Pizza','Sushi','Burger','Pasta','Tacos','Curry','Sandwich','Salad','Soup','Steak','Pancakes','Noodles','Kebab','Hummus','Falafel','Ramen','Shawarma','Biryani','Kabsa','Mansaf','Maqluba','Ful Medames','Koshari','Baklava','Mandi'],ar:['بيتزا','سوشي','برغر','مكرونة','تاكو','كاري','ساندويتش','سلطة','حساء','ستيك','فطائر','نودلز','كباب','حمص','فلافل','رامن','شاورما','برياني','كبسة','منسف','مقلوبة','فول مدمس','كشري','بقلاوة','مندي']},
   Animals:{en:['Elephant','Shark','Eagle','Lion','Dolphin','Penguin','Crocodile','Cheetah','Gorilla','Flamingo','Kangaroo','Cobra','Panda','Polar Bear','Peacock','Octopus','Giraffe','Wolf','Parrot','Camel','Falcon','Hyena','Oryx','Meerkat','Platypus'],ar:['فيل','قرش','نسر','أسد','دولفين','بطريق','تمساح','فهد','غوريلا','فلامنغو','كنغر','كوبرا','باندا','دب قطبي','طاووس','أخطبوط','زرافة','ذئب','ببغاء','جمل','صقر','ضبع','مها','ميركات','خنزير النهر']},
   Places:{en:['Beach','Airport','Hospital','Library','Museum','Stadium','Restaurant','Hotel','School','Market','Cinema','Park','Mosque','Church','Gym','Bank','Police Station','Farm','Casino','Space Station','Desert','Palace','Harbor','Lighthouse','Volcano'],ar:['شاطئ','مطار','مستشفى','مكتبة','متحف','ملعب','مطعم','فندق','مدرسة','سوق','سينما','حديقة','مسجد','كنيسة','صالة رياضية','بنك','مركز شرطة','مزرعة','كازينو','محطة فضاء','صحراء','قصر','ميناء','منارة','بركان']},
-  Professions:{en:['Doctor','Pilot','Chef','Engineer','Teacher','Lawyer','Astronaut','Firefighter','Architect','Journalist','Photographer','Musician','Scientist','Detective','Carpenter','Surgeon','Diplomat','Electrician','Veterinarian','Economist','Judge','Pharmacist','Dentist','Psychologist','Marine Biologist'],ar:['طبيب','طيار','طاهي','مهندس','معلم','محامي','رائد فضاء','رجل إطفاء','مهندس معماري','صحفي','مصور','موسيقي','عالم','محقق','نجار','جراح','دبلوماسي','كهربائي','طبيب بيطري','اقتصادي','قاضي','صيدلاني','طبيب أسنان','طبيب نفسي','عالم أحياء بحرية']},
-  Technology:{en:['Smartphone','Laptop','Robot','Satellite','Drone','3D Printer','Virtual Reality','Blockchain','AI','Camera','Headphones','Smartwatch','Keyboard','Monitor','Server','Router','Microchip','Battery','Solar Panel','Electric Car','GPS','Hologram','Quantum Computer','Smart Speaker','Neural Network'],ar:['هاتف ذكي','لابتوب','روبوت','قمر صناعي','طائرة مسيّرة','طابعة ثلاثية الأبعاد','واقع افتراضي','بلوكتشين','ذكاء اصطناعي','كاميرا','سماعات','ساعة ذكية','لوحة مفاتيح','شاشة','خادم','راوتر','شريحة إلكترونية','بطارية','لوح شمسي','سيارة كهربائية','جي بي إس','هولوغرام','حاسوب كمي','مكبر صوت ذكي','شبكة عصبية']},
-  Nature:{en:['Volcano','Waterfall','Desert','Forest','Ocean','Mountain','River','Cave','Island','Glacier','Canyon','Coral Reef','Rainforest','Swamp','Tundra','Savanna','Cliff','Geyser','Lake','Dune','Aurora','Oasis','Fjord','Tide Pool','Hot Spring'],ar:['بركان','شلال','صحراء','غابة','محيط','جبل','نهر','كهف','جزيرة','نهر جليدي','وادٍ عميق','شعاب مرجانية','غابة مطيرة','مستنقع','تندرا','سافانا','جرف','نافورة حارة','بحيرة','كثيب رملي','شفق قطبي','واحة','مضيق فيورد','برك مدية','ينبوع حار']},
+  Professions:{en:['Doctor','Pilot','Chef','Engineer','Teacher','Lawyer','Astronaut','Firefighter','Architect','Journalist','Photographer','Musician','Scientist','Detective','Carpenter','Surgeon','Diplomat','Electrician','Veterinarian','Economist'],ar:['طبيب','طيار','طاهي','مهندس','معلم','محامي','رائد فضاء','رجل إطفاء','مهندس معماري','صحفي','مصور','موسيقي','عالم','محقق','نجار','جراح','دبلوماسي','كهربائي','طبيب بيطري','اقتصادي']},
+  Technology:{en:['Smartphone','Laptop','Robot','Satellite','Drone','3D Printer','Virtual Reality','Blockchain','AI','Camera','Headphones','Smartwatch','Keyboard','Monitor','Server','Router','Microchip','Battery','Solar Panel','Electric Car'],ar:['هاتف ذكي','لابتوب','روبوت','قمر صناعي','طائرة مسيّرة','طابعة ثلاثية الأبعاد','واقع افتراضي','بلوكتشين','ذكاء اصطناعي','كاميرا','سماعات','ساعة ذكية','لوحة مفاتيح','شاشة','خادم','راوتر','شريحة إلكترونية','بطارية','لوح شمسي','سيارة كهربائية']},
+  Nature:{en:['Volcano','Waterfall','Desert','Forest','Ocean','Mountain','River','Cave','Island','Glacier','Canyon','Coral Reef','Rainforest','Swamp','Tundra','Savanna','Cliff','Geyser','Lake','Dune'],ar:['بركان','شلال','صحراء','غابة','محيط','جبل','نهر','كهف','جزيرة','نهر جليدي','وادٍ عميق','شعاب مرجانية','غابة مطيرة','مستنقع','تندرا','سافانا','جرف','نافورة حارة','بحيرة','كثيب رملي']},
   Movies:{en:['Action','Comedy','Horror','Romance','Thriller','Animation','Documentary','Sci-Fi','Western','Drama','Musical','Fantasy','Mystery','Adventure','Crime','War','Biography','Superhero','Anime','Silent Film'],ar:['أكشن','كوميديا','رعب','رومانسية','إثارة','رسوم متحركة','وثائقي','خيال علمي','وسترن','دراما','موسيقي','فانتازيا','غموض','مغامرة','جريمة','حرب','سيرة ذاتية','أبطال خارقون','أنيمي','فيلم صامت']},
-  Brands:{en:['Apple','Nike','Samsung','Toyota',"McDonald's",'Coca-Cola','Amazon','Google','Tesla','Adidas','IKEA','Ferrari','Rolex','Louis Vuitton','Gucci','Disney','Netflix','Microsoft','Zara','Starbucks','Pepsi','BMW','Mercedes','PlayStation','Lego'],ar:['آبل','نايكي','سامسونغ','تويوتا','ماكدونالدز','كوكاكولا','أمازون','غوغل','تسلا','أديداس','إيكيا','فيراري','رولكس','لويس فيتون','غوتشي','ديزني','نتفليكس','مايكروسوفت','زارا','ستاربكس','بيبسي','بي إم دبليو','مرسيدس','بلايستيشن','ليغو']},
+  Brands:{en:['Apple','Nike','Samsung','Toyota',"McDonald's",'Coca-Cola','Amazon','Google','Tesla','Adidas','IKEA','Ferrari','Rolex','Louis Vuitton','Gucci','Disney','Netflix','Microsoft','Zara','Starbucks'],ar:['آبل','نايكي','سامسونغ','تويوتا','ماكدونالدز','كوكاكولا','أمازون','غوغل','تسلا','أديداس','إيكيا','فيراري','رولكس','لويس فيتون','غوتشي','ديزني','نتفليكس','مايكروسوفت','زارا','ستاربكس']},
   Adults:{en:['Bra','Bikini','Condom','Lubricant','Lingerie','Vibrator','Handcuffs','Whipped Cream','Massage Oil','Blindfold','Thong','Stripper','Pole Dance','Erotic','Foreplay','Aphrodisiac','One Night Stand','Fantasy','Seduction','Body Lotion'],ar:['حمالة صدر','بيكيني','واقي ذكري','مزلق','ملابس داخلية مثيرة','مهتز','أصفاد','كريمة مخفوقة','زيت تدليك','عصابة عيون','سروال ضيق','راقصة مثيرة','رقص العمود','مثير','مداعبة','مثير للشهوة','ليلة واحدة','خيال','إغراء','لوشن الجسم']},
 };
 
-function buildRandom(l){
-  const srcs=['Countries','Sports','Clothing','Food','Animals','Places','Professions','Technology','Nature','Movies','Brands'];
-  const pool=[];
-  srcs.forEach(c=>{const ws=CATS[c][l]||CATS[c].en;const sh=[...ws].sort(()=>Math.random()-.5);pool.push(...sh.slice(0,2));});
-  return pool.sort(()=>Math.random()-.5);
-}
+const CAT_DISPLAY = {
+  en:{Countries:'Countries',Sports:'Sports',Clothing:'Clothing',Food:'Food',Animals:'Animals',Places:'Places',Professions:'Professions',Technology:'Technology',Nature:'Nature',Movies:'Movies',Brands:'Brands',Adults:'Adults',Random:'Random',Custom:'Custom'},
+  ar:{Countries:'دول',Sports:'رياضة',Clothing:'ملابس',Food:'طعام',Animals:'حيوانات',Places:'أماكن',Professions:'مهن',Technology:'تكنولوجيا',Nature:'طبيعة',Movies:'أفلام',Brands:'ماركات',Adults:'كبار',Random:'عشوائي',Custom:'مخصص'}
+};
 
-function pickLocalWord(catKey,l,customWords){
-  if(customWords&&customWords.length){const w=customWords;return w[Math.floor(Math.random()*w.length)];}
-  if(catKey==='Random'){const p=buildRandom(l);return p[Math.floor(Math.random()*p.length)];}
-  const cat=CATS[catKey];if(!cat)return'?';
-  const ws=cat[l]||cat.en;return ws[Math.floor(Math.random()*ws.length)];
-}
+function catWords(key){ const c=CATS[key]; return c?(c[lang]||c.en):[];}
 
-function getDecoys(catKey,word,l,n=5){
-  let pool;
-  if(catKey==='Random'||catKey==='Custom'){
-    // pull from multiple cats
-    pool=buildRandom(l);
-  } else {
-    const cat=CATS[catKey];
-    pool=(cat?cat[l]||cat.en:[]).filter(w=>w!==word);
+function pickWord(key, customWords){
+  if(customWords&&customWords.length) return customWords[Math.floor(Math.random()*customWords.length)];
+  if(key==='Random'){
+    const pool=[];
+    Object.keys(CATS).filter(k=>k!=='Adults').forEach(k=>{const w=catWords(k);pool.push(...w.slice(0,2).sort(()=>Math.random()-.5));});
+    return pool[Math.floor(Math.random()*pool.length)];
   }
+  const ws=catWords(key); return ws[Math.floor(Math.random()*ws.length)]||'?';
+}
+
+function getDecoys(key, word, n=5){
+  let pool;
+  if(key==='Random'||key==='Custom'){
+    pool=[];Object.keys(CATS).forEach(k=>{pool.push(...catWords(k));});
+  } else { pool=catWords(key); }
   return pool.filter(w=>w!==word).sort(()=>Math.random()-.5).slice(0,n);
 }
 
-// ═══════════════════════════════════════════════════════════
+function catLabel(key){ return (CAT_DISPLAY[lang]||CAT_DISPLAY.en)[key]||key; }
+
+// ═══════════════════════════════════════════
 // TRANSLATIONS
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 const TR={
 en:{
-  logo:'Imposter',land_title:'Imposter',land_sub:'Find the spy.\nOr be one.',
+  logo:'Imposter',land_title:'Imposter',land_sub:'Find the spy — or be one.',
   local_title:'Local',local_sub:'Pass the phone. No internet needed.',
   online_title:'Online',online_sub:'Each player on their own phone.',
   howto:'How to play',howto_title:'How to Play',
-  howto_body:'<b>Setup:</b> Add players and pick a category.<br><br><b>Pass & reveal:</b> Each player sees their role privately by passing the phone. Innocent players see the secret word. Spies only see the category name as a hint.<br><br><b>Discussion:</b> Take turns asking each other questions. Spies must blend in without knowing the word. Innocents try to expose them.<br><br><b>Voting:</b> Pass the phone to each player to vote. You cannot vote for yourself and can change your vote before confirming.<br><br><b>Spy guess:</b> If caught, spies choose from 6 options — one is the real word.<br><br><b>Chaos mode 🔥:</b> Everything is random — category, word, number of spies. Even the host does not know!<br><br><b>Win:</b> Innocents win by catching all spies. Spies win by surviving or picking the right word.',
+  howto_body:'<b>Setup:</b> Add players and pick a category.<br><br><b>Pass & reveal (Local):</b> Pass the phone to each player. Innocents see the word. Spies see only the category name.<br><br><b>Online reveal:</b> Each player sees their role on their own phone automatically.<br><br><b>Discussion:</b> Take turns asking questions. Spies must blend in.<br><br><b>Voting:</b> Vote for who you think is the spy. You cannot vote for yourself.<br><br><b>Spy guess:</b> If caught, the spy picks from 6 options to try to steal the win.<br><br><b>Chaos mode:</b> Everything is random — category, word, spy count. Nobody knows anything.',
   s_players:'Players',player_ph:'Player name...',add:'Add',
   s_cat:'Category',custom_hint:'Separate with commas. Min 3 words.',
   s_imp:'Imposter Settings',lbl_mode:'Mode',lbl_count:'Imposters',lbl_timer:'Timer',
-  m_fixed:'Fixed',m_rand:'15%',m_none:'None',m_all:'All',
-  chaos_desc:'Chaos Mode — nobody knows anything until it starts. Not even the host.',
-  t2:'2m',t5:'5m',t8:'8m',t10:'10m',
-  start:'Start Game',back:'← Back',
-  pass_msg:'Your turn to see your role.\nMake sure nobody else is looking.',
-  show_role:'Show my role',
-  you_spy:'You are the Spy',you_crew:'You know the word',
-  the_word:'The word is:',spy_hint:'Your hint:',spy_hint_val:'Category name only — good luck!',
-  spy_tip:"Blend in! Don't reveal you don't know the word.",
+  m_fixed:'Fixed',m_rand:'15%',m_none:'None',m_all:'All',m_chaos:'Chaos',
+  chaos_desc:'Chaos Mode — nobody knows anything, not even the host.',
+  t2:'2m',t5:'5m',t8:'8m',t10:'10m',start:'Start Game',back:'Back',
+  home:'Home',phase:'DISCUSSION',
+  pass_msg:'Your turn. Make sure nobody else is looking.',
+  show_role:'Show my role',you_spy:'You are the Spy',you_crew:'You know the word',
+  the_word:'The word is:',spy_hint:'Your hint (category only):',spy_tip:"Blend in. Don't reveal you don't know the word.",
   done_role:'Done — hide my role',
-  phase:'DISCUSSION',game_cat:'Category',order_lbl:'Turn Order',
-  go_vote:'Start Voting',
-  vote_title:'Who is the Imposter?',vote_sub:"Tap a name to vote. You can't vote for yourself.",
-  voter_is:'Now voting:',change_vote:'↩ Change vote',next_voter:'Next →',
-  sg_title:'Caught! Last Chance 🕵️',sg_sub:'Pick the secret word to steal the win.',sg_pick:'Pick the secret word',sg_skip:'Skip — show result',
-  r_caught:'Spies Caught! 🎉',r_caught_sub:'The innocents win.',
-  r_escaped:'Spy Escaped! 👻',r_escaped_sub:'The spy survived the vote.',
-  r_spy_right:'Spy Guessed It! 🕵️',r_spy_right_sub:'Even after being caught, the spy knew the word.',
-  r_spy_wrong:'Wrong Pick ❌',r_spy_wrong_sub:'The spy picked wrong. Innocents win!',
-  r_nospy:'No Spy Round 🕊️',r_nospy_sub:'Everyone was innocent.',
-  r_allspy:'All Spies! 🕵️',r_allspy_sub:'Chaos.',
-  r_tie:'Tie 🤝',r_tie_sub:'No one eliminated.',
+  game_cat:'Category',order_lbl:'Turn Order',go_vote:'Start Voting',
+  vote_title:'Who is the Imposter?',vote_sub:"Tap to vote. You can't vote for yourself.",
+  change_vote:'Change',next_voter:'Next',
+  sg_title:'Caught!',sg_sub:'Pick the secret word to steal the win.',sg_pick:'Pick the word',sg_skip:'Skip — show result',
+  r_caught:'Spies Caught!',r_caught_sub:'The innocents win.',
+  r_escaped:'Spy Escaped!',r_escaped_sub:'The spy survived the vote.',
+  r_spy_right:'Spy Guessed It!',r_spy_right_sub:'The spy knew the word.',
+  r_spy_wrong:'Wrong Pick',r_spy_wrong_sub:'The spy picked wrong. Innocents win!',
+  r_nospy:'No Spy Round',r_nospy_sub:'Everyone was innocent.',
+  r_allspy:'All Spies!',r_allspy_sub:'Everyone was the spy.',
+  r_tie:'Tie',r_tie_sub:'No one was eliminated.',
   word_was:'The word was:',spies_were:'The spies:',
   play_again:'Play Again',menu:'Main Menu',
-  err_min2:'Add at least 2 players',err_min3:'Add at least 3 words',
-  err_dup:'Name already added',added:'Added!',
-  custom_lbl:'✏️ Custom',random_lbl:'🎲 Random',adult_lbl:'Adults',
-  lang:'عربي',
-  your_name:'Your Name',create_room:'+ Create Room',or:'— or —',
-  room_code:'Room Code',join_room:'→ Join Room',
-  ol_share:'Share this code with friends',ol_players:'Players',
-  ol_settings:'Game Settings',ol_start:'Start Game',ol_wait:'Waiting for host...',
-  ol_role_inst:'Show this only to yourself!',ol_ready:'I am ready',
-  ol_vote_sub:'Host passes phone to each player for voting.',
-  ol_confirm_all:'Confirm all votes',new_round:'New Round',
+  err_min2:'Add at least 2 players',err_min3:'Add at least 3 words',err_dup:'Name already added',added:'Added',
+  random_lbl:'Random',custom_lbl:'Custom',lang:'عربي',
+  your_name:'Your Name',create_room:'Create Room',join_room:'Join Room',
+  ol_share:'Share this code with friends',ol_players:'Players',ol_settings:'Game Settings',
+  ol_start:'Start Game',ol_wait:'Waiting for host...',ol_role_inst:'This is your role. Keep it secret!',
+  ol_ready:'I am ready',ol_vote_sub:'Tap who you think is the spy.',
+  ol_confirm:'Confirm all votes',new_round:'New Round',
 },
 ar:{
-  logo:'المتسلل',land_title:'المتسلل',land_sub:'اعثر على الجاسوس.\nأو كن واحداً.',
+  logo:'المتسلل',land_title:'المتسلل',land_sub:'اعثر على الجاسوس — أو كن واحداً.',
   local_title:'محلي',local_sub:'مرّر الهاتف. لا إنترنت مطلوب.',
-  online_title:'أونلاين',online_sub:'كل لاعب على هاتفه الخاص.',
+  online_title:'أونلاين',online_sub:'كل لاعب على هاتفه.',
   howto:'طريقة اللعب',howto_title:'طريقة اللعب',
-  howto_body:'<b>الإعداد:</b> أضف اللاعبين واختر فئة.<br><br><b>كشف الأدوار:</b> يرى كل لاعب دوره بشكل خاص عبر تمرير الهاتف. يرى الأبرياء الكلمة السرية. يرى الجواسيس اسم الفئة فقط كتلميح.<br><br><b>النقاش:</b> تناوب في طرح الأسئلة. يجب أن يندمج الجواسيس. يحاول الأبرياء كشفهم.<br><br><b>التصويت:</b> مرّر الهاتف لكل لاعب للتصويت. لا يمكنك التصويت لنفسك وتستطيع تغيير تصويتك قبل التأكيد.<br><br><b>تخمين الجاسوس:</b> إذا تم القبض عليه، يختار من بين 6 خيارات — واحدة هي الكلمة الصحيحة.<br><br><b>وضع الفوضى 🔥:</b> كل شيء عشوائي — الفئة والكلمة وعدد الجواسيس. حتى المضيف لا يعرف!<br><br><b>الفوز:</b> يفوز الأبرياء بالقبض على الجواسيس. يفوز الجواسيس بالنجاة أو اختيار الكلمة الصحيحة.',
+  howto_body:'<b>الإعداد:</b> أضف اللاعبين واختر فئة.<br><br><b>كشف الأدوار (محلي):</b> مرّر الهاتف لكل لاعب. الأبرياء يرون الكلمة. الجواسيس يرون اسم الفئة فقط.<br><br><b>أونلاين:</b> كل لاعب يرى دوره على هاتفه تلقائياً.<br><br><b>النقاش:</b> تناوب في طرح الأسئلة. يجب أن يندمج الجواسيس.<br><br><b>التصويت:</b> صوّت على من تعتقد أنه الجاسوس. لا يمكنك التصويت لنفسك.<br><br><b>تخمين الجاسوس:</b> إذا تم القبض عليه، يختار من 6 خيارات للفوز.<br><br><b>وضع الفوضى:</b> كل شيء عشوائي — لا أحد يعرف أي شيء.',
   s_players:'اللاعبون',player_ph:'اسم اللاعب...',add:'أضف',
   s_cat:'الفئة',custom_hint:'افصل بفواصل. الحد الأدنى 3 كلمات.',
   s_imp:'إعدادات المتسلل',lbl_mode:'الوضع',lbl_count:'المتسللون',lbl_timer:'المؤقت',
-  m_fixed:'محدد',m_rand:'15%',m_none:'لا أحد',m_all:'الكل',
-  chaos_desc:'وضع الفوضى — لا أحد يعرف أي شيء حتى يبدأ اللعب، حتى المضيف.',
-  t2:'2د',t5:'5د',t8:'8د',t10:'10د',
-  start:'ابدأ اللعبة',back:'→ رجوع',
-  pass_msg:'دورك لرؤية دورك.\nتأكد أن لا أحد يراك.',
-  show_role:'أظهر دوري',
-  you_spy:'أنت الجاسوس',you_crew:'أنت تعرف الكلمة',
-  the_word:'الكلمة هي:',spy_hint:'تلميحك:',spy_hint_val:'اسم الفئة فقط — حظاً موفقاً!',
-  spy_tip:'اندمج! لا تكشف أنك لا تعرف الكلمة.',
-  done_role:'انتهيت، أخفِ دوري',
-  phase:'نقاش',game_cat:'الفئة',order_lbl:'ترتيب الدور',
-  go_vote:'ابدأ التصويت',
-  vote_title:'من هو المتسلل؟',vote_sub:'اضغط على اسم للتصويت. لا يمكنك التصويت لنفسك.',
-  voter_is:'يصوت الآن:',change_vote:'↩ تغيير التصويت',next_voter:'التالي →',
-  sg_title:'تم القبض عليك! 🕵️',sg_sub:'اختر الكلمة السرية للفوز.',sg_pick:'اختر الكلمة السرية',sg_skip:'تخطّ — أظهر النتيجة',
-  r_caught:'تم القبض على الجواسيس! 🎉',r_caught_sub:'يفوز الأبرياء.',
-  r_escaped:'هرب الجاسوس! 👻',r_escaped_sub:'نجا الجاسوس من التصويت.',
-  r_spy_right:'الجاسوس اختار بشكل صحيح! 🕵️',r_spy_right_sub:'حتى بعد القبض عليه، عرف الجاسوس الكلمة.',
-  r_spy_wrong:'اختيار خاطئ ❌',r_spy_wrong_sub:'اختار الجاسوس بشكل خاطئ. يفوز الأبرياء!',
-  r_nospy:'جولة بلا جاسوس 🕊️',r_nospy_sub:'كان الجميع بريئاً.',
-  r_allspy:'الجميع جاسوس! 🕵️',r_allspy_sub:'فوضى.',
-  r_tie:'تعادل 🤝',r_tie_sub:'لم يتم استبعاد أحد.',
+  m_fixed:'محدد',m_rand:'15%',m_none:'لا أحد',m_all:'الكل',m_chaos:'فوضى',
+  chaos_desc:'وضع الفوضى — لا أحد يعرف أي شيء، حتى المضيف.',
+  t2:'2د',t5:'5د',t8:'8د',t10:'10د',start:'ابدأ اللعبة',back:'رجوع',
+  home:'الرئيسية',phase:'نقاش',
+  pass_msg:'دورك. تأكد أن لا أحد يراك.',
+  show_role:'أظهر دوري',you_spy:'أنت الجاسوس',you_crew:'أنت تعرف الكلمة',
+  the_word:'الكلمة هي:',spy_hint:'تلميحك (اسم الفئة فقط):',spy_tip:'اندمج. لا تكشف أنك لا تعرف الكلمة.',
+  done_role:'انتهيت — أخفِ دوري',
+  game_cat:'الفئة',order_lbl:'ترتيب الدور',go_vote:'ابدأ التصويت',
+  vote_title:'من هو المتسلل؟',vote_sub:'اضغط للتصويت. لا يمكنك التصويت لنفسك.',
+  change_vote:'تغيير',next_voter:'التالي',
+  sg_title:'تم القبض عليك!',sg_sub:'اختر الكلمة السرية للفوز.',sg_pick:'اختر الكلمة',sg_skip:'تخطّ — أظهر النتيجة',
+  r_caught:'تم القبض على الجواسيس!',r_caught_sub:'يفوز الأبرياء.',
+  r_escaped:'هرب الجاسوس!',r_escaped_sub:'نجا الجاسوس من التصويت.',
+  r_spy_right:'الجاسوس اختار بشكل صحيح!',r_spy_right_sub:'الجاسوس عرف الكلمة.',
+  r_spy_wrong:'اختيار خاطئ',r_spy_wrong_sub:'اختار الجاسوس بشكل خاطئ. يفوز الأبرياء!',
+  r_nospy:'جولة بلا جاسوس',r_nospy_sub:'كان الجميع بريئاً.',
+  r_allspy:'الجميع جاسوس!',r_allspy_sub:'الجميع كان جاسوساً.',
+  r_tie:'تعادل',r_tie_sub:'لم يتم استبعاد أحد.',
   word_was:'كانت الكلمة:',spies_were:'الجواسيس:',
   play_again:'العب مجدداً',menu:'القائمة الرئيسية',
-  err_min2:'أضف لاعبَين على الأقل',err_min3:'أضف 3 كلمات على الأقل',
-  err_dup:'الاسم مضاف مسبقاً',added:'تمت الإضافة!',
-  custom_lbl:'✏️ مخصص',random_lbl:'🎲 عشوائي',adult_lbl:'Adults',
-  lang:'English',
-  your_name:'اسمك',create_room:'+ إنشاء غرفة',or:'— أو —',
-  room_code:'رمز الغرفة',join_room:'→ انضم',
-  ol_share:'شارك هذا الرمز مع أصدقائك',ol_players:'اللاعبون',
-  ol_settings:'إعدادات اللعبة',ol_start:'ابدأ اللعبة',ol_wait:'انتظار المضيف...',
-  ol_role_inst:'اعرض هذا لنفسك فقط!',ol_ready:'✓ أنا جاهز',
-  ol_vote_sub:'المضيف يمرر الهاتف لكل لاعب للتصويت.',
-  ol_confirm_all:'تأكيد جميع الأصوات',new_round:'جولة جديدة',
+  err_min2:'أضف لاعبَين على الأقل',err_min3:'أضف 3 كلمات على الأقل',err_dup:'الاسم مضاف مسبقاً',added:'تمت الإضافة',
+  random_lbl:'عشوائي',custom_lbl:'مخصص',lang:'English',
+  your_name:'اسمك',create_room:'إنشاء غرفة',join_room:'انضم',
+  ol_share:'شارك هذا الرمز مع أصدقائك',ol_players:'اللاعبون',ol_settings:'إعدادات اللعبة',
+  ol_start:'ابدأ اللعبة',ol_wait:'انتظار المضيف...',ol_role_inst:'هذا دورك. احتفظ به سراً!',
+  ol_ready:'أنا جاهز',ol_vote_sub:'اضغط على من تعتقد أنه الجاسوس.',
+  ol_confirm:'تأكيد جميع الأصوات',new_round:'جولة جديدة',
 }};
 
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 let lang='en';
-let players=[];
-let localMode='fixed', localCount=1, localTimer=300;
+let players=[], localMode='fixed', localCount=1, localTimer=300;
 let gs={}; // local game state
-let socket=null, olMyName='', olMyRoom='', olIsHost=false, olMyRole=null, olGameData={};
-let olSettings={category:'Countries',mode:'fixed',imposterCount:1,timerDuration:300};
-let olCurrentVoter='', olMyVote='', olVotes={}, olTallies={}, olVoteIdx=0;
-let olGuessOptions=[], olGuessWord='';
 let localTimerInt=null;
+// Online state
+let socket=null, olName='', olRoom='', olIsHost=false, olMyRole=null;
+let olSettings={category:'Countries',mode:'fixed',imposterCount:1,timerDuration:300};
+let olTimerDur=300, olVoteOrder=[], olMyVote='', olVoteSubmitted=false;
 
 function T(k){return TR[lang][k]||TR.en[k]||k;}
 
-// ═══════════════════════════════════════════════════════════
-// LANG
-// ═══════════════════════════════════════════════════════════
-function toggleLang(){
-  lang=lang==='en'?'ar':'en';
-  document.documentElement.lang=lang;
-  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
-  applyLang();
-}
-
-const TRANS_MAP={
-  't-logo':'logo','t-land-title':'land_title','t-land-sub':'land_sub',
-  't-local-title':'local_title','t-local-sub':'local_sub',
-  't-online-title':'online_title','t-online-sub':'online_sub',
-  't-howto':'howto','t-howto-title':'howto_title','t-howto-body':'howto_body',
-  't-back-h':'back','t-s-players':'s_players','t-add':'add','t-s-cat':'s_cat',
-  't-custom-hint':'custom_hint','t-s-imp':'s_imp','t-lbl-mode':'lbl_mode',
-  't-lbl-count':'lbl_count','t-lbl-timer':'lbl_timer',
-  'm-fixed':'m_fixed','m-rand':'m_rand','m-none':'m_none','m-all':'m_all',
-  't-chaos-desc':'chaos_desc',
-  'tim-2':'t2','tim-5':'t5','tim-8':'t8','tim-10':'t10',
-  't-start':'start','t-back-s':'back','t-pass-msg':'pass_msg','t-show-role':'show_role',
-  't-done-role':'done_role','t-phase':'phase','t-game-cat':'game_cat',
-  't-order-lbl':'order_lbl','t-go-vote':'go_vote',
-  't-vote-title':'vote_title','t-vote-sub':'vote_sub',
-  't-change-vote':'change_vote','t-next-voter':'next_voter',
-  't-sg-title':'sg_title','t-sg-sub':'sg_sub','t-sg-pick':'sg_pick','t-sg-skip':'sg_skip',
-  't-play-again':'play_again','t-menu':'menu',
-  't-lang':'lang','t-lang-h':'lang','t-lang-s':'lang','t-lang-o':'lang','t-lang-ol':'lang',
-  't-your-name':'your_name','t-create-room':'create_room','t-or':'or',
-  't-room-code':'room_code','t-join-room':'join_room','t-back-o':'back',
-  't-ol-code':'room_code','t-ol-share':'ol_share','t-ol-players':'ol_players',
-  't-ol-settings':'ol_settings','t-ol-cat':'s_cat','t-ol-mode':'lbl_mode',
-  't-ol-count':'lbl_count','t-ol-timer':'lbl_timer',
-  'ol-m-fixed':'m_fixed','ol-m-rand':'m_rand','ol-m-none':'m_none','ol-m-all':'m_all',
-  'ol-t2':'t2','ol-t5':'t5','ol-t8':'t8','ol-t10':'t10',
-  't-ol-start':'ol_start','t-ol-wait':'ol_wait','t-ol-role-inst':'ol_role_inst',
-  't-ol-ready':'ol_ready','t-ol-phase':'phase','t-ol-game-cat':'game_cat',
-  't-ol-role-mini':'your_name','t-ol-order':'order_lbl',
-  't-ol-vote-title':'vote_title','t-ol-vote-sub':'ol_vote_sub',
-  't-ol-change':'change_vote','t-ol-next-voter':'next_voter',
-  't-ol-sg-title':'sg_title','t-ol-sg-sub':'sg_sub','t-ol-pick':'sg_pick','t-ol-sg-skip':'sg_skip',
-  't-ol-menu':'menu',
-};
-
-function applyLang(){
-  Object.entries(TRANS_MAP).forEach(([id,key])=>{
-    const el=document.getElementById(id);
-    if(el) el.innerHTML=T(key).replace(/\n/g,'<br>');
-  });
-  const pi=document.getElementById('player-input');
-  if(pi) pi.placeholder=T('player_ph');
-  const on=document.getElementById('online-name');
-  if(on) on.placeholder=T('player_ph');
-  populateCats();
-  populateOlCats();
-}
-
-// ═══════════════════════════════════════════════════════════
-// NAV
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
 function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
+function activeScreen(){const s=document.querySelector('.screen.active');return s?s.id:'';}
 
-// ═══════════════════════════════════════════════════════════
-// LOCAL SETUP
-// ═══════════════════════════════════════════════════════════
-function startLocal(){players=[];renderChips();populateCats();go('s-setup');}
-
-
-const CAT_NAMES = {
-  en:{Countries:'Countries',Sports:'Sports',Clothing:'Clothing',Food:'Food',Animals:'Animals',Places:'Places',Professions:'Professions',Technology:'Technology',Nature:'Nature',Movies:'Movies',Brands:'Brands',Adults:'Adults',Random:'Random',Custom:'Custom'},
-  ar:{Countries:'دول',Sports:'رياضة',Clothing:'ملابس',Food:'طعام',Animals:'حيوانات',Places:'أماكن',Professions:'مهن',Technology:'تكنولوجيا',Nature:'طبيعة',Movies:'أفلام',Brands:'ماركات',Adults:'كبار',Random:'عشوائي',Custom:'مخصص'}
+// ═══════════════════════════════════════════
+// LANGUAGE
+// ═══════════════════════════════════════════
+const TMAP={
+  't-logo':'logo','t-land-title':'land_title','t-land-sub':'land_sub',
+  't-local-title':'local_title','t-local-sub':'local_sub',
+  't-online-title':'online_title','t-online-sub':'online_sub',
+  't-howto':'howto','t-howto-title':'howto_title','t-howto-body':'howto_body','t-back-h':'back',
+  't-s-players':'s_players','t-add':'add','t-s-cat':'s_cat','t-custom-hint':'custom_hint',
+  't-s-imp':'s_imp','t-lbl-mode':'lbl_mode','t-lbl-count':'lbl_count','t-lbl-timer':'lbl_timer',
+  'm-fixed':'m_fixed','m-rand':'m_rand','m-none':'m_none','m-all':'m_all','m-chaos':'m_chaos',
+  'tim-2':'t2','tim-5':'t5','tim-8':'t8','tim-10':'t10',
+  't-start':'start','t-home-s':'home','t-home-p':'home','t-home-r':'home','t-home-g':'home','t-home-v':'home','t-home-sg':'home','t-home-res':'home',
+  't-pass-msg':'pass_msg','t-show-role':'show_role','t-done-role':'done_role',
+  't-phase':'phase','t-game-cat':'game_cat','t-order-lbl':'order_lbl','t-go-vote':'go_vote',
+  't-vote-title':'vote_title','t-vote-sub':'vote_sub',
+  't-change-vote':'change_vote','t-next-voter':'next_voter',
+  't-sg-title':'sg_title','t-sg-sub':'sg_sub','t-sg-pick':'sg_pick','t-sg-skip':'sg_skip',
+  't-play-again':'play_again','t-menu':'menu',
+  't-lang':'lang','t-lang2':'lang','t-lang3':'lang','t-lang-o':'lang','t-lang-ol':'lang',
+  't-your-name':'your_name','t-create-room':'create_room','t-join-room':'join_room','t-back-o':'back',
+  't-ol-code-lbl':'ol_share','t-ol-share':'ol_share','t-ol-players':'ol_players',
+  't-ol-settings':'ol_settings','t-ol-cat':'s_cat','t-ol-mode':'lbl_mode',
+  't-ol-count':'lbl_count','t-ol-timer':'lbl_timer',
+  'ol-m-fixed':'m_fixed','ol-m-rand':'m_rand','ol-m-none':'m_none','ol-m-all':'m_all','ol-m-chaos':'m_chaos',
+  'ol-t2':'t2','ol-t5':'t5','ol-t8':'t8','ol-t10':'t10',
+  't-ol-start':'ol_start','t-ol-wait':'ol_wait','t-ol-role-inst':'ol_role_inst',
+  't-ol-phase':'phase','t-ol-game-cat':'game_cat','t-ol-my-role':'your_name','t-ol-order':'order_lbl',
+  't-ol-vote-title':'vote_title','t-ol-vote-sub':'ol_vote_sub',
+  't-ol-sg-title':'sg_title','t-ol-sg-sub':'sg_sub','t-ol-sg-pick':'sg_pick','t-ol-sg-skip':'sg_skip',
 };
 
-function populateCats(){
-  const sel=document.getElementById('cat-sel');
-  if(!sel) return;
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  Object.entries(TMAP).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=T(key).replace(/\n/g,'<br>');
+  });
+  const pi=document.getElementById('player-input');
+  if(pi) pi.placeholder=T('player_ph');
+  const on=document.getElementById('ol-name');
+  if(on) on.placeholder=T('player_ph');
+  populateCatSelect('cat-sel');
+  populateCatSelect('ol-cat-sel');
+}
+
+function toggleLang(){lang=lang==='en'?'ar':'en';applyLang();}
+function olToggleLang(){lang=lang==='en'?'ar':'en';applyLang();if(socket)socket.emit('set_lang',{code:olRoom,lang});}
+
+// ═══════════════════════════════════════════
+// CATEGORY SELECT
+// ═══════════════════════════════════════════
+function populateCatSelect(selId){
+  const sel=document.getElementById(selId);
+  if(!sel)return;
   const cur=sel.value;
-  sel.innerHTML=Object.keys(CATS).map(k=>{
-    const lbl=(CAT_NAMES[lang]||CAT_NAMES.en)[k]||k;
-    return`<option value="${k}">${lbl}</option>`;
-  }).join('');
-  sel.innerHTML+=`<option value="Random">${(CAT_NAMES[lang]||CAT_NAMES.en)['Random']}</option>`;
-  sel.innerHTML+=`<option value="Custom">${(CAT_NAMES[lang]||CAT_NAMES.en)['Custom']}</option>`;
-  if(cur) sel.value=cur;
-  onCatChange();
+  sel.innerHTML=Object.keys(CATS).map(k=>`<option value="${k}">${catLabel(k)}</option>`).join('');
+  sel.innerHTML+=`<option value="Random">${T('random_lbl')}</option>`;
+  if(selId==='cat-sel') sel.innerHTML+=`<option value="Custom">${T('custom_lbl')}</option>`;
+  if(cur&&[...sel.options].some(o=>o.value===cur)) sel.value=cur;
+  if(selId==='cat-sel') onCatChange();
 }
 
 function onCatChange(){
@@ -786,10 +907,19 @@ function onCatChange(){
     document.getElementById('cat-sel').value==='Custom'?'block':'none';
 }
 
+// ═══════════════════════════════════════════
+// LOCAL: SETUP
+// ═══════════════════════════════════════════
+function startLocal(){
+  players=[];renderChips();
+  populateCatSelect('cat-sel');
+  go('s-setup');
+}
+
 function addPlayer(){
   const inp=document.getElementById('player-input');
   const n=inp.value.trim();
-  if(!n) return;
+  if(!n)return;
   if(players.find(p=>p.toLowerCase()===n.toLowerCase())){toast(T('err_dup'),'err');return;}
   players.push(n);inp.value='';inp.focus();
   renderChips();toast(T('added'),'ok');
@@ -798,15 +928,15 @@ function addPlayer(){
 function removePlayer(i){players.splice(i,1);renderChips();}
 
 function renderChips(){
-  document.getElementById('player-chips').innerHTML=players.map((p,i)=>
-    `<div class="chip">${p}<button class="chip-x" onclick="removePlayer(${i})">×</button></div>`
-  ).join('');
+  document.getElementById('player-chips').innerHTML=
+    players.map((p,i)=>`<div class="chip">${p}<button class="chip-x" onclick="removePlayer(${i})">×</button></div>`).join('');
 }
 
 function setMode(m){
   localMode=m;
-  document.querySelectorAll('#mode-seg .seg-btn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('m-'+m).classList.add('on');
+  document.querySelectorAll('#s-setup .seg-btn').forEach(b=>b.classList.remove('on','chaos-on'));
+  const btn=document.getElementById('m-'+m.replace('random15','rand'));
+  if(btn) btn.classList.add(m==='chaos'?'chaos-on':'on');
   document.getElementById('count-row').style.display=m==='fixed'?'flex':'none';
   document.getElementById('chaos-banner').classList.toggle('show',m==='chaos');
 }
@@ -820,12 +950,12 @@ function setTimer(v){
   localTimer=v;
   ['2','5','8','10'].forEach(t=>document.getElementById('tim-'+t).classList.remove('on'));
   const m={120:'2',300:'5',480:'8',600:'10'};
-  if(m[v])document.getElementById('tim-'+m[v]).classList.add('on');
+  if(m[v]) document.getElementById('tim-'+m[v]).classList.add('on');
 }
 
-// ═══════════════════════════════════════════════════════════
-// LOCAL GAME START
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// LOCAL: GAME START
+// ═══════════════════════════════════════════
 function beginLocal(){
   if(players.length<2){toast(T('err_min2'),'err');return;}
   const catKey=document.getElementById('cat-sel').value;
@@ -838,7 +968,6 @@ function beginLocal(){
 
   let mode=localMode, impCount=localCount, category=catKey;
 
-  // Chaos resolution
   if(mode==='chaos'){
     const cats=Object.keys(CATS);
     category=cats[Math.floor(Math.random()*cats.length)];
@@ -846,7 +975,7 @@ function beginLocal(){
     mode='fixed';
   }
 
-  const word=pickLocalWord(category,lang,customWords);
+  const word=pickWord(category,customWords);
   const order=[...players].sort(()=>Math.random()-.5);
   let spies=new Set();
   if(mode==='none'){}
@@ -859,17 +988,24 @@ function beginLocal(){
 
   const roles={};
   order.forEach((n,i)=>roles[n]={isSpy:spies.has(i)});
-  const decoys=getDecoys(category,word,lang,5);
+  const decoys=getDecoys(category,word);
   const guessOptions=[...decoys,word].sort(()=>Math.random()-.5);
 
-  gs={order,roles,word,category,guessOptions,cur:0,votes:{},tallies:{},eliminated:null,voteIdx:0,localTimer,customWords};
+  gs={order,roles,word,category,guessOptions,cur:0,votes:{},tallies:{},eliminated:null,voteIdx:0,timerSec:localTimer};
   order.forEach(n=>gs.tallies[n]=[]);
 
   showLocalPass();
   go('s-pass');
 }
 
-// ─── PASS & ROLE ──────────────────────────────────────────
+function endGame(){
+  if(localTimerInt){clearInterval(localTimerInt);localTimerInt=null;}
+  go('s-land');
+}
+
+// ═══════════════════════════════════════════
+// LOCAL: PASS & ROLE
+// ═══════════════════════════════════════════
 function showLocalPass(){
   document.getElementById('pass-name').textContent=gs.order[gs.cur];
   document.getElementById('t-pass-msg').innerHTML=T('pass_msg').replace(/\n/g,'<br>');
@@ -879,223 +1015,223 @@ function showLocalPass(){
 function revealRole(){
   const name=gs.order[gs.cur];
   const isSpy=gs.roles[name].isSpy;
-  document.getElementById('role-content').innerHTML=isSpy?`
-    <div class="role-box spy">
-      <span class="r-emoji">🕵️</span>
-      <div class="r-badge spy">${T('you_spy')}</div>
-      <div class="r-name" style="color:var(--red2)">${name}</div>
-      <div class="wbox">
-        <div class="wlbl">${T('spy_hint')}</div>
-        <div class="wval" style="font-size:1.4rem">${gs.category}</div>
-        <div class="wsub" style="margin-top:.4rem">${T('spy_tip')}</div>
-      </div>
-    </div>`:`
-    <div class="role-box crew">
-      <span class="r-emoji">👁️</span>
-      <div class="r-badge crew">${T('you_crew')}</div>
-      <div class="r-name" style="color:var(--purple3)">${name}</div>
-      <div class="wbox">
-        <div class="wlbl">${T('the_word')}</div>
-        <div class="wval">${gs.word}</div>
-        <div class="wsub" style="color:var(--purple3)">${(CAT_NAMES[lang]||CAT_NAMES.en)[gs.category]||gs.category}</div>
-      </div>
-    </div>`;
+  document.getElementById('role-content').innerHTML=roleHTML(name,isSpy,gs.word,gs.category);
   document.getElementById('t-done-role').textContent=T('done_role');
   go('s-role');
+}
+
+function roleHTML(name,isSpy,word,category){
+  if(isSpy) return `<div class="role-box spy">
+    <div class="r-badge spy">${T('you_spy')}</div>
+    <div class="r-name" style="color:var(--red2)">${name}</div>
+    <div class="wbox">
+      <div class="wlbl">${T('spy_hint')}</div>
+      <div class="wval" style="font-size:1.4rem">${catLabel(category)}</div>
+      <div class="wsub">${T('spy_tip')}</div>
+    </div>
+  </div>`;
+  return `<div class="role-box crew">
+    <div class="r-badge crew">${T('you_crew')}</div>
+    <div class="r-name" style="color:var(--gold3)">${name}</div>
+    <div class="wbox">
+      <div class="wlbl">${T('the_word')}</div>
+      <div class="wval">${word}</div>
+      <div class="wsub" style="color:var(--gold2)">${catLabel(category)}</div>
+    </div>
+  </div>`;
 }
 
 function doneRole(){
   gs.cur++;
   if(gs.cur<gs.order.length){showLocalPass();go('s-pass');}
-  else{setupLocalGame();go('s-game');}
+  else{setupLocalGame();startLocalTimer();go('s-game');}
 }
 
-// ─── GAME SCREEN ──────────────────────────────────────────
-function setupLocalGame(){
-  document.getElementById('game-cat-val').textContent=(CAT_NAMES[lang]||CAT_NAMES.en)[gs.category]||gs.category;
-  document.getElementById('t-game-cat').textContent=T('game_cat');
-  document.getElementById('t-order-lbl').textContent=T('order_lbl');
-  document.getElementById('t-phase').textContent=T('phase');
-  document.getElementById('t-go-vote').textContent=T('go_vote');
-  document.getElementById('order-list').innerHTML=gs.order.map((n,i)=>
-    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`
-  ).join('');
-  startLocalTimer();
-}
-
-// ─── TIMER ────────────────────────────────────────────────
-let localTimeLeft=300;
+// ═══════════════════════════════════════════
+// LOCAL: TIMER
+// ═══════════════════════════════════════════
 const CIRC=326.73;
+let localTimeLeft=300;
+
+function setupLocalGame(){
+  document.getElementById('game-cat-val').textContent=catLabel(gs.category);
+  document.getElementById('t-go-vote').textContent=T('go_vote');
+  document.getElementById('t-phase').textContent=T('phase');
+  document.getElementById('order-list').innerHTML=gs.order.map((n,i)=>
+    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`).join('');
+}
 
 function startLocalTimer(){
-  localTimeLeft=gs.localTimer||300;
-  renderLocalTimer();
+  localTimeLeft=gs.timerSec||300;
+  renderTimer('timer-ring','ring-fg','timer-txt',localTimeLeft,localTimeLeft);
   if(localTimerInt) clearInterval(localTimerInt);
   localTimerInt=setInterval(()=>{
-    localTimeLeft--;renderLocalTimer();
+    localTimeLeft--;
+    renderTimer('timer-ring','ring-fg','timer-txt',localTimeLeft,gs.timerSec||300);
     if(localTimeLeft<=0){clearInterval(localTimerInt);goVote();}
   },1000);
 }
 
-function renderLocalTimer(){
-  const m=Math.floor(localTimeLeft/60),s=localTimeLeft%60;
-  document.getElementById('timer-txt').textContent=`${m}:${s.toString().padStart(2,'0')}`;
-  const pct=localTimeLeft/(gs.localTimer||300);
-  document.getElementById('ring-fg').style.strokeDashoffset=CIRC*(1-pct);
-  const r=document.getElementById('timer-ring');
-  r.classList.remove('warn','danger');
-  if(pct<0.2)r.classList.add('danger');
-  else if(pct<0.4)r.classList.add('warn');
+function renderTimer(ringId,fgId,txtId,rem,total){
+  const m=Math.floor(rem/60),s=rem%60;
+  const el=document.getElementById(txtId);
+  if(el) el.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  const fg=document.getElementById(fgId);
+  if(fg) fg.style.strokeDashoffset=CIRC*(1-rem/total);
+  const ring=document.getElementById(ringId);
+  if(ring){
+    ring.classList.remove('warn','danger');
+    if(rem/total<0.2) ring.classList.add('danger');
+    else if(rem/total<0.4) ring.classList.add('warn');
+  }
 }
 
-// ─── VOTING ───────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// LOCAL: VOTING
+// ═══════════════════════════════════════════
 function goVote(){
-  if(localTimerInt) clearInterval(localTimerInt);
+  if(localTimerInt){clearInterval(localTimerInt);localTimerInt=null;}
   gs.votes={};gs.tallies={};gs.voteIdx=0;
   gs.order.forEach(n=>gs.tallies[n]=[]);
-  gs.currentVoterVote=null;
-  renderVoteScreen();
+  renderLocalVoteScreen();
   go('s-vote');
 }
 
-function renderVoteScreen(){
+function renderLocalVoteScreen(){
   const voter=gs.order[gs.voteIdx];
-  document.getElementById('voter-prompt').textContent=`${T('voter_is')} ${voter}`;
+  document.getElementById('voter-prompt').textContent=`${voter}`;
   document.getElementById('t-vote-title').textContent=T('vote_title');
   document.getElementById('t-vote-sub').textContent=T('vote_sub');
   document.getElementById('t-change-vote').textContent=T('change_vote');
   document.getElementById('t-next-voter').textContent=T('next_voter');
-  document.getElementById('t-next-voter').disabled=true;
-  gs.currentVoterVote=gs.votes[voter]||null;
-  renderVoteButtons(voter);
+  document.getElementById('t-next-voter').disabled=!gs.votes[voter];
+  renderLocalVoteBtns(voter);
 }
 
-function renderVoteButtons(voter){
+function renderLocalVoteBtns(voter){
   const existing=gs.votes[voter]||null;
+  const total=Object.values(gs.tallies).reduce((a,v)=>a+v.length,0);
   document.getElementById('vote-grid').innerHTML=gs.order.map(n=>{
     const isSelf=n===voter;
     const isSelected=n===existing;
-    const voters=gs.tallies[n]||[];
-    return`<button class="vbtn${isSelected?' selected':''}" onclick="localCastVote('${n}')" ${isSelf?'disabled':''}>
+    const cnt=(gs.tallies[n]||[]).length;
+    const pct=total?Math.round(cnt/total*100):0;
+    return`<button class="vbtn${isSelected?' selected':''}" onclick="localSelectVote('${n}')" ${isSelf?'disabled':''}>
       <div style="flex:1">
-        <div>${n}${isSelf?` <span style="font-size:.7rem;color:var(--ink3)">(${T('voter_is').replace(':','')})</span>`:''}</div>
-        <div class="vbar-wrap"><div class="vbar" style="width:${calcPct(n)}%"></div></div>
-        <div class="vchips">${voters.map(v=>`<span class="vchip">${v}</span>`).join('')}</div>
+        <div>${n}</div>
+        <div class="vbar-wrap"><div class="vbar" style="width:${pct}%"></div></div>
+        <div class="vchips">${(gs.tallies[n]||[]).map(v=>`<span class="vchip">${v}</span>`).join('')}</div>
       </div>
-      <div class="vtally">${voters.length}</div>
+      <div class="vtally">${cnt}</div>
     </button>`;
   }).join('');
 }
 
-function calcPct(name){
-  const total=Object.keys(gs.votes).length;
-  return total?Math.round((gs.tallies[name]||[]).length/total*100):0;
-}
-
-function localCastVote(target){
+function localSelectVote(target){
   const voter=gs.order[gs.voteIdx];
-  if(target===voter) return;
-  // Remove old vote if any
+  if(target===voter)return;
   if(gs.votes[voter]){
     const old=gs.votes[voter];
     gs.tallies[old]=(gs.tallies[old]||[]).filter(v=>v!==voter);
   }
   gs.votes[voter]=target;
-  if(!gs.tallies[target]) gs.tallies[target]=[];
-  if(!gs.tallies[target].includes(voter)) gs.tallies[target].push(voter);
-  renderVoteButtons(voter);
+  if(!gs.tallies[target])gs.tallies[target]=[];
+  if(!gs.tallies[target].includes(voter))gs.tallies[target].push(voter);
+  renderLocalVoteBtns(voter);
   document.getElementById('t-next-voter').disabled=false;
 }
 
-function changeVote(){
+function localChangeVote(){
   const voter=gs.order[gs.voteIdx];
   if(gs.votes[voter]){
     const old=gs.votes[voter];
     gs.tallies[old]=(gs.tallies[old]||[]).filter(v=>v!==voter);
     delete gs.votes[voter];
   }
-  renderVoteButtons(voter);
+  renderLocalVoteBtns(voter);
   document.getElementById('t-next-voter').disabled=true;
 }
 
-function confirmMyVote(){
+function localNextVoter(){
   gs.voteIdx++;
-  if(gs.voteIdx<gs.order.length){renderVoteScreen();}
-  else{tallyLocalVotes();}
+  if(gs.voteIdx<gs.order.length) renderLocalVoteScreen();
+  else localTally();
 }
 
-function tallyLocalVotes(){
+function localTally(){
   let max=0,elim=null,tie=false;
   Object.entries(gs.tallies).forEach(([n,v])=>{
     if(v.length>max){max=v.length;elim=n;tie=false;}
     else if(v.length===max&&v.length>0) tie=true;
   });
   const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
-  if(tie||!elim){showLocalResult({type:'tie',elim:null,spyNames,word:gs.word});return;}
+  if(tie||!elim){showLocalResult({type:'tie',elim:null,spyNames});return;}
   gs.eliminated=elim;
-  if(gs.roles[elim]?.isSpy){showSpyGuess(spyNames);}
-  else{showLocalResult({type:'escaped',elim,spyNames,word:gs.word});}
+  if(gs.roles[elim]?.isSpy) showLocalSpyGuess(spyNames);
+  else showLocalResult({type:'escaped',elim,spyNames});
 }
 
-// ─── SPY GUESS ────────────────────────────────────────────
-function showSpyGuess(spyNames){
+// ═══════════════════════════════════════════
+// LOCAL: SPY GUESS
+// ═══════════════════════════════════════════
+function showLocalSpyGuess(spyNames){
   document.getElementById('t-sg-title').textContent=T('sg_title');
   document.getElementById('t-sg-sub').textContent=T('sg_sub');
   document.getElementById('t-sg-pick').textContent=T('sg_pick');
   document.getElementById('t-sg-skip').textContent=T('sg_skip');
-  document.getElementById('sg-spy-names').innerHTML=spyNames.map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('');
+  document.getElementById('sg-spy-names').innerHTML=spyNames.map(n=>`<span class="spy-tag">${n}</span>`).join('');
   document.getElementById('guess-grid').innerHTML=gs.guessOptions.map(opt=>
-    `<div class="guess-opt" onclick="localGuess('${opt}')">${opt}</div>`
-  ).join('');
+    `<div class="gopt" onclick="localGuess('${opt.replace(/'/g,"\\'")}')">${opt}</div>`).join('');
   go('s-spyguess');
 }
 
 function localGuess(opt){
   const correct=opt===gs.word;
-  // Show correct/wrong visually
-  document.querySelectorAll('.guess-opt').forEach(el=>{
+  document.querySelectorAll('#guess-grid .gopt').forEach(el=>{
     el.onclick=null;
     if(el.textContent===gs.word) el.classList.add('correct');
     else if(el.textContent===opt&&!correct) el.classList.add('wrong');
   });
   const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
-  setTimeout(()=>showLocalResult({
-    type:correct?'spy_right':'spy_wrong',
-    elim:gs.eliminated,spyNames,word:gs.word,guess:opt
-  }),1200);
+  setTimeout(()=>showLocalResult({type:correct?'spy_right':'spy_wrong',elim:gs.eliminated,spyNames,guess:opt}),1000);
 }
 
 function skipGuess(){
   const spyNames=gs.order.filter(n=>gs.roles[n].isSpy);
-  showLocalResult({type:'caught',elim:gs.eliminated,spyNames,word:gs.word});
+  showLocalResult({type:'caught',elim:gs.eliminated,spyNames});
 }
 
-// ─── RESULT ───────────────────────────────────────────────
-function showLocalResult({type,elim,spyNames,word,guess}){
-  const map={
-    caught:['🎉','r_caught','r_caught_sub','win'],
-    escaped:['👻','r_escaped','r_escaped_sub','lose'],
-    spy_right:['🕵️','r_spy_right','r_spy_right_sub','lose'],
-    spy_wrong:['❌','r_spy_wrong','r_spy_wrong_sub','win'],
-    nospy:['🕊️','r_nospy','r_nospy_sub','neutral'],
-    allspy:['🕵️','r_allspy','r_allspy_sub','neutral'],
-    tie:['🤝','r_tie','r_tie_sub','neutral']
-  };
-  const [emoji,tk,sk,cls]=map[type]||['🤝','r_tie','r_tie_sub','neutral'];
-  document.getElementById('result-content').innerHTML=`
-    <div class="rbox ${cls}">
-      <span class="remoji">${emoji}</span>
-      <div class="rtitle">${T(tk)}</div>
-      <div class="rsub">${T(sk)}</div>
-      ${elim?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Eliminated: <b style="color:var(--ink)">${elim}</b></div>`:''}
-      ${guess?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Pick: <b style="color:${guess===word?'var(--green2)':'var(--red2)'}">${guess}</b></div>`:''}
-      <div class="wbox" style="margin:.75rem 0">
-        <div class="wlbl">${T('word_was')}</div>
-        <div class="wval">${word}</div>
-      </div>
-      <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:.75rem 0 .4rem">${T('spies_were')}</div>
-      <div class="spy-tags">${spyNames.map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('')}</div>
-    </div>`;
+// ═══════════════════════════════════════════
+// LOCAL: RESULT
+// ═══════════════════════════════════════════
+const RMAP={
+  caught:['r_caught','r_caught_sub','win'],
+  escaped:['r_escaped','r_escaped_sub','lose'],
+  spy_right:['r_spy_right','r_spy_right_sub','lose'],
+  spy_wrong:['r_spy_wrong','r_spy_wrong_sub','win'],
+  nospy:['r_nospy','r_nospy_sub','neutral'],
+  allspy:['r_allspy','r_allspy_sub','neutral'],
+  tie:['r_tie','r_tie_sub','neutral']
+};
+
+function resultHTML(type,elim,spyNames,word,guess,cat){
+  const [tk,sk,cls]=RMAP[type]||RMAP.tie;
+  return`<div class="rbox ${cls}">
+    <div class="rtitle">${T(tk)}</div>
+    <div class="rsub">${T(sk)}</div>
+    ${elim?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Eliminated: <b style="color:var(--ink)">${elim}</b></div>`:''}
+    ${guess?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Pick: <b style="color:${guess===word?'var(--green2)':'var(--red2)'}">${guess}</b></div>`:''}
+    <div class="wbox" style="margin:.75rem 0">
+      <div class="wlbl">${T('word_was')}</div>
+      <div class="wval">${word||'?'}</div>
+    </div>
+    <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:.75rem 0 .4rem">${T('spies_were')}</div>
+    <div class="spy-tags">${(spyNames||[]).map(n=>`<span class="spy-tag">${n}</span>`).join('')}</div>
+  </div>`;
+}
+
+function showLocalResult({type,elim,spyNames,guess}){
+  document.getElementById('result-content').innerHTML=resultHTML(type,elim,spyNames,gs.word,guess,gs.category);
   document.getElementById('t-play-again').textContent=T('play_again');
   document.getElementById('t-menu').textContent=T('menu');
   go('s-result');
@@ -1103,278 +1239,199 @@ function showLocalResult({type,elim,spyNames,word,guess}){
 
 function playAgain(){gs.cur=0;beginLocal();}
 
-// ═══════════════════════════════════════════════════════════
-// ONLINE MODE
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// ONLINE: SOCKET SETUP (called once)
+// ═══════════════════════════════════════════
 function initSocket(){
   if(socket) return;
-  const serverUrl=window.location.hostname==='localhost'||window.location.protocol==='file:'?'http://'+window.location.hostname+':3456':'https://imposter.waleedelhadi.com';
-  socket=io(serverUrl,{transports:['websocket','polling']});
+  const url=window.location.protocol==='file:'||window.location.hostname==='localhost'
+    ?'http://localhost:3456':'https://imposter.waleedelhadi.com';
+  socket=io(url,{transports:['websocket','polling']});
+
   socket.on('connect',()=>{
-    console.log('Connected:',socket.id);
-    // Auto-rejoin if we were in a room
-    if(olMyRoom&&olMyName){
-      socket.emit('rejoin_room',{code:olMyRoom,name:olMyName},res=>{
-        if(res&&res.ok){
-          olIsHost=res.room.isHost;
-          olOnRoomUpdate(res.room);
-          toast('Reconnected!','ok');
-        }
+    if(olRoom&&olName){
+      socket.emit('rejoin_room',{code:olRoom,name:olName},res=>{
+        if(res&&res.ok){olIsHost=res.room.isHost;renderLobby(res.room);toast('Reconnected','ok');}
       });
     }
   });
-  socket.on('connect_error',e=>{toast('Cannot reach server','err');console.error(e);});
+  socket.on('connect_error',()=>toast('Cannot reach server','err'));
   socket.on('disconnect',()=>toast('Connection lost — reconnecting...','err'));
-  socket.on('room_update',olOnRoomUpdate);
-  socket.on('player_left',d=>toast(`${d.name} left`,'err'));
-  socket.on('start_role_reveal',olOnStartReveal);
-  socket.on('ready_update', olOnReadyUpdate);
-  socket.on('game_started',olOnGameStarted);
-  socket.on('timer_tick',olOnTick);
-  socket.on('voting_started',olOnVotingStarted);
-  socket.on('next_voter',d=>{olCurrentVoter=d.currentVoter;olRenderVoting();});
-  // vote_cast handled below in voting section
-  socket.on('spy_guess_chance',olOnSpyGuessChance);
-  socket.on('vote_result',olOnVoteResult);
-  socket.on('lang_changed',d=>{lang=d.lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';applyLang();});
+  socket.on('room_update',      data=>{ renderLobby(data); if(data.state==='lobby'&&['s-ol-result','s-ol-game','s-ol-vote','s-ol-spyguess'].includes(activeScreen())) go('s-ol-lobby'); });
+  socket.on('player_left',      d=>toast(`${d.name} left`,'err'));
+  socket.on('start_role_reveal',olOnReveal);
+  socket.on('ready_update',     olOnReadyUpdate);
+  socket.on('game_started',     olOnGameStarted);
+  socket.on('timer_tick',       olOnTick);
+  socket.on('voting_started',   olOnVotingStarted);
+  socket.on('vote_cast',        olOnVoteCast);
+  socket.on('spy_guess_chance', olOnSpyGuessChance);
+  socket.on('vote_result',      olOnVoteResult);
+  socket.on('lang_changed',     d=>{lang=d.lang;applyLang();});
 }
 
-function populateOlCats(){
-  const sel=document.getElementById('ol-cat');
-  if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML=Object.keys(CATS).map(k=>{
-    const lbl=(CAT_NAMES[lang]||CAT_NAMES.en)[k]||k;
-    return`<option value="${k}">${lbl}</option>`;
-  }).join('');
-  sel.innerHTML+=`<option value="Random">${(CAT_NAMES[lang]||CAT_NAMES.en)['Random']}</option>`;
-  if(cur)sel.value=cur;
-}
-
-function onlineCreate(){
-  const name=document.getElementById('online-name').value.trim();
-  if(!name){toast('Enter your name first','err');return;}
-  initSocket();
-  olMyName=name;
+// ═══════════════════════════════════════════
+// ONLINE: ENTRY
+// ═══════════════════════════════════════════
+function olCreate(){
+  const name=document.getElementById('ol-name').value.trim();
+  if(!name){toast('Enter your name','err');return;}
+  olName=name;initSocket();
   toast('Connecting...','ok');
-  // Wait for connection before emitting
-  if(!socket.connected){
-    socket.once('connect',()=>{
-      socket.emit('create_room',{name},res=>{
-        if(!res||!res.ok){toast((res&&res.error)||'Server error','err');return;}
-        olMyRoom=res.code;olIsHost=true;
-        olOnRoomUpdate(res.room);
-        go('s-online-lobby');
-      });
-    });
-  } else {
-    socket.emit('create_room',{name},res=>{
-      if(!res||!res.ok){toast((res&&res.error)||'Server error','err');return;}
-      olMyRoom=res.code;olIsHost=true;
-      olOnRoomUpdate(res.room);
-      go('s-online-lobby');
-    });
-  }
-}
-
-function onlineJoin(){
-  const name=document.getElementById('online-name').value.trim();
-  const code=document.getElementById('join-code').value.trim().toUpperCase();
-  if(!name){toast(T('player_ph'),'err');return;}
-  if(code.length!==4){toast('Code must be 4 chars','err');return;}
-  initSocket();
-  olMyName=name;
-  socket.emit('join_room',{code,name},res=>{
-    if(!res.ok){toast(res.error,'err');return;}
-    olMyRoom=res.code;olIsHost=false;
-    olOnRoomUpdate(res.room);
-    go('s-online-lobby');
+  const emit=()=>socket.emit('create_room',{name},res=>{
+    if(!res||!res.ok){toast(res?.error||'Server error','err');return;}
+    olRoom=res.code;olIsHost=true;
+    renderLobby(res.room);go('s-ol-lobby');
   });
+  socket.connected?emit():socket.once('connect',emit);
 }
 
-function olOnRoomUpdate(room){
-  document.getElementById('ol-code').textContent=room.code;
+function olJoin(){
+  const name=document.getElementById('ol-name').value.trim();
+  const code=document.getElementById('ol-join-code').value.trim().toUpperCase();
+  if(!name){toast('Enter your name','err');return;}
+  if(code.length!==4){toast('Code must be 4 characters','err');return;}
+  olName=name;initSocket();
+  const emit=()=>socket.emit('join_room',{code,name},res=>{
+    if(!res||!res.ok){toast(res?.error||'Room not found','err');return;}
+    olRoom=res.code;olIsHost=false;
+    renderLobby(res.room);go('s-ol-lobby');
+  });
+  socket.connected?emit():socket.once('connect',emit);
+}
+
+function olLeave(){olRoom='';olName='';go('s-land');}
+
+// ═══════════════════════════════════════════
+// ONLINE: LOBBY
+// ═══════════════════════════════════════════
+function renderLobby(room){
   olIsHost=room.isHost;
-  document.getElementById('ol-host-settings').style.display=olIsHost?'block':'none';
-  document.getElementById('ol-waiting').style.display=olIsHost?'none':'block';
-  document.getElementById('ol-players').innerHTML=(room.players||[]).map(p=>
+  document.getElementById('ol-room-code').textContent=room.code||'----';
+  document.getElementById('ol-player-chips').innerHTML=(room.players||[]).map(p=>
     `<div class="pchip"><span class="dot${p.connected?'':' off'}"></span>${p.name}${p.name===room.hostName?' 👑':''}</div>`
   ).join('');
-  if(room.settings) olSyncSettings(room.settings);
+  document.getElementById('ol-host-panel').style.display=olIsHost?'block':'none';
+  document.getElementById('ol-wait-msg').style.display=olIsHost?'none':'block';
+  if(room.settings) syncOlSettings(room.settings);
 }
 
-function olSyncSettings(s){
+function syncOlSettings(s){
   olSettings={...olSettings,...s};
-  const cat=document.getElementById('ol-cat');
+  const cat=document.getElementById('ol-cat-sel');
   if(cat) cat.value=s.category||'Countries';
   ['fixed','random15','none','all','chaos'].forEach(m=>{
-    const b=document.getElementById('ol-m-'+m.replace('random15','rand'));
-    if(b) b.classList.toggle('on',s.mode===m);
+    const btn=document.getElementById('ol-m-'+m.replace('random15','rand'));
+    if(btn){btn.classList.remove('on','chaos-on');if(s.mode===m)btn.classList.add(m==='chaos'?'chaos-on':'on');}
   });
   document.getElementById('ol-imp-count').textContent=s.imposterCount||1;
   document.getElementById('ol-count-row').style.display=s.mode==='fixed'?'flex':'none';
-  ['2','5','8','10'].forEach(t=>{
-    const m={'2':120,'5':300,'8':480,'10':600};
-    const b=document.getElementById('ol-t'+t);
-    if(b) b.classList.toggle('on',s.timerDuration===m[t]);
-  });
+  const tm={120:'ol-t2',300:'ol-t5',480:'ol-t8',600:'ol-t10'};
+  Object.entries(tm).forEach(([v,id])=>{const b=document.getElementById(id);if(b)b.classList.toggle('on',s.timerDuration===parseInt(v));});
 }
 
-function pushOlSettings(){
-  olSettings.category=document.getElementById('ol-cat').value;
-  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+function olPushSettings(){
+  olSettings.category=document.getElementById('ol-cat-sel').value;
+  socket.emit('update_settings',{code:olRoom,settings:olSettings});
 }
-
 function olSetMode(m){
   olSettings.mode=m;
-  ['fixed','random15','none','all','chaos'].forEach(x=>{
-    const b=document.getElementById('ol-m-'+x.replace('random15','rand'));
-    if(b) b.classList.toggle('on',x===m);
-  });
+  document.querySelectorAll('#ol-host-panel .seg-btn').forEach(b=>b.classList.remove('on','chaos-on'));
+  const btn=document.getElementById('ol-m-'+m.replace('random15','rand'));
+  if(btn) btn.classList.add(m==='chaos'?'chaos-on':'on');
   document.getElementById('ol-count-row').style.display=m==='fixed'?'flex':'none';
-  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+  socket.emit('update_settings',{code:olRoom,settings:olSettings});
 }
-
 function olAdjCount(d){
   olSettings.imposterCount=Math.max(1,Math.min(10,(olSettings.imposterCount||1)+d));
   document.getElementById('ol-imp-count').textContent=olSettings.imposterCount;
-  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+  socket.emit('update_settings',{code:olRoom,settings:olSettings});
 }
-
 function olSetTimer(v){
   olSettings.timerDuration=v;
-  ['2','5','8','10'].forEach(t=>{
-    const m={'2':120,'5':300,'8':480,'10':600};
-    document.getElementById('ol-t'+t).classList.toggle('on',v===m[t]);
-  });
-  socket.emit('update_settings',{code:olMyRoom,settings:olSettings});
+  const tm={120:'ol-t2',300:'ol-t5',480:'ol-t8',600:'ol-t10'};
+  Object.entries(tm).forEach(([val,id])=>{const b=document.getElementById(id);if(b)b.classList.toggle('on',v===parseInt(val));});
+  socket.emit('update_settings',{code:olRoom,settings:olSettings});
 }
+function olStartGame(){socket.emit('start_game',{code:olRoom},res=>{if(res&&!res.ok)toast(res.error||'Cannot start','err');});}
 
-function olStartGame(){
-  socket.emit('start_game',{code:olMyRoom},res=>{
-    if(res&&!res.ok) toast(res.error||'Cannot start','err');
-  });
-}
-
-function onlineLang(){
-  toggleLang();
-  socket.emit('set_lang',{code:olMyRoom,lang});
-}
-
-// Online role reveal — each player gets their own role on their own device
-function olOnStartReveal(data){
-  olGameData.order=data.order;olGameData.category=data.category;
-  // Request my own role from server
-  socket.emit('get_my_role',{code:olMyRoom},res=>{
+// ═══════════════════════════════════════════
+// ONLINE: ROLE REVEAL (each player on own device)
+// ═══════════════════════════════════════════
+function olOnReveal(data){
+  socket.emit('get_my_role',{code:olRoom},res=>{
     if(!res||!res.ok){toast('Could not get role','err');return;}
-    olShowMyRole(res);
+    olMyRole=res;
+    document.getElementById('ol-role-content').innerHTML=roleHTML(res.name,res.isSpy,res.word,res.category||data.category);
+    document.getElementById('t-ol-role-inst').textContent=T('ol_role_inst');
+    const btn=document.getElementById('ol-ready-btn');
+    btn.textContent=T('ol_ready');btn.disabled=false;
+    go('s-ol-role');
   });
 }
 
-function olShowMyRole(res){
-  const isSpy=res.isSpy;
-  olMyRole=res;
-  document.getElementById('ol-role-content').innerHTML=isSpy?`
-    <div class="role-box spy">
-      <div class="r-badge spy">${T('you_spy')}</div>
-      <div class="r-name" style="color:var(--red2)">${res.name}</div>
-      <div class="wbox">
-        <div class="wlbl">${T('spy_hint')}</div>
-        <div class="wval" style="font-size:1.4rem">${res.hint}</div>
-        <div class="wsub">${T('spy_tip')}</div>
-      </div>
-    </div>`:`
-    <div class="role-box crew">
-      <div class="r-badge crew">${T('you_crew')}</div>
-      <div class="r-name" style="color:var(--purple3)">${res.name}</div>
-      <div class="wbox">
-        <div class="wlbl">${T('the_word')}</div>
-        <div class="wval">${res.word}</div>
-        <div class="wsub" style="color:var(--purple3)">${res.category}</div>
-      </div>
-    </div>`;
-  document.getElementById('t-ol-role-inst').textContent=T('ol_role_inst');
-  document.getElementById('t-ol-ready').textContent=T('ol_ready');
-  document.getElementById('t-ol-ready').onclick=olMarkReady;
-  go('s-online-role');
-}
-
-let olReadyCount=0, olReadyTotal=0;
 function olMarkReady(){
-  socket.emit('player_ready',{code:olMyRoom});
-  document.getElementById('t-ol-ready').disabled=true;
-  document.getElementById('t-ol-ready').textContent='Waiting for others...';
+  const btn=document.getElementById('ol-ready-btn');
+  btn.disabled=true;btn.textContent='Waiting for others...';
+  socket.emit('player_ready',{code:olRoom});
 }
 
 function olOnReadyUpdate(data){
-  olReadyCount=data.readyCount;olReadyTotal=data.totalCount;
-  const btn=document.getElementById('t-ol-ready');
-  if(btn){
-    if(data.allReady){
-      btn.textContent='Starting...';
-      // game_started will arrive right after — go there
-      setTimeout(()=>go('s-online-game'),300);
-    } else {
-      btn.textContent=`${data.readyCount}/${data.totalCount} ready...`;
-    }
+  const btn=document.getElementById('ol-ready-btn');
+  if(btn&&btn.disabled){
+    btn.textContent=data.allReady?'Starting...':`${data.readyCount}/${data.totalCount} ready...`;
   }
+  if(data.allReady) setTimeout(()=>go('s-ol-game'),300);
 }
 
+// ═══════════════════════════════════════════
+// ONLINE: GAME SCREEN
+// ═══════════════════════════════════════════
 function olOnGameStarted(data){
-  olGameData={...olGameData,...data};
-  document.getElementById('ol-cat-val').textContent=(CAT_NAMES[lang]||CAT_NAMES.en)[data.category]||data.category;
-  document.getElementById('t-ol-game-cat').textContent=T('game_cat');
+  olTimerDur=data.timerDuration||300;
+  document.getElementById('ol-cat-val').textContent=catLabel(data.category);
   document.getElementById('t-ol-phase').textContent=T('phase');
   document.getElementById('t-ol-order').textContent=T('order_lbl');
   document.getElementById('ol-order-list').innerHTML=(data.order||[]).map((n,i)=>
-    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`
-  ).join('');
-  document.getElementById('ol-vote-btn').style.display=olIsHost?'flex':'none';
-  document.getElementById('t-ol-vote').textContent=T('go_vote');
-  go('s-online-game');
+    `<div class="oitem"><div class="onum">${i+1}</div><div>${n}</div></div>`).join('');
+  // Show role mini
+  const mini=document.getElementById('ol-role-mini');
+  if(olMyRole&&mini){
+    if(olMyRole.isSpy) mini.innerHTML=`<div style="color:var(--red2);font-weight:600">${T('you_spy')}</div><div style="font-size:.82rem;color:var(--ink3);margin-top:.25rem">${T('spy_hint')} ${catLabel(data.category)}</div>`;
+    else mini.innerHTML=`<div style="color:var(--gold3);font-weight:600">${T('you_crew')}</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--gold2);margin-top:.25rem">${olMyRole.word||''}</div>`;
+  }
+  const voteBtn=document.getElementById('ol-vote-btn');
+  if(voteBtn) voteBtn.style.display=olIsHost?'flex':'none';
+  go('s-ol-game');
 }
 
-let olTimerDur=300;
 function olOnTick(data){
-  olTimerDur=olGameData.timerDuration||300;
-  const rem=data.remaining;
-  const m=Math.floor(rem/60),s=rem%60;
-  document.getElementById('ol-timer-txt').textContent=`${m}:${s.toString().padStart(2,'0')}`;
-  const pct=rem/olTimerDur;
-  document.getElementById('ol-ring-fg').style.strokeDashoffset=CIRC*(1-pct);
-  const r=document.getElementById('ol-timer-ring');
-  r.classList.remove('warn','danger');
-  if(pct<0.2)r.classList.add('danger');
-  else if(pct<0.4)r.classList.add('warn');
+  renderTimer('ol-timer-ring','ol-ring-fg','ol-timer-txt',data.remaining,olTimerDur);
 }
 
-function olStartVoting(){socket.emit('start_voting',{code:olMyRoom});}
+function olRequestVoting(){socket.emit('start_voting',{code:olRoom});}
 
-// Online voting — each player votes independently on own device
-let olVoteOrder=[], olMySelectedVote='', olMyVoteSubmitted=false;
-
+// ═══════════════════════════════════════════
+// ONLINE: VOTING (independent per device)
+// ═══════════════════════════════════════════
 function olOnVotingStarted(data){
-  olVoteOrder=data.players;
-  olVotes={};olTallies={};
-  olVoteOrder.forEach(n=>olTallies[n]=[]);
-  olMySelectedVote='';
-  olMyVoteSubmitted=false;
-  // Show pre-vote UI
+  olVoteOrder=data.players||[];
+  olMyVote='';olVoteSubmitted=false;
+  // Reset UI
   document.getElementById('ol-prevote').style.display='block';
   document.getElementById('ol-postvote').style.display='none';
   document.getElementById('ol-confirm-btn').style.display='none';
-  document.getElementById('ol-submit-vote-btn').disabled=true;
+  document.getElementById('ol-submit-btn').disabled=true;
   document.getElementById('t-ol-vote-title').textContent=T('vote_title');
-  document.getElementById('t-ol-vote-sub').textContent=T('vote_sub');
-  olRenderMyVoteOptions();
-  go('s-online-voting');
+  document.getElementById('t-ol-vote-sub').textContent=T('ol_vote_sub');
+  renderOlVoteOptions();
+  go('s-ol-vote');
 }
 
-function olRenderMyVoteOptions(){
-  // Show all players except yourself as vote options
+function renderOlVoteOptions(){
   document.getElementById('ol-vote-grid').innerHTML=olVoteOrder.map(n=>{
-    const isSelf=n===olMyName;
-    const isSelected=n===olMySelectedVote;
+    const isSelf=n===olName;
+    const isSelected=n===olMyVote;
     return`<button class="vbtn${isSelected?' selected':''}" onclick="olSelectVote('${n}')" ${isSelf?'disabled':''}>
       <div>${n}${isSelf?' (you)':''}</div>
     </button>`;
@@ -1382,173 +1439,128 @@ function olRenderMyVoteOptions(){
 }
 
 function olSelectVote(target){
-  if(olMyVoteSubmitted) return;
-  olMySelectedVote=target;
-  olRenderMyVoteOptions();
-  document.getElementById('ol-submit-vote-btn').disabled=false;
+  if(olVoteSubmitted)return;
+  olMyVote=target;
+  renderOlVoteOptions();
+  document.getElementById('ol-submit-btn').disabled=false;
 }
 
-function olClearMyVote(){
-  olMySelectedVote='';
-  olRenderMyVoteOptions();
-  document.getElementById('ol-submit-vote-btn').disabled=true;
+function olClearVote(){
+  olMyVote='';
+  renderOlVoteOptions();
+  document.getElementById('ol-submit-btn').disabled=true;
 }
 
-function olSubmitMyVote(){
-  if(!olMySelectedVote||olMyVoteSubmitted) return;
-  olMyVoteSubmitted=true;
-  socket.emit('cast_vote',{code:olMyRoom,target:olMySelectedVote});
-  // Switch to waiting view
+function olSubmitVote(){
+  if(!olMyVote||olVoteSubmitted)return;
+  olVoteSubmitted=true;
+  socket.emit('cast_vote',{code:olRoom,target:olMyVote});
   document.getElementById('ol-prevote').style.display='none';
   document.getElementById('ol-postvote').style.display='block';
-  document.getElementById('ol-voted-msg').textContent=`Voted for: ${olMySelectedVote}`;
+  document.getElementById('ol-vote-wait-msg').textContent=`Voted: ${olMyVote}`;
 }
 
-// Server tells us vote was recorded + current tally
-socket.on('vote_cast',data=>{
-  olVotes=data.votes;
-  // Update tally display if visible
-  const tally=document.getElementById('ol-vote-tally');
-  if(tally){
-    // rebuild tallies from votes object
-    const t={};
-    olVoteOrder.forEach(n=>t[n]=[]);
-    Object.entries(data.votes).forEach(([voter,target])=>{if(t[target])t[target].push(voter);});
-    const total=Object.keys(data.votes).length;
-    tally.innerHTML=olVoteOrder.map(n=>`
-      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">
-        <span style="font-size:.85rem;color:var(--ink2);min-width:80px">${n}</span>
-        <div class="vbar-wrap" style="flex:1"><div class="vbar" style="width:${total?Math.round((t[n]||[]).length/total*100):0}%"></div></div>
-        <span style="font-size:.85rem;font-weight:700;color:var(--gold2)">${(t[n]||[]).length}</span>
-      </div>`).join('');
-    const waitMsg=document.getElementById('ol-vote-wait-msg');
-    if(waitMsg) waitMsg.textContent=`${total}/${olVoteOrder.length} voted`;
+function olOnVoteCast(data){
+  // Update live tally for everyone
+  const tallies={};
+  olVoteOrder.forEach(n=>tallies[n]=[]);
+  Object.entries(data.votes||{}).forEach(([voter,target])=>{if(tallies[target])tallies[target].push(voter);});
+  const total=Object.keys(data.votes||{}).length;
+  const tallyEl=document.getElementById('ol-live-tally');
+  if(tallyEl){
+    tallyEl.innerHTML=olVoteOrder.map(n=>{
+      const cnt=(tallies[n]||[]).length;
+      const pct=total?Math.round(cnt/total*100):0;
+      return`<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">
+        <span style="font-size:.85rem;color:var(--ink2);min-width:80px;flex-shrink:0">${n}</span>
+        <div class="vbar-wrap" style="flex:1"><div class="vbar" style="width:${pct}%"></div></div>
+        <span style="font-size:.85rem;font-weight:700;color:var(--gold2);min-width:16px">${cnt}</span>
+      </div>`;
+    }).join('');
   }
-  // When all voted — show confirm to host, auto-proceed after 5s
-  if(Object.keys(data.votes).length>=olVoteOrder.length){
-    if(olIsHost){
-      document.getElementById('ol-confirm-btn').style.display='flex';
-      // Auto-confirm after 5s if host doesn't act
-      clearTimeout(window._autoConfirm);
-      window._autoConfirm=setTimeout(()=>{
-        if(document.getElementById('s-online-voting').classList.contains('active')){
-          olConfirmVotes();
-        }
-      },5000);
-    } else {
-      const wm=document.getElementById('ol-vote-wait-msg');
-      if(wm) wm.textContent='All voted! Host is confirming...';
-    }
+  const waitMsg=document.getElementById('ol-vote-wait-msg');
+  if(waitMsg) waitMsg.textContent=`${total}/${olVoteOrder.length} voted`;
+  // Show confirm to host when all voted
+  if(olIsHost&&total>=olVoteOrder.length){
+    const confirmBtn=document.getElementById('ol-confirm-btn');
+    if(confirmBtn) confirmBtn.style.display='flex';
+    // Auto-confirm after 5s
+    clearTimeout(window._autoConfirm);
+    window._autoConfirm=setTimeout(()=>{
+      if(activeScreen()==='s-ol-vote') olConfirmVotes();
+    },5000);
   }
-});
+}
 
 function olConfirmVotes(){
-  socket.emit('confirm_votes',{code:olMyRoom});
+  clearTimeout(window._autoConfirm);
+  socket.emit('confirm_votes',{code:olRoom});
 }
 
+// ═══════════════════════════════════════════
+// ONLINE: SPY GUESS
+// ═══════════════════════════════════════════
 function olOnSpyGuessChance(data){
-  olGuessOptions=data.guessOptions;
-  olGuessWord=data.word;
+  // Only spies interact; everyone sees the screen
+  const iAmSpy=olMyRole&&olMyRole.isSpy;
   document.getElementById('t-ol-sg-title').textContent=T('sg_title');
-  document.getElementById('t-ol-sg-sub').textContent=T('sg_sub');
-  document.getElementById('t-ol-pick').textContent=T('sg_pick');
-  document.getElementById('t-ol-sg-skip').textContent=T('sg_skip');
-  document.getElementById('ol-sg-spy-names').innerHTML=(data.spyNames||[]).map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('');
-  document.getElementById('ol-guess-grid').innerHTML=data.guessOptions.map(opt=>
-    `<div class="guess-opt" onclick="olMakeGuess('${opt}')">${opt}</div>`
-  ).join('');
-  go('s-online-spyguess');
+  document.getElementById('t-ol-sg-sub').textContent=iAmSpy?T('sg_sub'):'A spy was caught — waiting for their guess...';
+  document.getElementById('t-ol-sg-pick').textContent=T('sg_pick');
+  document.getElementById('ol-sg-spy-names').innerHTML=(data.spyNames||[]).map(n=>`<span class="spy-tag">${n}</span>`).join('');
+  // Only show guess options to spies; others see waiting message
+  const grid=document.getElementById('ol-guess-grid');
+  if(iAmSpy){
+    grid.innerHTML=(data.guessOptions||[]).map(opt=>
+      `<div class="gopt" onclick="olMakeGuess('${opt.replace(/'/g,"\\'")}')">${opt}</div>`).join('');
+    document.getElementById('t-ol-sg-skip').style.display='flex';
+  } else {
+    grid.innerHTML=`<div style="text-align:center;color:var(--ink2);padding:1rem;grid-column:span 2">Waiting for spy to guess...</div>`;
+    document.getElementById('t-ol-sg-skip').style.display='none';
+  }
+  go('s-ol-spyguess');
 }
 
 function olMakeGuess(opt){
-  document.querySelectorAll('#ol-guess-grid .guess-opt').forEach(el=>el.onclick=null);
-  socket.emit('spy_guess',{code:olMyRoom,guess:opt},res=>{
-    document.querySelectorAll('#ol-guess-grid .guess-opt').forEach(el=>{
-      if(el.textContent===olGuessWord) el.classList.add('correct');
-      else if(el.textContent===opt&&!res?.correct) el.classList.add('wrong');
-    });
-  });
+  document.querySelectorAll('#ol-guess-grid .gopt').forEach(el=>el.onclick=null);
+  socket.emit('spy_guess',{code:olRoom,guess:opt});
 }
 
-function olSkipGuess(){
-  socket.emit('spy_guess',{code:olMyRoom,guess:'__skip__'});
-}
+function olSkipGuess(){socket.emit('spy_guess',{code:olRoom,guess:'__skip__'});}
 
+// ═══════════════════════════════════════════
+// ONLINE: RESULT
+// ═══════════════════════════════════════════
 function olOnVoteResult(data){
-  const map={};
-  if(!data.elimIsSpy&&!data.tie&&data.eliminated) map.type='escaped';
-  else if(data.tie) map.type='tie';
-  else if(data.spyGuessCorrect) map.type='spy_right';
-  else if(data.elimIsSpy&&data.spyGuess) map.type='spy_wrong';
-  else if(data.elimIsSpy) map.type='caught';
-  else map.type='escaped';
+  let type='tie';
+  if(data.tie) type='tie';
+  else if(data.spyGuessCorrect) type='spy_right';
+  else if(data.elimIsSpy&&data.spyGuess&&data.spyGuess!=='__skip__') type='spy_wrong';
+  else if(data.elimIsSpy) type='caught';
+  else type='escaped';
 
-  const rmap={
-    caught:['🎉','r_caught','r_caught_sub','win'],
-    escaped:['👻','r_escaped','r_escaped_sub','lose'],
-    spy_right:['🕵️','r_spy_right','r_spy_right_sub','lose'],
-    spy_wrong:['❌','r_spy_wrong','r_spy_wrong_sub','win'],
-    tie:['🤝','r_tie','r_tie_sub','neutral']
-  };
-  const [emoji,tk,sk,cls]=rmap[map.type]||['🤝','r_tie','r_tie_sub','neutral'];
+  const guess=(data.spyGuess&&data.spyGuess!=='__skip__')?data.spyGuess:null;
+  document.getElementById('ol-result-content').innerHTML=
+    resultHTML(type,data.eliminated,data.spyNames,data.word,guess,null);
 
-  document.getElementById('ol-result-content').innerHTML=`
-    <div class="rbox ${cls}">
-      <span class="remoji">${emoji}</span>
-      <div class="rtitle">${T(tk)}</div>
-      <div class="rsub">${T(sk)}</div>
-      ${data.eliminated?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Eliminated: <b style="color:var(--ink)">${data.eliminated}</b></div>`:''}
-      ${data.spyGuess?`<div style="font-size:.85rem;color:var(--ink3);margin-bottom:.5rem">Pick: <b style="color:${data.spyGuessCorrect?'var(--green2)':'var(--red2)'}">${data.spyGuess}</b></div>`:''}
-      <div class="wbox" style="margin:.75rem 0">
-        <div class="wlbl">${T('word_was')}</div>
-        <div class="wval">${data.word}</div>
-      </div>
-      <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:.75rem 0 .4rem">${T('spies_were')}</div>
-      <div class="spy-tags">${(data.spyNames||[]).map(n=>`<span class="spy-tag">🕵️ ${n}</span>`).join('')}</div>
-    </div>`;
-  document.getElementById('ol-new-round').style.display=olIsHost?'flex':'none';
-  document.getElementById('ol-new-round').textContent=T('new_round');
-  document.getElementById('t-ol-menu').textContent=T('menu');
-  go('s-online-result');
+  const nr=document.getElementById('ol-new-round-btn');
+  if(nr){nr.style.display=olIsHost?'flex':'none';nr.textContent=T('new_round');}
+  go('s-ol-result');
 }
 
-function olNewRound(){
-  socket.emit('new_round',{code:olMyRoom});
-}
-// When room_update arrives after new_round, go back to lobby
-const _origOlRoomUpdate = olOnRoomUpdate;
-// Handle room_update navigation
-socket.on('room_update', data => {
-  olOnRoomUpdate(data);
-  if(data.state==='lobby' && ['s-online-result','s-online-voting','s-online-game','s-online-spyguess'].includes(currentScreen())){
-    go('s-online-lobby');
-  }
-});
+function olNewRound(){socket.emit('new_round',{code:olRoom});}
 
-// ═══════════════════════════════════════════════════════════
-function goHome(){
-  if(localTimerInt) clearInterval(localTimerInt);
-  go('s-land');
-}
-
+// ═══════════════════════════════════════════
 // TOAST
-// ═══════════════════════════════════════════════════════════
-function currentScreen(){
-  const s=document.querySelector('.screen.active');
-  return s?s.id:'';
-}
-
+// ═══════════════════════════════════════════
 function toast(msg,type='ok'){
   const el=document.getElementById('toast');
   el.textContent=msg;el.className='show '+(type||'');
   clearTimeout(el._t);el._t=setTimeout(()=>el.className='',2500);
 }
 
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════════════
-populateCats();
-populateOlCats();
+// ═══════════════════════════════════════════
 applyLang();
 </script>
 </body>
