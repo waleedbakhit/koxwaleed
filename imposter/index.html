@@ -438,6 +438,9 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
       <textarea id="custom-words" rows="3" style="font-size:.85rem;margin-bottom:.4rem" placeholder="word1, word2, word3..."></textarea>
       <div style="font-size:.75rem;color:var(--ink3)" id="t-custom-hint">Separate with commas. Min 3 words.</div>
     </div>
+    <div id="regional-area" style="display:none;margin-top:.75rem">
+      <select id="regional-country" onchange="onRegionalChange()" style="font-size:.9rem"></select>
+    </div>
   </div>
 
   <div class="card">
@@ -1059,8 +1062,8 @@ const CATS = {
 };
 
 const CAT_DISPLAY = {
-  en:{Countries:'Countries',Sports:'Sports',Clothing:'Clothing',Food:'Food',Animals:'Animals',Places:'Places',Professions:'Professions',Technology:'Technology',Nature:'Nature',Movies:'Movies',Brands:'Brands',Adults:'Adults',Random:'Random',Custom:'Custom'},
-  ar:{Countries:'دول',Sports:'رياضة',Clothing:'ملابس',Food:'طعام',Animals:'حيوانات',Places:'أماكن',Professions:'مهن',Technology:'تكنولوجيا',Nature:'طبيعة',Movies:'أفلام',Brands:'ماركات',Adults:'كبار',Random:'عشوائي',Custom:'مخصص'}
+  en:{Countries:'Countries',Sports:'Sports',Clothing:'Clothing',Food:'Food',Animals:'Animals',Places:'Places',Professions:'Professions',Technology:'Technology',Nature:'Nature',Movies:'Movies',Brands:'Brands',Adults:'Adults',Random:'Random',Custom:'Custom',Regional:'Regional'},
+  ar:{Countries:'دول',Sports:'رياضة',Clothing:'ملابس',Food:'طعام',Animals:'حيوانات',Places:'أماكن',Professions:'مهن',Technology:'تكنولوجيا',Nature:'طبيعة',Movies:'أفلام',Brands:'ماركات',Adults:'كبار',Random:'عشوائي',Custom:'مخصص',Regional:'إقليمي'}
 };
 
 function catWords(key){ const c=CATS[key]; return c?(c[lang]||c.en):[];}
@@ -1084,6 +1087,94 @@ function getDecoys(key, word, n=5){
 }
 
 function catLabel(key){ return (CAT_DISPLAY[lang]||CAT_DISPLAY.en)[key]||key; }
+
+
+// ═══════════════════════════════════════════
+// REGIONAL CATEGORIES
+// Each country has its own word list
+// ═══════════════════════════════════════════
+const REGIONAL = {
+  'Saudi Arabia': {
+    en:['Kabsa','Mandi','Harees','Mutabbaq','Saleeg','Shawarma','Samboosa','Dates','Qahwa','Ful','Abaya','Thobe','Ghutra','Bisht','Oud','Falconry','Camel Race','Al-Ardha','Masmak','Diriyah','Zamzam','Eid','Hajj','Ramadan','Gosi'],
+    ar:['كبسة','مندي','هريس','مطبق','سليق','شاورما','سمبوسة','تمر','قهوة','فول','عباءة','ثوب','غترة','بشت','عود','صقارة','سباق الهجن','العرضة','المصمك','الدرعية','زمزم','عيد','حج','رمضان','قوزي']
+  },
+  'Jordan': {
+    en:['Mansaf','Maqluba','Zarb','Falafel','Hummus','Knafeh','Warak Dawali','Shawarma','Ful','Musakhan','Jerash','Petra','Wadi Rum','Aqaba','Karak','Madaba','Ajloun','Dead Sea','Baptism Site','Roman Theater','Bedouin','Keffiyeh','Nargileh','Fatayer','Kibbeh'],
+    ar:['منسف','مقلوبة','زرب','فلافل','حمص','كنافة','ورق دوالي','شاورما','فول','مساحن','جرش','البتراء','وادي رم','العقبة','الكرك','مادبا','عجلون','البحر الميت','موقع المعمودية','المدرج الروماني','بدوي','كوفية','نرجيلة','فطاير','كبة']
+  },
+  'Egypt': {
+    en:['Koshari','Ful Medames','Molokhia','Feteer','Hawawshi','Shawarma','Baklava','Om Ali','Karkade','Aish Baladi','Pyramids','Sphinx','Nile','Luxor','Aswan','Alexandria','Khan el-Khalili','Tahrir','Coptic Cairo','Abu Simbel','Galabiya','Tarboush','Belly Dance','Ahwa','Sohour'],
+    ar:['كشري','فول مدمس','ملوخية','فطير','حواوشي','شاورما','بقلاوة','أم علي','كركديه','عيش بلدي','الأهرامات','أبو الهول','النيل','الأقصر','أسوان','الإسكندرية','خان الخليلي','التحرير','القاهرة القبطية','أبو سمبل','جلابية','طربوش','رقص شرقي','أهوة','سحور']
+  },
+  'Sudan': {
+    en:['Aseeda','Shafoot','Kisra','Ful','Mullah','Gorasa','Shaya','Sharbot','Simsimiya','Agashe','Merisah','Bayoudh','Nile','Omdurman','Khartoum','Jebel Barkal','Meroe','Suakin','Kassala','Tuti Island','Jalabiya','Aragi','Henna','Haboob','Shai'],
+    ar:['عصيدة','شفوت','كسرة','فول','مُلَّاح','قراصة','شاية','شربوت','سمسمية','عكاشي','مريسة','بيوض','النيل','أم درمان','الخرطوم','جبل البركل','مروي','سواكن','كسلا','جزيرة توتي','جلابية','عرقي','حناء','هبوب','شاي']
+  },
+  'UAE': {
+    en:['Harees','Machboos','Luqaimat','Balaleet','Saloona','Regag','Chebab','Khameer','Al Majlis','Camel Milk','Burj Khalifa','Palm Jumeirah','Dubai Mall','Souk','Abra','Gold Souk','Falcon','Dune Bashing','Khor Dubai','Ferrari World','Kandura','Abaya','Oud','Gahwa','Ramadan Tent'],
+    ar:['هريس','مجبوس','لقيمات','بلاليط','سالونة','رقاق','جباب','خمير','المجلس','حليب الإبل','برج خليفة','نخلة جميرا','دبي مول','سوق','عبرة','سوق الذهب','صقر','تزلج على الرمال','خور دبي','فيراري وورلد','كندورة','عباءة','عود','قهوة','خيمة رمضان']
+  },
+  'Lebanon': {
+    en:['Kibbeh','Tabbouleh','Hummus','Fattoush','Shawarma','Manakish','Kafta','Warak Dawali','Sfiha','Baklava','Beirut','Byblos','Sidon','Tyre','Cedars','Jounieh','Raouche','Baalbek','Jeita Grotto','Harissa','Arak','Nargileh','Dabke','Keffiyeh','Ahwa'],
+    ar:['كبة','تبولة','حمص','فتوش','شاورما','مناقيش','كفتة','ورق دوالي','صفيحة','بقلاوة','بيروت','جبيل','صيدا','صور','الأرز','جونية','الروشة','بعلبك','جعيتا','حريصا','عرق','نرجيلة','دبكة','كوفية','أهوة']
+  },
+  'Italy': {
+    en:['Pizza','Pasta','Gelato','Risotto','Tiramisu','Espresso','Carbonara','Bruschetta','Prosciutto','Mozzarella','Colosseum','Vatican','Venice','Florence','Milan','Pompeii','Amalfi Coast','Cinque Terre','Tuscany','Lake Como','Ferrari','Vespa','Opera','Carnival','Truffle'],
+    ar:['بيتزا','باستا','جيلاتو','ريزوتو','تيراميسو','إسبريسو','كاربونارا','بروشيتا','بروشوتو','موزاريلا','الكولوسيوم','الفاتيكان','البندقية','فلورنسا','ميلانو','بومبيي','ساحل أمالفي','شينكوي تيري','توسكانا','بحيرة كومو','فيراري','فيسبا','أوبرا','كرنفال','كمأة']
+  },
+  'Japan': {
+    en:['Sushi','Ramen','Tempura','Sashimi','Miso','Yakitori','Gyoza','Matcha','Sake','Wagyu','Mount Fuji','Kyoto','Tokyo','Osaka','Hiroshima','Geisha','Samurai','Sumo','Origami','Bonsai','Kimono','Anime','Shinkansen','Cherry Blossom','Zen Garden'],
+    ar:['سوشي','رامن','تمبورا','ساشيمي','ميسو','ياكيتوري','جيوزا','ماتشا','ساكي','واغيو','جبل فوجي','كيوتو','طوكيو','أوساكا','هيروشيما','غيشا','ساموراي','سومو','أوريغامي','بونساي','كيمونو','أنيمي','شينكانسن','أزهار الكرز','حديقة زن']
+  },
+  'France': {
+    en:['Croissant','Baguette','Brie','Champagne','Escargot','Ratatouille','Crepe','Macaron','Foie Gras','Bouillabaisse','Eiffel Tower','Louvre','Versailles','Champs Elysees','Bordeaux','Provence','Normandy','Nice','Cannes','Mont Blanc','Beret','Perfume','Fashion Week','Moulin Rouge','Bastille'],
+    ar:['كرواسان','باغيت','بري','شامبانيا','حلزون','راتاتوي','كريب','ماكارون','فوا غرا','بوياباس','برج إيفل','اللوفر','فرساي','الشانزيليزيه','بوردو','بروفانس','نورماندي','نيس','كان','مون بلان','برية','عطر','أسبوع الموضة','مولان روج','الباستيل']
+  },
+  'Turkey': {
+    en:['Kebab','Baklava','Lokum','Pide','Manti','Lahmacun','Simit','Ayran','Raki','Kofte','Hagia Sophia','Blue Mosque','Bosphorus','Cappadocia','Ephesus','Grand Bazaar','Pamukkale','Topkapi','Galata Tower','Bodrum','Evil Eye','Hamam','Whirling Dervish','Tea','Nargile'],
+    ar:['كباب','بقلاوة','لوكوم','بيدة','مانتي','لحم عجين','سيميط','عيران','راكي','كفتة','آيا صوفيا','المسجد الأزرق','البوسفور','كابادوكيا','أفسس','البازار الكبير','باموك كالي','توبكابي','برج غلطة','بودروم','العين الزرقاء','حمام','الدراويش المتحولون','شاي','نرجيلة']
+  },
+  'Morocco': {
+    en:['Tagine','Couscous','Pastilla','Harira','Msemen','Argan Oil','Mint Tea','Chermoula','Basteeya','Mechoui','Marrakech','Fes','Chefchaouen','Casablanca','Atlas Mountains','Sahara','Essaouira','Ait Benhaddou','Medina','Souk','Djellaba','Fez Hat','Henna','Hammam','Oud'],
+    ar:['طاجين','كسكس','بستيلة','حريرة','مسمن','زيت الأرغان','أتاي','شرمولة','بسطيلة','مشوي','مراكش','فاس','شفشاون','الدار البيضاء','جبال الأطلس','الصحراء','الصويرة','أيت بنحدو','المدينة','السوق','جلابة','طربوش','حناء','حمام','عود']
+  },,
+
+  'USA': {
+    en:['Burger','Hot Dog','BBQ Ribs','Cheesecake','Mac and Cheese','Clam Chowder','Buffalo Wings','Cornbread','Apple Pie','Pancakes','Statue of Liberty','Grand Canyon','Times Square','Hollywood','Yellowstone','Las Vegas','Golden Gate','White House','Niagara Falls','Disney World','Baseball','American Football','Jazz','Country Music','Route 66'],
+    ar:['برغر','هوت دوج','ضلوع مشوية','تشيزكيك','ماك أند تشيز','شوربة المحار','أجنحة بفالو','خبز الذرة','فطيرة التفاح','بانكيك','تمثال الحرية','الغراند كانيون','تايمز سكوير','هوليوود','يلوستون','لاس فيغاس','جسر البوابة الذهبية','البيت الأبيض','شلالات نياغارا','ديزني وورلد','بيسبول','الفوتبول الأمريكي','جاز','موسيقى كانتري','الطريق 66']
+  },
+  'UK': {
+    en:['Fish and Chips','Full English','Scones','Bangers and Mash','Shepherd's Pie','Sticky Toffee','Yorkshire Pudding','Cornish Pasty','Welsh Rarebit','Eton Mess','Big Ben','Tower of London','Stonehenge','Buckingham Palace','Edinburgh Castle','Loch Ness','Oxford','Wimbledon','Premier League','Red Phone Box','Double Decker','The Queen','Pub','Afternoon Tea','Harrods'],
+    ar:['سمك وبطاطس','فطور إنجليزي','سكونز','سجق مع بطاطس','فطيرة الراعي','حلوى التوفي','بودينج يوركشير','باستي كورنيش','جبن ويلزي','إيتون ميس','بيغ بن','برج لندن','ستونهنج','قصر باكنغهام','قلعة إدنبرة','لوك نيس','أكسفورد','ويمبلدون','الدوري الممتاز','كابينة الهاتف الحمراء','الحافلة ذات الطابقين','الملكة','حانة','شاي العصر','هارودز']
+  },
+  'Germany': {
+    en:['Bratwurst','Schnitzel','Pretzels','Sauerkraut','Strudel','Sauerbraten','Black Forest Cake','Currywurst','Weisswurst','Rouladen','Brandenburg Gate','Neuschwanstein','Oktoberfest','Cologne Cathedral','Rhine River','Black Forest','Hamburg Port','Checkpoint Charlie','Hofbräuhaus','Berlin Wall','Autobahn','Volkswagen','BMW','Lederhosen','Dirndl'],
+    ar:['براتفورست','شنيتزل','بريتزل','مخلل الملفوف','شترودل','زاورباراتن','كعكة الغابة السوداء','كاري فورست','فايسفورست','رولادن','بوابة براندنبورغ','نيوشفانشتاين','مهرجان أكتوبر','كاتدرائية كولونيا','نهر الراين','الغابة السوداء','ميناء هامبورغ','نقطة تشارلي','هوفبراوهاوس','جدار برلين','الأوتوبان','فولكس فاغن','بي إم دبليو','سروال جلدي','ثوب دندل']
+  },
+  'Syria': {
+    en:['Kibbeh','Shawarma','Hummus','Fatteh','Muhamara','Kibbeh Nayeh','Bameh','Yalanji','Kaak','Maamoul','Damascus','Aleppo','Palmyra','Umayyad Mosque','Krak des Chevaliers','Souk Al-Hamidiyya','Citadel','Saladin','Oud','Dabke','Jasmine','Damascene Rose','Brocade','Aleppo Soap','Al-Mazza'],
+    ar:['كبة','شاورما','حمص','فتة','محمرة','كبة نية','بامية','يلنجي','كعك','معمول','دمشق','حلب','تدمر','الجامع الأموي','قلعة الحصن','سوق الحميدية','القلعة','صلاح الدين','عود','دبكة','ياسمين','وردة دمشقية','ديباج','صابون حلبي','المزة']
+  },
+  'China': {
+    en:['Dim Sum','Peking Duck','Kung Pao Chicken','Dumplings','Hot Pot','Mapo Tofu','Chow Mein','Spring Rolls','Wonton','Fried Rice','Great Wall','Forbidden City','Terracotta Army','Shanghai Tower','Li River','Panda','Dragon Boat','Tai Chi','Calligraphy','Mahjong','Dragon','Lunar New Year','Silk Road','Tea Ceremony','Chopsticks'],
+    ar:['ديم سام','بط بكين','دجاج كونغ باو','دامبلينغ','هوت بوت','توفو مابو','شاو مين','لفائف الربيع','وانتون','أرز مقلي','سور الصين العظيم','المدينة المحرمة','جيش التيراكوتا','برج شنغهاي','نهر لي','الباندا','زورق التنين','تاي تشي','الخط الصيني','الماجونغ','التنين','السنة الصينية الجديدة','طريق الحرير','مراسم الشاي','عيدان الطعام']
+  },
+  'Russia': {
+    en:['Borscht','Pelmeni','Blini','Beef Stroganoff','Olivier Salad','Shashlik','Solyanka','Pirozhki','Okroshka','Syrniki','Red Square','Kremlin','Hermitage','Trans-Siberian','Lake Baikal','St Basil's','Bolshoi Theatre','Siberia','Volga River','Matryoshka','Babushka','Samovar','Balalaika','Ballet','Sputnik'],
+    ar:['بورشت','بيلميني','بليني','ستروغانوف','سلطة أوليفييه','شيشليك','سوليانكا','بيروجكي','أوكروشكا','سيرنيكي','الساحة الحمراء','الكرملين','الإرميتاج','السكة الحديد العابرة لسيبيريا','بحيرة بايكال','كنيسة القديس باسيل','مسرح البولشوي','سيبيريا','نهر الفولغا','ماتريوشكا','بابوشكا','سامافار','بالالايكا','باليه','سبوتنيك']
+  },,
+
+  'India': {
+    en:['Biryani','Butter Chicken','Samosa','Dal','Naan','Tandoori','Curry','Lassi','Chai','Gulab Jamun','Taj Mahal','Ganges','Jaipur','Mumbai','Varanasi','Kerala Backwaters','Goa','Holi','Diwali','Bollywood','Yoga','Sari','Rickshaw','Cricket','Elephant'],
+    ar:['برياني','دجاج بالزبدة','سموسة','عدس','خبز نان','تندوري','كاري','لاسي','شاي','غولاب جامون','تاج محل','نهر الغانج','جايبور','مومباي','فاراناسي','كيرالا','غوا','هولي','ديوالي','بوليوود','يوغا','ساري','ريكشا','كريكيت','فيل']
+  },
+  'Pakistan': {
+    en:['Biryani','Nihari','Haleem','Karahi','Chapli Kebab','Seekh Kebab','Paye','Lassi','Kulfi','Sheer Khurma','Lahore','Karachi','Islamabad','Peshawar','Mohenjo Daro','Badshahi Mosque','Khyber Pass','Karakoram','K2','Shalwar Kameez','Truck Art','Cricket','Polo','Mango','Henna'],
+    ar:['برياني','نهاري','حليم','كراهي','كباب تشابلي','كباب سيخ','باية','لاسي','كلفي','شير خورما','لاهور','كراتشي','إسلام آباد','بيشاور','موهينجو دارو','مسجد بادشاهي','ممر خيبر','قراقوروم','كي 2','شلوار قميص','فن الشاحنات','كريكيت','بولو','مانغو','حناء']
+  },
+};
+
+const REGIONAL_COUNTRIES = Object.keys(REGIONAL);
 
 // ═══════════════════════════════════════════
 // TRANSLATIONS
@@ -1294,14 +1385,40 @@ function populateCatSelect(selId){
   const cur=sel.value;
   sel.innerHTML=Object.keys(CATS).map(k=>`<option value="${k}">${catLabel(k)}</option>`).join('');
   sel.innerHTML+=`<option value="Random">${T('random_lbl')}</option>`;
+  sel.innerHTML+=`<option value="Regional">${T('regional_lbl')||'Regional'}</option>`;
   if(selId==='cat-sel') sel.innerHTML+=`<option value="Custom">${T('custom_lbl')}</option>`;
   if(cur&&[...sel.options].some(o=>o.value===cur)) sel.value=cur;
   if(selId==='cat-sel') onCatChange();
 }
 
 function onCatChange(){
-  document.getElementById('custom-area').style.display=
-    document.getElementById('cat-sel').value==='Custom'?'block':'none';
+  const v=document.getElementById('cat-sel').value;
+  document.getElementById('custom-area').style.display = v==='Custom'?'block':'none';
+  const ra=document.getElementById('regional-area');
+  if(ra){
+    ra.style.display = v==='Regional'?'block':'none';
+    if(v==='Regional') populateRegionalCountries();
+  }
+}
+
+function populateRegionalCountries(){
+  const sel=document.getElementById('regional-country');
+  if(!sel) return;
+  sel.innerHTML=REGIONAL_COUNTRIES.map(country=>{
+    const label = lang==='ar' ? (REGIONAL[country].ar[0]? country : country) : country;
+    return `<option value="${country}">${country}</option>`;
+  }).join('');
+}
+
+function onRegionalChange(){
+  // Just selection — word picked at game start
+}
+
+function getRegionalWord(){
+  const country=document.getElementById('regional-country')?.value;
+  if(!country||!REGIONAL[country]) return null;
+  const words=REGIONAL[country][lang]||REGIONAL[country].en;
+  return {word:words[Math.floor(Math.random()*words.length)], country};
 }
 
 // ═══════════════════════════════════════════
@@ -1353,7 +1470,9 @@ function setTimer(v){
 // ═══════════════════════════════════════════
 // LOCAL: GAME START
 // ═══════════════════════════════════════════
+let gs_category_override=null;
 function beginLocal(){
+  gs_category_override=null;
   if(players.length<2){toast(T('err_min2'),'err');return;}
   const catKey=document.getElementById('cat-sel').value;
   let customWords=[];
@@ -1362,8 +1481,15 @@ function beginLocal(){
     customWords=raw.split(/[,،]/).map(w=>w.trim()).filter(Boolean);
     if(customWords.length<3){toast(T('err_min3'),'err');return;}
   }
+  if(catKey==='Regional'){
+    const r=getRegionalWord();
+    if(!r){toast('Select a country first','err');return;}
+    customWords=[r.word];
+    // Use country name as category display
+    gs_category_override=r.country;
+  }
 
-  let mode=localMode, impCount=localCount, category=catKey;
+  let mode=localMode, impCount=localCount, category=gs_category_override||catKey;
 
   if(mode==='chaos'){
     const cats=Object.keys(CATS);
@@ -1372,7 +1498,22 @@ function beginLocal(){
     mode='fixed';
   }
 
-  const word=pickWord(category,customWords);
+  // For Regional, pick word from selected country
+  let word, regionalDecoys=null;
+  if(catKey==='Regional'){
+    const r=getRegionalWord();
+    if(!r){toast('Select a country','err');return;}
+    word=r.word;
+    const countryPool=(REGIONAL[r.country]?.[lang]||REGIONAL[r.country]?.en||[]).filter(w=>w!==word);
+    regionalDecoys=countryPool.sort(()=>Math.random()-.5).slice(0,5);
+    if(regionalDecoys.length<5){
+      const extra=Object.values(REGIONAL).flatMap(rv=>rv[lang]||rv.en).filter(w=>w!==word&&!regionalDecoys.includes(w));
+      regionalDecoys.push(...extra.sort(()=>Math.random()-.5).slice(0,5-regionalDecoys.length));
+    }
+  } else {
+    word=pickWord(category,customWords);
+  }
+
   const order=[...players].sort(()=>Math.random()-.5);
   let spies=new Set();
   if(mode==='none'){}
@@ -1385,7 +1526,7 @@ function beginLocal(){
 
   const roles={};
   order.forEach((n,i)=>roles[n]={isSpy:spies.has(i)});
-  const decoys=getDecoys(category,word);
+  const decoys=regionalDecoys||getDecoys(category,word);
   const guessOptions=[...decoys,word].sort(()=>Math.random()-.5);
 
   gs={order,roles,word,category,guessOptions,cur:0,votes:{},tallies:{},eliminated:null,voteIdx:0,timerSec:localTimer};
