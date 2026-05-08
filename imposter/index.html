@@ -266,15 +266,21 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 .hmb-title{font-size:.95rem;font-weight:700;color:var(--gold3);margin-bottom:.3rem}
 .hmb-sub{font-size:.72rem;color:rgba(240,232,216,.5);line-height:1.4}
 
-.hero-howto{
-  margin-top:1.25rem;
+
+
+.foot-links{
+  position:absolute;bottom:1rem;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:1.5rem;
   font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(240,232,216,.35);cursor:pointer;
-  background:none;border:none;font-family:var(--sans);
-  animation:fadeUp .8s .8s both;
-  transition:color .2s;
+  color:var(--ink3);z-index:5;white-space:nowrap;
 }
-.hero-howto:hover{color:rgba(240,232,216,.7)}
+.foot-links a{
+  color:var(--ink3);text-decoration:none;cursor:pointer;
+  transition:color .2s;padding:.5rem .5rem;
+  -webkit-tap-highlight-color:rgba(200,146,42,.2);
+}
+.foot-links a:hover{color:var(--gold2)}
 
 /* Lang button repositioned for hero */
 #s-land .top-bar{
@@ -381,7 +387,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
         <div class="hmb-sub" id="t-online-sub">Each player on own phone</div>
       </div>
     </div>
-    <button class="hero-howto" onclick="go('s-info')" id="t-howto">How to play</button>
   </div>
   <div class="foot-links">
     <a onclick="go('s-info')" id="t-howto-link">How to play · Terms · About</a>
@@ -1131,7 +1136,7 @@ ar:{
   logo:'المتشكك',land_title:'المتشكك',land_sub:'اعثر على الجاسوس — أو كن واحداً.',
   local_title:'محلي',local_sub:'مرّر الهاتف. لا إنترنت مطلوب.',
   online_title:'أونلاين',online_sub:'كل لاعب على هاتفه.',
-  howto:'طريقة اللعب',howto_title:'طريقة اللعب',
+  howto:'طريقة اللعب · الشروط · عن اللعبة',howto_title:'طريقة اللعب',
   
   about_title:'عن المتشكك',
   about_body:'<p><strong>المتشكك</strong> لعبة استنتاج اجتماعية للأصدقاء. أحد اللاعبين هو الجاسوس سراً. والباقي يعرفون الكلمة السرية. من خلال الحوار، يحاول الأبرياء كشف الجاسوس — والجاسوس يحاول الاندماج حتى ينجو من التصويت.</p><br><p>طوّرها <strong>وليد الهادي</strong> كمشروع شخصي، مصممة للاستراحات والرحلات والمحادثات الجماعية. لا حسابات، لا إعلانات، لا تتبع.</p><br><p>طريقتان للعب: <em>محلي</em> (تمرير هاتف واحد) أو <em>أونلاين</em> (كل لاعب على هاتفه، يدخلون برمز غرفة من 4 أحرف).</p>',
