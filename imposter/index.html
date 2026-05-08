@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16p
 .lang-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .9rem;font-size:.78rem;color:var(--ink2);cursor:pointer;font-family:var(--sans)}
 .mute-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.8rem;padding:.3rem .5rem;font-family:var(--sans);opacity:.7;transition:opacity .2s}
 .mute-btn:hover{opacity:1}
-.home-btn{background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:.35rem .85rem;font-size:.75rem;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
+
 
 .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;margin-bottom:.9rem}
 .ctitle{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:.9rem;font-weight:600}
@@ -157,80 +157,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 
 
 
-/* Light theme override */
-/* Light theme — warm cream with deep gold, polished and readable */
-[data-theme="light"]{
-  --bg:#fbf6ec;
-  --bg2:#ffffff;
-  --bg3:#f5edd8;
-  --bg4:#ebe0c4;
-  --gold:#9a6418;
-  --gold2:#7d4f10;
-  --gold3:#5a3808;
-  --ink:#1a1408;
-  --ink2:#4a3818;
-  --ink3:#7a6848;
-  --line:#e8dcc0;
-  --line2:#cebd9a;
-  --red:#a83838;--red2:#8a2828;
-  --green:#3a8a5a;--green2:#286848;
-  --chaos:#9a4018;--chaos2:#7a3010;
-}
-[data-theme="light"] body{background:var(--bg);color:var(--ink)}
-[data-theme="light"] .card{background:var(--bg2);border-color:var(--line);box-shadow:0 1px 3px rgba(154,100,24,.06)}
-[data-theme="light"] .ctitle{color:var(--gold2)}
-[data-theme="light"] input[type=text],[data-theme="light"] select,[data-theme="light"] textarea{background:var(--bg3);border-color:var(--line2);color:var(--ink)}
-[data-theme="light"] .seg{background:var(--bg3)}
-[data-theme="light"] .seg-btn{color:var(--ink3)}
-[data-theme="light"] .seg-btn.on{background:var(--gold);color:#fff}
-[data-theme="light"] .btn-primary{background:var(--gold);color:#fff}
-[data-theme="light"] .btn-ghost{border-color:var(--line2);color:var(--ink2);background:var(--bg2)}
-[data-theme="light"] .home-btn,[data-theme="light"] .lang-btn,[data-theme="light"] .theme-btn,[data-theme="light"] .mute-btn{background:var(--bg2);border-color:var(--line2);color:var(--ink2)}
-[data-theme="light"] .pchip,[data-theme="light"] .chip{background:var(--bg3);border-color:var(--line2)}
-[data-theme="light"] .vbtn{background:var(--bg2);border-color:var(--line2);color:var(--ink)}
-[data-theme="light"] .oitem{background:var(--bg3);border-color:var(--line)}
-[data-theme="light"] .order-num,[data-theme="light"] .onum{background:var(--gold);color:#fff}
-[data-theme="light"] .role-box.spy{background:linear-gradient(160deg,#fff3f0,#ffe4dd);border-color:var(--red)}
-[data-theme="light"] .role-box.crew{background:linear-gradient(160deg,#fff8e8,#fff0d4);border-color:var(--gold)}
-[data-theme="light"] .wbox{background:var(--bg3)}
-[data-theme="light"] .wval{color:var(--gold2)}
-[data-theme="light"] .rbox.win{background:linear-gradient(160deg,#e8f8ee,#d8f0e0);border-color:var(--green)}
-[data-theme="light"] .rbox.lose{background:linear-gradient(160deg,#fde8e8,#f8d8d8);border-color:var(--red)}
-[data-theme="light"] .rbox.neutral{background:linear-gradient(160deg,#fff5e0,#ffe8c4);border-color:var(--chaos)}
-[data-theme="light"] .rcode{color:var(--gold2)}
-[data-theme="light"] .hero-photos{display:none}
-[data-theme="light"] #s-land{background:linear-gradient(170deg,#fbf6ec 0%,#f0e4ce 100%)}
-[data-theme="light"] .hero-main-title,[data-theme="light"] .landing-title{color:var(--gold2);text-shadow:none}
-[data-theme="light"] .logo{color:var(--gold2);text-shadow:none}
-[data-theme="light"] .hero-tagline,[data-theme="light"] .landing-sub{color:var(--ink2)}
-[data-theme="light"] .hero-mode-btn{background:var(--bg2);border-color:var(--line2)}
-[data-theme="light"] .hmb-title{color:var(--gold2)}
-[data-theme="light"] .hmb-sub{color:var(--ink3)}
-[data-theme="light"] .hero-eyebrow{color:var(--gold)}
-[data-theme="light"] .foot-links a{color:var(--ink3)}
-[data-theme="light"] .foot-links a:hover{color:var(--gold2)}
-[data-theme="light"] .skeptic-figure-sm,[data-theme="light"] .skeptic-figure-md{filter:brightness(.4) hue-rotate(-15deg)}
-[data-theme="light"] .svg-logo text:first-of-type{fill:var(--ink2)!important}
-[data-theme="light"] .svg-logo text:last-of-type{fill:var(--gold2)!important}
-[data-theme="light"] .svg-logo *[stroke]{stroke:var(--gold2)!important}
-[data-theme="light"] .svg-logo *[fill="#c8922a"]{fill:var(--gold2)!important}
-[data-theme="light"] .svg-logo *[fill="#e0aa44"]{fill:var(--gold)!important}
-
-.theme-btn{background:var(--bg3);border:1px solid var(--line2);border-radius:100px;padding:.3rem .7rem;font-size:.85rem;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:all .2s;margin-left:.4rem}
-.theme-btn:hover{border-color:var(--gold2);color:var(--gold2)}
-
-
-/* Decorative skeptic figures */
-.skeptic-figure-sm{width:55px;height:auto;opacity:.7;flex-shrink:0;align-self:stretch;object-fit:contain}
-.skeptic-figure-md{width:85px;height:auto;opacity:.75;flex-shrink:0}
-.figure-row{display:flex;align-items:stretch;gap:.8rem;margin-bottom:1rem;min-height:200px}
-.figure-row > .content-block{flex:1}
-.figure-row > svg.skeptic-figure-sm{align-self:flex-start;position:sticky;top:1rem}
-
-/* Footer links on landing */
-.foot-links{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);display:flex;gap:1.5rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);z-index:5}
-.foot-links a{color:var(--ink3);text-decoration:none;cursor:pointer;transition:color .2s}
-.foot-links a:hover{color:var(--gold2)}
 
 /* Inline SVG logo */
 .svg-logo{display:inline-block;height:32px;width:110px;min-width:110px;vertical-align:middle;flex-shrink:0}
@@ -410,7 +336,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <button class="lang-btn" onclick="toggleLang()" id="t-lang">عربي</button>
-    <button class="theme-btn" onclick="toggleTheme()" id="t-theme" title="Toggle theme">☀</button>
     <button class="mute-btn" onclick="toggleMute()" title="Toggle sound">♪</button>
   </div>
 
@@ -613,7 +538,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <div style="display:flex;gap:.5rem">
-      <button class="home-btn" onclick="go('s-land')" id="t-home-s">Home</button>
       <button class="lang-btn" onclick="toggleLang()" id="t-lang3">عربي</button>
     </div>
   </div>
@@ -694,7 +618,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="endGame()" id="t-home-p">Home</button>
   </div>
   <div class="pass-center">
     <div class="pass-box">
@@ -728,7 +651,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="endGame()" id="t-home-r">Home</button>
   </div>
   <div id="role-content"></div>
   <button class="btn btn-primary" onclick="doneRole()" id="t-done-role" style="margin-top:.5rem">Done — hide my role</button>
@@ -757,7 +679,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="endGame()" id="t-home-g">Home</button>
   </div>
   <div class="tcenter">
     <div class="ring-wrap" id="timer-ring">
@@ -803,7 +724,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="endGame()" id="t-home-v">Home</button>
   </div>
   <div style="background:var(--bg3);border:1px solid var(--gold);border-radius:10px;padding:.75rem 1rem;text-align:center;margin-bottom:.75rem;font-size:.88rem;color:var(--gold3)" id="voter-prompt"></div>
   <div class="card" style="text-align:center;padding:.9rem">
@@ -840,7 +760,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="endGame()" id="t-home-sg">Home</button>
   </div>
   <div style="text-align:center;padding:1rem 0">
     <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-sg-title">Caught!</div>
@@ -877,7 +796,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="go('s-land')" id="t-home-res">Home</button>
   </div>
   <div id="result-content"></div>
   <button class="btn btn-primary" onclick="playAgain()" id="t-play-again">Play Again</button>
@@ -908,7 +826,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <div style="display:flex;gap:.5rem">
-      <button class="home-btn" onclick="go('s-land')">Home</button>
       <button class="lang-btn" onclick="toggleLang()" id="t-lang-o">عربي</button>
     </div>
   </div>
@@ -950,7 +867,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
     <div style="display:flex;gap:.5rem">
-      <button class="home-btn" onclick="olLeave()">Home</button>
       <button class="lang-btn" onclick="olToggleLang()" id="t-lang-ol">عربي</button>
     </div>
   </div>
@@ -1027,7 +943,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div id="ol-role-content"></div>
   <div class="card" style="text-align:center;margin-top:.5rem">
@@ -1059,7 +974,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div class="tcenter">
     <div class="ring-wrap" id="ol-timer-ring">
@@ -1109,7 +1023,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div class="card" style="text-align:center;padding:.9rem">
     <div class="ctitle" id="t-ol-vote-title">Who is the Spy?</div>
@@ -1156,7 +1069,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div style="text-align:center;padding:1rem 0">
     <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--red2);margin-bottom:.4rem" id="t-ol-sg-title">Caught!</div>
@@ -1193,7 +1105,6 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <text x="36" y="13" font-family="Georgia,serif" font-size="7" font-weight="400" letter-spacing="2.5" fill="#5a4c38">THE</text>
 <text x="36" y="27" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1.5" fill="#e0aa44">SKEPTIC</text>
 </svg>
-    <button class="home-btn" onclick="olLeave()">Home</button>
   </div>
   <div id="ol-result-content"></div>
   <button class="btn btn-primary" id="ol-new-round-btn" style="display:none" onclick="olNewRound()">New Round</button>
@@ -1565,7 +1476,7 @@ const TMAP={
   't-s-imp':'s_imp','t-lbl-mode':'lbl_mode','t-lbl-count':'lbl_count','t-lbl-timer':'lbl_timer',
   'm-fixed':'m_fixed','m-rand':'m_rand','m-none':'m_none','m-all':'m_all','m-chaos':'m_chaos',
   'tim-2':'t2','tim-5':'t5','tim-8':'t8','tim-10':'t10',
-  't-start':'start','t-home-s':'home','t-home-p':'home','t-home-r':'home','t-home-g':'home','t-home-v':'home','t-home-sg':'home','t-home-res':'home',
+  't-start':'start',
   't-pass-msg':'pass_msg','t-show-role':'show_role','t-done-role':'done_role',
   't-phase':'phase','t-game-cat':'game_cat','t-order-lbl':'order_lbl','t-go-vote':'go_vote',
   't-vote-title':'vote_title','t-vote-sub':'vote_sub',
@@ -1606,22 +1517,6 @@ function applyLang(){
 
 
 
-function toggleTheme(){
-  const cur=document.documentElement.getAttribute('data-theme');
-  const next=cur==='light'?'dark':'light';
-  document.documentElement.setAttribute('data-theme',next);
-  document.querySelectorAll('.theme-btn').forEach(b=>b.textContent=next==='light'?'☾':'☀');
-  try{localStorage.setItem('skeptic-theme',next);}catch(e){}
-  if(typeof SFX!=='undefined') SFX.tap();
-}
-// Load saved theme
-try{
-  const saved=localStorage.getItem('skeptic-theme');
-  if(saved){
-    document.documentElement.setAttribute('data-theme',saved);
-    setTimeout(()=>{document.querySelectorAll('.theme-btn').forEach(b=>b.textContent=saved==='light'?'☾':'☀');},0);
-  }
-}catch(e){}
 
 function toggleMute(){
   const on=!SFX.isEnabled();
