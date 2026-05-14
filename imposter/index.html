@@ -1043,9 +1043,9 @@ circle{fill:none;stroke-width:7;stroke-linecap:round}
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
+// ===========================================
 // CATEGORIES
-// ═══════════════════════════════════════════
+// ===========================================
 const CATS = {
   Countries:{en:['Japan','Brazil','Egypt','France','Australia','Canada','India','Mexico','Nigeria','Thailand','Argentina','Morocco','Turkey','South Korea','Italy','Spain','Russia','Saudi Arabia','Germany','China','UAE','Sudan','Lebanon','Pakistan','Indonesia'],ar:['اليابان','البرازيل','مصر','فرنسا','أستراليا','كندا','الهند','المكسيك','نيجيريا','تايلاند','الأرجنتين','المغرب','تركيا','كوريا الجنوبية','إيطاليا','إسبانيا','روسيا','المملكة العربية السعودية','ألمانيا','الصين','الإمارات','السودان','لبنان','باكستان','إندونيسيا']},
   Sports:{en:['Tennis','Football','Basketball','Swimming','Boxing','Volleyball','Golf','Rugby','Cricket','Skiing','Cycling','Surfing','Gymnastics','Wrestling','Baseball','Hockey','Archery','Fencing','Rowing','Diving','Karate','Judo','Handball','Badminton','Table Tennis'],ar:['تنس','كرة القدم','كرة السلة','سباحة','ملاكمة','كرة الطائرة','غولف','الراغبي','كريكيت','تزلج','ركوب الدراجات','ركوب الأمواج','جمباز','مصارعة','بيسبول','هوكي','رماية','مبارزة','تجديف','غطس','كاراتيه','جودو','كرة اليد','ريشة طائرة','تنس طاولة']},
@@ -1089,96 +1089,34 @@ function getDecoys(key, word, n=5){
 function catLabel(key){ return (CAT_DISPLAY[lang]||CAT_DISPLAY.en)[key]||key; }
 
 
-// ═══════════════════════════════════════════
-// REGIONAL CATEGORIES
-// Each country has its own word list
-// ═══════════════════════════════════════════
+
+// REGIONAL CATEGORIES — 19 countries, bilingual
 const REGIONAL = {
-  'Saudi Arabia': {
-    en:['Kabsa','Mandi','Harees','Mutabbaq','Saleeg','Shawarma','Samboosa','Dates','Qahwa','Ful','Abaya','Thobe','Ghutra','Bisht','Oud','Falconry','Camel Race','Al-Ardha','Masmak','Diriyah','Zamzam','Eid','Hajj','Ramadan','Gosi'],
-    ar:['كبسة','مندي','هريس','مطبق','سليق','شاورما','سمبوسة','تمر','قهوة','فول','عباءة','ثوب','غترة','بشت','عود','صقارة','سباق الهجن','العرضة','المصمك','الدرعية','زمزم','عيد','حج','رمضان','قوزي']
-  },
-  'Jordan': {
-    en:['Mansaf','Maqluba','Zarb','Falafel','Hummus','Knafeh','Warak Dawali','Shawarma','Ful','Musakhan','Jerash','Petra','Wadi Rum','Aqaba','Karak','Madaba','Ajloun','Dead Sea','Baptism Site','Roman Theater','Bedouin','Keffiyeh','Nargileh','Fatayer','Kibbeh'],
-    ar:['منسف','مقلوبة','زرب','فلافل','حمص','كنافة','ورق دوالي','شاورما','فول','مساحن','جرش','البتراء','وادي رم','العقبة','الكرك','مادبا','عجلون','البحر الميت','موقع المعمودية','المدرج الروماني','بدوي','كوفية','نرجيلة','فطاير','كبة']
-  },
-  'Egypt': {
-    en:['Koshari','Ful Medames','Molokhia','Feteer','Hawawshi','Shawarma','Baklava','Om Ali','Karkade','Aish Baladi','Pyramids','Sphinx','Nile','Luxor','Aswan','Alexandria','Khan el-Khalili','Tahrir','Coptic Cairo','Abu Simbel','Galabiya','Tarboush','Belly Dance','Ahwa','Sohour'],
-    ar:['كشري','فول مدمس','ملوخية','فطير','حواوشي','شاورما','بقلاوة','أم علي','كركديه','عيش بلدي','الأهرامات','أبو الهول','النيل','الأقصر','أسوان','الإسكندرية','خان الخليلي','التحرير','القاهرة القبطية','أبو سمبل','جلابية','طربوش','رقص شرقي','أهوة','سحور']
-  },
-  'Sudan': {
-    en:['Aseeda','Shafoot','Kisra','Ful','Mullah','Gorasa','Shaya','Sharbot','Simsimiya','Agashe','Merisah','Bayoudh','Nile','Omdurman','Khartoum','Jebel Barkal','Meroe','Suakin','Kassala','Tuti Island','Jalabiya','Aragi','Henna','Haboob','Shai'],
-    ar:['عصيدة','شفوت','كسرة','فول','مُلَّاح','قراصة','شاية','شربوت','سمسمية','عكاشي','مريسة','بيوض','النيل','أم درمان','الخرطوم','جبل البركل','مروي','سواكن','كسلا','جزيرة توتي','جلابية','عرقي','حناء','هبوب','شاي']
-  },
-  'UAE': {
-    en:['Harees','Machboos','Luqaimat','Balaleet','Saloona','Regag','Chebab','Khameer','Al Majlis','Camel Milk','Burj Khalifa','Palm Jumeirah','Dubai Mall','Souk','Abra','Gold Souk','Falcon','Dune Bashing','Khor Dubai','Ferrari World','Kandura','Abaya','Oud','Gahwa','Ramadan Tent'],
-    ar:['هريس','مجبوس','لقيمات','بلاليط','سالونة','رقاق','جباب','خمير','المجلس','حليب الإبل','برج خليفة','نخلة جميرا','دبي مول','سوق','عبرة','سوق الذهب','صقر','تزلج على الرمال','خور دبي','فيراري وورلد','كندورة','عباءة','عود','قهوة','خيمة رمضان']
-  },
-  'Lebanon': {
-    en:['Kibbeh','Tabbouleh','Hummus','Fattoush','Shawarma','Manakish','Kafta','Warak Dawali','Sfiha','Baklava','Beirut','Byblos','Sidon','Tyre','Cedars','Jounieh','Raouche','Baalbek','Jeita Grotto','Harissa','Arak','Nargileh','Dabke','Keffiyeh','Ahwa'],
-    ar:['كبة','تبولة','حمص','فتوش','شاورما','مناقيش','كفتة','ورق دوالي','صفيحة','بقلاوة','بيروت','جبيل','صيدا','صور','الأرز','جونية','الروشة','بعلبك','جعيتا','حريصا','عرق','نرجيلة','دبكة','كوفية','أهوة']
-  },
-  'Italy': {
-    en:['Pizza','Pasta','Gelato','Risotto','Tiramisu','Espresso','Carbonara','Bruschetta','Prosciutto','Mozzarella','Colosseum','Vatican','Venice','Florence','Milan','Pompeii','Amalfi Coast','Cinque Terre','Tuscany','Lake Como','Ferrari','Vespa','Opera','Carnival','Truffle'],
-    ar:['بيتزا','باستا','جيلاتو','ريزوتو','تيراميسو','إسبريسو','كاربونارا','بروشيتا','بروشوتو','موزاريلا','الكولوسيوم','الفاتيكان','البندقية','فلورنسا','ميلانو','بومبيي','ساحل أمالفي','شينكوي تيري','توسكانا','بحيرة كومو','فيراري','فيسبا','أوبرا','كرنفال','كمأة']
-  },
-  'Japan': {
-    en:['Sushi','Ramen','Tempura','Sashimi','Miso','Yakitori','Gyoza','Matcha','Sake','Wagyu','Mount Fuji','Kyoto','Tokyo','Osaka','Hiroshima','Geisha','Samurai','Sumo','Origami','Bonsai','Kimono','Anime','Shinkansen','Cherry Blossom','Zen Garden'],
-    ar:['سوشي','رامن','تمبورا','ساشيمي','ميسو','ياكيتوري','جيوزا','ماتشا','ساكي','واغيو','جبل فوجي','كيوتو','طوكيو','أوساكا','هيروشيما','غيشا','ساموراي','سومو','أوريغامي','بونساي','كيمونو','أنيمي','شينكانسن','أزهار الكرز','حديقة زن']
-  },
-  'France': {
-    en:['Croissant','Baguette','Brie','Champagne','Escargot','Ratatouille','Crepe','Macaron','Foie Gras','Bouillabaisse','Eiffel Tower','Louvre','Versailles','Champs Elysees','Bordeaux','Provence','Normandy','Nice','Cannes','Mont Blanc','Beret','Perfume','Fashion Week','Moulin Rouge','Bastille'],
-    ar:['كرواسان','باغيت','بري','شامبانيا','حلزون','راتاتوي','كريب','ماكارون','فوا غرا','بوياباس','برج إيفل','اللوفر','فرساي','الشانزيليزيه','بوردو','بروفانس','نورماندي','نيس','كان','مون بلان','برية','عطر','أسبوع الموضة','مولان روج','الباستيل']
-  },
-  'Turkey': {
-    en:['Kebab','Baklava','Lokum','Pide','Manti','Lahmacun','Simit','Ayran','Raki','Kofte','Hagia Sophia','Blue Mosque','Bosphorus','Cappadocia','Ephesus','Grand Bazaar','Pamukkale','Topkapi','Galata Tower','Bodrum','Evil Eye','Hamam','Whirling Dervish','Tea','Nargile'],
-    ar:['كباب','بقلاوة','لوكوم','بيدة','مانتي','لحم عجين','سيميط','عيران','راكي','كفتة','آيا صوفيا','المسجد الأزرق','البوسفور','كابادوكيا','أفسس','البازار الكبير','باموك كالي','توبكابي','برج غلطة','بودروم','العين الزرقاء','حمام','الدراويش المتحولون','شاي','نرجيلة']
-  },
-  'Morocco': {
-    en:['Tagine','Couscous','Pastilla','Harira','Msemen','Argan Oil','Mint Tea','Chermoula','Basteeya','Mechoui','Marrakech','Fes','Chefchaouen','Casablanca','Atlas Mountains','Sahara','Essaouira','Ait Benhaddou','Medina','Souk','Djellaba','Fez Hat','Henna','Hammam','Oud'],
-    ar:['طاجين','كسكس','بستيلة','حريرة','مسمن','زيت الأرغان','أتاي','شرمولة','بسطيلة','مشوي','مراكش','فاس','شفشاون','الدار البيضاء','جبال الأطلس','الصحراء','الصويرة','أيت بنحدو','المدينة','السوق','جلابة','طربوش','حناء','حمام','عود']
-  },,
-
-  'USA': {
-    en:['Burger','Hot Dog','BBQ Ribs','Cheesecake','Mac and Cheese','Clam Chowder','Buffalo Wings','Cornbread','Apple Pie','Pancakes','Statue of Liberty','Grand Canyon','Times Square','Hollywood','Yellowstone','Las Vegas','Golden Gate','White House','Niagara Falls','Disney World','Baseball','American Football','Jazz','Country Music','Route 66'],
-    ar:['برغر','هوت دوج','ضلوع مشوية','تشيزكيك','ماك أند تشيز','شوربة المحار','أجنحة بفالو','خبز الذرة','فطيرة التفاح','بانكيك','تمثال الحرية','الغراند كانيون','تايمز سكوير','هوليوود','يلوستون','لاس فيغاس','جسر البوابة الذهبية','البيت الأبيض','شلالات نياغارا','ديزني وورلد','بيسبول','الفوتبول الأمريكي','جاز','موسيقى كانتري','الطريق 66']
-  },
-  'UK': {
-    en:['Fish and Chips','Full English','Scones','Bangers and Mash','Shepherd's Pie','Sticky Toffee','Yorkshire Pudding','Cornish Pasty','Welsh Rarebit','Eton Mess','Big Ben','Tower of London','Stonehenge','Buckingham Palace','Edinburgh Castle','Loch Ness','Oxford','Wimbledon','Premier League','Red Phone Box','Double Decker','The Queen','Pub','Afternoon Tea','Harrods'],
-    ar:['سمك وبطاطس','فطور إنجليزي','سكونز','سجق مع بطاطس','فطيرة الراعي','حلوى التوفي','بودينج يوركشير','باستي كورنيش','جبن ويلزي','إيتون ميس','بيغ بن','برج لندن','ستونهنج','قصر باكنغهام','قلعة إدنبرة','لوك نيس','أكسفورد','ويمبلدون','الدوري الممتاز','كابينة الهاتف الحمراء','الحافلة ذات الطابقين','الملكة','حانة','شاي العصر','هارودز']
-  },
-  'Germany': {
-    en:['Bratwurst','Schnitzel','Pretzels','Sauerkraut','Strudel','Sauerbraten','Black Forest Cake','Currywurst','Weisswurst','Rouladen','Brandenburg Gate','Neuschwanstein','Oktoberfest','Cologne Cathedral','Rhine River','Black Forest','Hamburg Port','Checkpoint Charlie','Hofbräuhaus','Berlin Wall','Autobahn','Volkswagen','BMW','Lederhosen','Dirndl'],
-    ar:['براتفورست','شنيتزل','بريتزل','مخلل الملفوف','شترودل','زاورباراتن','كعكة الغابة السوداء','كاري فورست','فايسفورست','رولادن','بوابة براندنبورغ','نيوشفانشتاين','مهرجان أكتوبر','كاتدرائية كولونيا','نهر الراين','الغابة السوداء','ميناء هامبورغ','نقطة تشارلي','هوفبراوهاوس','جدار برلين','الأوتوبان','فولكس فاغن','بي إم دبليو','سروال جلدي','ثوب دندل']
-  },
-  'Syria': {
-    en:['Kibbeh','Shawarma','Hummus','Fatteh','Muhamara','Kibbeh Nayeh','Bameh','Yalanji','Kaak','Maamoul','Damascus','Aleppo','Palmyra','Umayyad Mosque','Krak des Chevaliers','Souk Al-Hamidiyya','Citadel','Saladin','Oud','Dabke','Jasmine','Damascene Rose','Brocade','Aleppo Soap','Al-Mazza'],
-    ar:['كبة','شاورما','حمص','فتة','محمرة','كبة نية','بامية','يلنجي','كعك','معمول','دمشق','حلب','تدمر','الجامع الأموي','قلعة الحصن','سوق الحميدية','القلعة','صلاح الدين','عود','دبكة','ياسمين','وردة دمشقية','ديباج','صابون حلبي','المزة']
-  },
-  'China': {
-    en:['Dim Sum','Peking Duck','Kung Pao Chicken','Dumplings','Hot Pot','Mapo Tofu','Chow Mein','Spring Rolls','Wonton','Fried Rice','Great Wall','Forbidden City','Terracotta Army','Shanghai Tower','Li River','Panda','Dragon Boat','Tai Chi','Calligraphy','Mahjong','Dragon','Lunar New Year','Silk Road','Tea Ceremony','Chopsticks'],
-    ar:['ديم سام','بط بكين','دجاج كونغ باو','دامبلينغ','هوت بوت','توفو مابو','شاو مين','لفائف الربيع','وانتون','أرز مقلي','سور الصين العظيم','المدينة المحرمة','جيش التيراكوتا','برج شنغهاي','نهر لي','الباندا','زورق التنين','تاي تشي','الخط الصيني','الماجونغ','التنين','السنة الصينية الجديدة','طريق الحرير','مراسم الشاي','عيدان الطعام']
-  },
-  'Russia': {
-    en:['Borscht','Pelmeni','Blini','Beef Stroganoff','Olivier Salad','Shashlik','Solyanka','Pirozhki','Okroshka','Syrniki','Red Square','Kremlin','Hermitage','Trans-Siberian','Lake Baikal','St Basil's','Bolshoi Theatre','Siberia','Volga River','Matryoshka','Babushka','Samovar','Balalaika','Ballet','Sputnik'],
-    ar:['بورشت','بيلميني','بليني','ستروغانوف','سلطة أوليفييه','شيشليك','سوليانكا','بيروجكي','أوكروشكا','سيرنيكي','الساحة الحمراء','الكرملين','الإرميتاج','السكة الحديد العابرة لسيبيريا','بحيرة بايكال','كنيسة القديس باسيل','مسرح البولشوي','سيبيريا','نهر الفولغا','ماتريوشكا','بابوشكا','سامافار','بالالايكا','باليه','سبوتنيك']
-  },,
-
-  'India': {
-    en:['Biryani','Butter Chicken','Samosa','Dal','Naan','Tandoori','Curry','Lassi','Chai','Gulab Jamun','Taj Mahal','Ganges','Jaipur','Mumbai','Varanasi','Kerala Backwaters','Goa','Holi','Diwali','Bollywood','Yoga','Sari','Rickshaw','Cricket','Elephant'],
-    ar:['برياني','دجاج بالزبدة','سموسة','عدس','خبز نان','تندوري','كاري','لاسي','شاي','غولاب جامون','تاج محل','نهر الغانج','جايبور','مومباي','فاراناسي','كيرالا','غوا','هولي','ديوالي','بوليوود','يوغا','ساري','ريكشا','كريكيت','فيل']
-  },
-  'Pakistan': {
-    en:['Biryani','Nihari','Haleem','Karahi','Chapli Kebab','Seekh Kebab','Paye','Lassi','Kulfi','Sheer Khurma','Lahore','Karachi','Islamabad','Peshawar','Mohenjo Daro','Badshahi Mosque','Khyber Pass','Karakoram','K2','Shalwar Kameez','Truck Art','Cricket','Polo','Mango','Henna'],
-    ar:['برياني','نهاري','حليم','كراهي','كباب تشابلي','كباب سيخ','باية','لاسي','كلفي','شير خورما','لاهور','كراتشي','إسلام آباد','بيشاور','موهينجو دارو','مسجد بادشاهي','ممر خيبر','قراقوروم','كي 2','شلوار قميص','فن الشاحنات','كريكيت','بولو','مانغو','حناء']
-  },
+  "Saudi Arabia":{en:["Kabsa","Mandi","Harees","Mutabbaq","Saleeg","Shawarma","Samboosa","Dates","Qahwa","Ful","Abaya","Thobe","Ghutra","Bisht","Oud","Falconry","Camel Race","Al-Ardha","Masmak","Diriyah","Zamzam","Eid","Hajj","Ramadan","Gosi"],ar:["كبسة","مندي","هريس","مطبق","سليق","شاورما","سمبوسة","تمر","قهوة","فول","عباءة","ثوب","غترة","بشت","عود","صقارة","سباق الهجن","العرضة","المصمك","الدرعية","زمزم","عيد","حج","رمضان","قوزي"]},
+  "Jordan":{en:["Mansaf","Maqluba","Zarb","Falafel","Hummus","Knafeh","Warak Dawali","Shawarma","Ful","Musakhan","Jerash","Petra","Wadi Rum","Aqaba","Karak","Madaba","Ajloun","Dead Sea","Baptism Site","Roman Theater","Bedouin","Keffiyeh","Nargileh","Fatayer","Kibbeh"],ar:["منسف","مقلوبة","زرب","فلافل","حمص","كنافة","ورق دوالي","شاورما","فول","مساحن","جرش","البتراء","وادي رم","العقبة","الكرك","مادبا","عجلون","البحر الميت","موقع المعمودية","المدرج الروماني","بدوي","كوفية","نرجيلة","فطاير","كبة"]},
+  "Egypt":{en:["Koshari","Ful Medames","Molokhia","Feteer","Hawawshi","Shawarma","Baklava","Om Ali","Karkade","Aish Baladi","Pyramids","Sphinx","Nile","Luxor","Aswan","Alexandria","Khan el-Khalili","Tahrir","Coptic Cairo","Abu Simbel","Galabiya","Tarboush","Belly Dance","Ahwa","Sohour"],ar:["كشري","فول مدمس","ملوخية","فطير","حواوشي","شاورما","بقلاوة","أم علي","كركديه","عيش بلدي","الأهرامات","أبو الهول","النيل","الأقصر","أسوان","الإسكندرية","خان الخليلي","التحرير","القاهرة القبطية","أبو سمبل","جلابية","طربوش","رقص شرقي","أهوة","سحور"]},
+  "Sudan":{en:["Aseeda","Shafoot","Kisra","Ful","Mullah","Gorasa","Shaya","Sharbot","Simsimiya","Agashe","Merisah","Bayoudh","Nile","Omdurman","Khartoum","Jebel Barkal","Meroe","Suakin","Kassala","Tuti Island","Jalabiya","Aragi","Henna","Haboob","Shai"],ar:["عصيدة","شفوت","كسرة","فول","ملاح","قراصة","شاية","شربوت","سمسمية","عكاشي","مريسة","بيوض","النيل","أم درمان","الخرطوم","جبل البركل","مروي","سواكن","كسلا","جزيرة توتي","جلابية","عرقي","حناء","هبوب","شاي"]},
+  "UAE":{en:["Harees","Machboos","Luqaimat","Balaleet","Saloona","Regag","Chebab","Khameer","Al Majlis","Camel Milk","Burj Khalifa","Palm Jumeirah","Dubai Mall","Souk","Abra","Gold Souk","Falcon","Dune Bashing","Khor Dubai","Ferrari World","Kandura","Abaya","Oud","Gahwa","Ramadan Tent"],ar:["هريس","مجبوس","لقيمات","بلاليط","سالونة","رقاق","جباب","خمير","المجلس","حليب الإبل","برج خليفة","نخلة جميرا","دبي مول","سوق","عبرة","سوق الذهب","صقر","تزلج على الرمال","خور دبي","فيراري وورلد","كندورة","عباءة","عود","قهوة","خيمة رمضان"]},
+  "Lebanon":{en:["Kibbeh","Tabbouleh","Hummus","Fattoush","Shawarma","Manakish","Kafta","Warak Dawali","Sfiha","Baklava","Beirut","Byblos","Sidon","Tyre","Cedars","Jounieh","Raouche","Baalbek","Jeita Grotto","Harissa","Arak","Nargileh","Dabke","Keffiyeh","Ahwa"],ar:["كبة","تبولة","حمص","فتوش","شاورما","مناقيش","كفتة","ورق دوالي","صفيحة","بقلاوة","بيروت","جبيل","صيدا","صور","الأرز","جونية","الروشة","بعلبك","جعيتا","حريصا","عرق","نرجيلة","دبكة","كوفية","أهوة"]},
+  "Italy":{en:["Pizza","Pasta","Gelato","Risotto","Tiramisu","Espresso","Carbonara","Bruschetta","Prosciutto","Mozzarella","Colosseum","Vatican","Venice","Florence","Milan","Pompeii","Amalfi Coast","Cinque Terre","Tuscany","Lake Como","Ferrari","Vespa","Opera","Carnival","Truffle"],ar:["بيتزا","باستا","جيلاتو","ريزوتو","تيراميسو","إسبريسو","كاربونارا","بروشيتا","بروشوتو","موزاريلا","الكولوسيوم","الفاتيكان","البندقية","فلورنسا","ميلانو","بومبيي","ساحل أمالفي","شينكوي تيري","توسكانا","بحيرة كومو","فيراري","فيسبا","أوبرا","كرنفال","كمأة"]},
+  "Japan":{en:["Sushi","Ramen","Tempura","Sashimi","Miso","Yakitori","Gyoza","Matcha","Sake","Wagyu","Mount Fuji","Kyoto","Tokyo","Osaka","Hiroshima","Geisha","Samurai","Sumo","Origami","Bonsai","Kimono","Anime","Shinkansen","Cherry Blossom","Zen Garden"],ar:["سوشي","رامن","تمبورا","ساشيمي","ميسو","ياكيتوري","جيوزا","ماتشا","ساكي","واغيو","جبل فوجي","كيوتو","طوكيو","أوساكا","هيروشيما","غيشا","ساموراي","سومو","أوريغامي","بونساي","كيمونو","أنيمي","شينكانسن","أزهار الكرز","حديقة زن"]},
+  "France":{en:["Croissant","Baguette","Brie","Champagne","Escargot","Ratatouille","Crepe","Macaron","Foie Gras","Bouillabaisse","Eiffel Tower","Louvre","Versailles","Champs Elysees","Bordeaux","Provence","Normandy","Nice","Cannes","Mont Blanc","Beret","Perfume","Fashion Week","Moulin Rouge","Bastille"],ar:["كرواسان","باغيت","بري","شامبانيا","حلزون","راتاتوي","كريب","ماكارون","فوا غرا","بوياباس","برج إيفل","اللوفر","فرساي","الشانزيليزيه","بوردو","بروفانس","نورماندي","نيس","كان","مون بلان","برية","عطر","أسبوع الموضة","مولان روج","الباستيل"]},
+  "Turkey":{en:["Kebab","Baklava","Lokum","Pide","Manti","Lahmacun","Simit","Ayran","Raki","Kofte","Hagia Sophia","Blue Mosque","Bosphorus","Cappadocia","Ephesus","Grand Bazaar","Pamukkale","Topkapi","Galata Tower","Bodrum","Evil Eye","Hamam","Whirling Dervish","Tea","Nargile"],ar:["كباب","بقلاوة","لوكوم","بيدة","مانتي","لحم عجين","سيميط","عيران","راكي","كفتة","آيا صوفيا","المسجد الأزرق","البوسفور","كابادوكيا","أفسس","البازار الكبير","باموك كالي","توبكابي","برج غلطة","بودروم","العين الزرقاء","حمام","الدراويش","شاي","نرجيلة"]},
+  "Morocco":{en:["Tagine","Couscous","Pastilla","Harira","Msemen","Argan Oil","Mint Tea","Chermoula","Basteeya","Mechoui","Marrakech","Fes","Chefchaouen","Casablanca","Atlas Mountains","Sahara","Essaouira","Ait Benhaddou","Medina","Souk","Djellaba","Fez Hat","Henna","Hammam","Oud"],ar:["طاجين","كسكس","بستيلة","حريرة","مسمن","زيت الأرغان","أتاي","شرمولة","بسطيلة","مشوي","مراكش","فاس","شفشاون","الدار البيضاء","جبال الأطلس","الصحراء","الصويرة","أيت بنحدو","المدينة","السوق","جلابة","طربوش","حناء","حمام","عود"]},
+  "USA":{en:["Burger","Hot Dog","BBQ Ribs","Cheesecake","Mac and Cheese","Clam Chowder","Buffalo Wings","Cornbread","Apple Pie","Pancakes","Statue of Liberty","Grand Canyon","Times Square","Hollywood","Yellowstone","Las Vegas","Golden Gate","White House","Niagara Falls","Disney World","Baseball","American Football","Jazz","Country Music","Route 66"],ar:["برغر","هوت دوج","ضلوع مشوية","تشيزكيك","ماك أند تشيز","شوربة المحار","أجنحة بفالو","خبز الذرة","فطيرة التفاح","بانكيك","تمثال الحرية","الغراند كانيون","تايمز سكوير","هوليوود","يلوستون","لاس فيغاس","جسر البوابة الذهبية","البيت الأبيض","شلالات نياغارا","ديزني وورلد","بيسبول","الفوتبول الأمريكي","جاز","موسيقى كانتري","الطريق 66"]},
+  "UK":{en:["Fish and Chips","Full English","Scones","Bangers and Mash","Shepherds Pie","Sticky Toffee","Yorkshire Pudding","Cornish Pasty","Welsh Rarebit","Eton Mess","Big Ben","Tower of London","Stonehenge","Buckingham Palace","Edinburgh Castle","Loch Ness","Oxford","Wimbledon","Premier League","Red Phone Box","Double Decker","The Queen","Pub","Afternoon Tea","Harrods"],ar:["سمك وبطاطس","فطور إنجليزي","سكونز","سجق مع بطاطس","فطيرة الراعي","حلوى التوفي","بودينج يوركشير","باستي كورنيش","جبن ويلزي","إيتون ميس","بيغ بن","برج لندن","ستونهنج","قصر باكنغهام","قلعة إدنبرة","لوك نيس","أكسفورد","ويمبلدون","الدوري الممتاز","كابينة الهاتف الحمراء","الحافلة ذات الطابقين","الملكة","حانة","شاي العصر","هارودز"]},
+  "Germany":{en:["Bratwurst","Schnitzel","Pretzels","Sauerkraut","Strudel","Sauerbraten","Black Forest Cake","Currywurst","Weisswurst","Rouladen","Brandenburg Gate","Neuschwanstein","Oktoberfest","Cologne Cathedral","Rhine River","Black Forest","Hamburg Port","Checkpoint Charlie","Hofbrauhaus","Berlin Wall","Autobahn","Volkswagen","BMW","Lederhosen","Dirndl"],ar:["براتفورست","شنيتزل","بريتزل","مخلل الملفوف","شترودل","زاورباراتن","كعكة الغابة السوداء","كاري فورست","فايسفورست","رولادن","بوابة براندنبورغ","نيوشفانشتاين","مهرجان أكتوبر","كاتدرائية كولونيا","نهر الراين","الغابة السوداء","ميناء هامبورغ","نقطة تشارلي","هوفبراوهاوس","جدار برلين","الأوتوبان","فولكس فاغن","بي إم دبليو","سروال جلدي","ثوب دندل"]},
+  "Syria":{en:["Kibbeh","Shawarma","Hummus","Fatteh","Muhamara","Kibbeh Nayeh","Bameh","Yalanji","Kaak","Maamoul","Damascus","Aleppo","Palmyra","Umayyad Mosque","Krak des Chevaliers","Souk Al-Hamidiyya","Citadel","Saladin","Oud","Dabke","Jasmine","Damascene Rose","Brocade","Aleppo Soap","Al-Mazza"],ar:["كبة","شاورما","حمص","فتة","محمرة","كبة نية","بامية","يلنجي","كعك","معمول","دمشق","حلب","تدمر","الجامع الأموي","قلعة الحصن","سوق الحميدية","القلعة","صلاح الدين","عود","دبكة","ياسمين","وردة دمشقية","ديباج","صابون حلبي","المزة"]},
+  "China":{en:["Dim Sum","Peking Duck","Kung Pao Chicken","Dumplings","Hot Pot","Mapo Tofu","Chow Mein","Spring Rolls","Wonton","Fried Rice","Great Wall","Forbidden City","Terracotta Army","Shanghai Tower","Li River","Panda","Dragon Boat","Tai Chi","Calligraphy","Mahjong","Dragon","Lunar New Year","Silk Road","Tea Ceremony","Chopsticks"],ar:["ديم سام","بط بكين","دجاج كونغ باو","دامبلينغ","هوت بوت","توفو مابو","شاو مين","لفائف الربيع","وانتون","أرز مقلي","سور الصين العظيم","المدينة المحرمة","جيش التيراكوتا","برج شنغهاي","نهر لي","الباندا","زورق التنين","تاي تشي","الخط الصيني","الماجونغ","التنين","السنة الصينية الجديدة","طريق الحرير","مراسم الشاي","عيدان الطعام"]},
+  "Russia":{en:["Borscht","Pelmeni","Blini","Beef Stroganoff","Olivier Salad","Shashlik","Solyanka","Pirozhki","Okroshka","Syrniki","Red Square","Kremlin","Hermitage","Trans-Siberian","Lake Baikal","St Basils","Bolshoi Theatre","Siberia","Volga River","Matryoshka","Babushka","Samovar","Balalaika","Ballet","Sputnik"],ar:["بورشت","بيلميني","بليني","ستروغانوف","سلطة أوليفييه","شيشليك","سوليانكا","بيروجكي","أوكروشكا","سيرنيكي","الساحة الحمراء","الكرملين","الإرميتاج","السكة الحديد العابرة لسيبيريا","بحيرة بايكال","كنيسة القديس باسيل","مسرح البولشوي","سيبيريا","نهر الفولغا","ماتريوشكا","بابوشكا","سامافار","بالالايكا","باليه","سبوتنيك"]},
+  "India":{en:["Biryani","Butter Chicken","Samosa","Dal","Naan","Tandoori","Curry","Lassi","Chai","Gulab Jamun","Taj Mahal","Ganges","Jaipur","Mumbai","Varanasi","Kerala Backwaters","Goa","Holi","Diwali","Bollywood","Yoga","Sari","Rickshaw","Cricket","Elephant"],ar:["برياني","دجاج بالزبدة","سموسة","عدس","خبز نان","تندوري","كاري","لاسي","شاي","غولاب جامون","تاج محل","نهر الغانج","جايبور","مومباي","فاراناسي","كيرالا","غوا","هولي","ديوالي","بوليوود","يوغا","ساري","ريكشا","كريكيت","فيل"]},
+  "Pakistan":{en:["Biryani","Nihari","Haleem","Karahi","Chapli Kebab","Seekh Kebab","Paye","Lassi","Kulfi","Sheer Khurma","Lahore","Karachi","Islamabad","Peshawar","Mohenjo Daro","Badshahi Mosque","Khyber Pass","Karakoram","K2","Shalwar Kameez","Truck Art","Cricket","Polo","Mango","Henna"],ar:["برياني","نهاري","حليم","كراهي","كباب تشابلي","كباب سيخ","باية","لاسي","كلفي","شير خورما","لاهور","كراتشي","إسلام آباد","بيشاور","موهينجو دارو","مسجد بادشاهي","ممر خيبر","قراقوروم","كي 2","شلوار قميص","فن الشاحنات","كريكيت","بولو","مانغو","حناء"]}
 };
-
 const REGIONAL_COUNTRIES = Object.keys(REGIONAL);
 
-// ═══════════════════════════════════════════
+// ===========================================
 // TRANSLATIONS
-// ═══════════════════════════════════════════
+// ===========================================
 const TR={
 en:{
   logo:'The Skeptic',land_title:'The Skeptic',land_sub:'Find the spy — or be one.',
@@ -1269,9 +1207,9 @@ ar:{
   ol_confirm:'تأكيد جميع الأصوات',new_round:'جولة جديدة',
 }};
 
-// ═══════════════════════════════════════════
+// ===========================================
 // STATE
-// ═══════════════════════════════════════════
+// ===========================================
 let lang='en';
 let players=[], localMode='fixed', localCount=1, localTimer=300;
 let gs={}; // local game state
@@ -1283,9 +1221,9 @@ let olTimerDur=300, olVoteOrder=[], olMyVote='', olVoteSubmitted=false;
 
 function T(k){return TR[lang][k]||TR.en[k]||k;}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // NAVIGATION
-// ═══════════════════════════════════════════
+// ===========================================
 // Screen history for Android back gesture
 window._screenHistory=[];
 function go(id){
@@ -1313,9 +1251,9 @@ function goBack(){
   return false;
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LANGUAGE
-// ═══════════════════════════════════════════
+// ===========================================
 const TMAP={
   't-logo':'logo','t-land-title':'land_title','t-land-sub':'land_sub',
   't-local-title':'local_title','t-local-sub':'local_sub',
@@ -1376,17 +1314,19 @@ function toggleMute(){
 function toggleLang(){lang=lang==='en'?'ar':'en';applyLang();}
 function olToggleLang(){lang=lang==='en'?'ar':'en';applyLang();if(socket)socket.emit('set_lang',{code:olRoom,lang});}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // CATEGORY SELECT
-// ═══════════════════════════════════════════
+// ===========================================
 function populateCatSelect(selId){
   const sel=document.getElementById(selId);
   if(!sel)return;
   const cur=sel.value;
-  sel.innerHTML=Object.keys(CATS).map(k=>`<option value="${k}">${catLabel(k)}</option>`).join('');
-  sel.innerHTML+=`<option value="Random">${T('random_lbl')}</option>`;
-  sel.innerHTML+=`<option value="Regional">${T('regional_lbl')||'Regional'}</option>`;
-  if(selId==='cat-sel') sel.innerHTML+=`<option value="Custom">${T('custom_lbl')}</option>`;
+  // Regional first, then regular categories, then Random/Custom
+  let opts = `<option value="Regional">${catLabel('Regional')}</option>`;
+  opts += Object.keys(CATS).map(k=>`<option value="${k}">${catLabel(k)}</option>`).join('');
+  opts += `<option value="Random">${T('random_lbl')}</option>`;
+  if(selId==='cat-sel') opts += `<option value="Custom">${T('custom_lbl')}</option>`;
+  sel.innerHTML = opts;
   if(cur&&[...sel.options].some(o=>o.value===cur)) sel.value=cur;
   if(selId==='cat-sel') onCatChange();
 }
@@ -1421,9 +1361,9 @@ function getRegionalWord(){
   return {word:words[Math.floor(Math.random()*words.length)], country};
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: SETUP
-// ═══════════════════════════════════════════
+// ===========================================
 function startLocal(){
   players=[];renderChips();
   populateCatSelect('cat-sel');
@@ -1467,9 +1407,9 @@ function setTimer(v){
   if(m[v]) document.getElementById('tim-'+m[v]).classList.add('on');
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: GAME START
-// ═══════════════════════════════════════════
+// ===========================================
 let gs_category_override=null;
 function beginLocal(){
   gs_category_override=null;
@@ -1541,9 +1481,9 @@ function endGame(){
   go('s-land');
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: PASS & ROLE
-// ═══════════════════════════════════════════
+// ===========================================
 function showLocalPass(){
   document.getElementById('pass-name').textContent=gs.order[gs.cur];
   document.getElementById('t-pass-msg').innerHTML=T('pass_msg').replace(/\n/g,'<br>');
@@ -1586,9 +1526,9 @@ function doneRole(){
   else{setupLocalGame();startLocalTimer();go('s-game');}
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: TIMER
-// ═══════════════════════════════════════════
+// ===========================================
 const CIRC=326.73;
 let localTimeLeft=300;
 
@@ -1625,9 +1565,9 @@ function renderTimer(ringId,fgId,txtId,rem,total){
   }
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: VOTING
-// ═══════════════════════════════════════════
+// ===========================================
 function goVote(){
   if(localTimerInt){clearInterval(localTimerInt);localTimerInt=null;}
   gs.votes={};gs.tallies={};gs.voteIdx=0;
@@ -1711,9 +1651,9 @@ function localTally(){
   else showLocalResult({type:'escaped',elim,spyNames});
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: SPY GUESS
-// ═══════════════════════════════════════════
+// ===========================================
 function showLocalSpyGuess(spyNames){
   document.getElementById('t-sg-title').textContent=T('sg_title');
   document.getElementById('t-sg-sub').textContent=T('sg_sub');
@@ -1741,9 +1681,9 @@ function skipGuess(){
   showLocalResult({type:'caught',elim:gs.eliminated,spyNames});
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // LOCAL: RESULT
-// ═══════════════════════════════════════════
+// ===========================================
 const RMAP={
   caught:['r_caught','r_caught_sub','win'],
   escaped:['r_escaped','r_escaped_sub','lose'],
@@ -1782,9 +1722,9 @@ function showLocalResult({type,elim,spyNames,guess}){
 
 function playAgain(){gs.cur=0;beginLocal();}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: SOCKET SETUP (called once)
-// ═══════════════════════════════════════════
+// ===========================================
 function initSocket(){
   if(socket) return;
   const url=window.location.protocol==='file:'||window.location.hostname==='localhost'
@@ -1813,9 +1753,9 @@ function initSocket(){
   socket.on('lang_changed',     d=>{lang=d.lang;applyLang();});
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: ENTRY
-// ═══════════════════════════════════════════
+// ===========================================
 function olCreate(){
   const name=document.getElementById('ol-name').value.trim();
   if(!name){toast('Enter your name','err');return;}
@@ -1845,9 +1785,9 @@ function olJoin(){
 
 function olLeave(){olRoom='';olName='';go('s-land');}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: LOBBY
-// ═══════════════════════════════════════════
+// ===========================================
 function renderLobby(room){
   olIsHost=room.isHost;
   document.getElementById('ol-room-code').textContent=room.code||'----';
@@ -1898,9 +1838,9 @@ function olSetTimer(v){
 }
 function olStartGame(){socket.emit('start_game',{code:olRoom},res=>{if(res&&!res.ok)toast(res.error||'Cannot start','err');});}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: ROLE REVEAL (each player on own device)
-// ═══════════════════════════════════════════
+// ===========================================
 function olOnReveal(data){
   socket.emit('get_my_role',{code:olRoom},res=>{
     if(!res||!res.ok){toast('Could not get role','err');return;}
@@ -1928,9 +1868,9 @@ function olOnReadyUpdate(data){
   if(data.allReady) setTimeout(()=>go('s-ol-game'),300);
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: GAME SCREEN
-// ═══════════════════════════════════════════
+// ===========================================
 function olOnGameStarted(data){
   olTimerDur=data.timerDuration||300;
   document.getElementById('ol-cat-val').textContent=catLabel(data.category);
@@ -1955,9 +1895,9 @@ function olOnTick(data){
 
 function olRequestVoting(){socket.emit('start_voting',{code:olRoom});}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: VOTING (independent per device)
-// ═══════════════════════════════════════════
+// ===========================================
 function olOnVotingStarted(data){
   olVoteOrder=data.players||[];
   olMyVote='';olVoteSubmitted=false;
@@ -2044,9 +1984,9 @@ function olConfirmVotes(){
   socket.emit('confirm_votes',{code:olRoom});
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: SPY GUESS
-// ═══════════════════════════════════════════
+// ===========================================
 function olOnSpyGuessChance(data){
   // Only spies interact; everyone sees the screen
   const iAmSpy=olMyRole&&olMyRole.isSpy;
@@ -2074,9 +2014,9 @@ function olMakeGuess(opt){
 
 function olSkipGuess(){socket.emit('spy_guess',{code:olRoom,guess:'__skip__'});}
 
-// ═══════════════════════════════════════════
+// ===========================================
 // ONLINE: RESULT
-// ═══════════════════════════════════════════
+// ===========================================
 function olOnVoteResult(data){
   let type='tie';
   if(data.tie) type='tie';
@@ -2100,9 +2040,9 @@ function olOnVoteResult(data){
 function olNewRound(){socket.emit('new_round',{code:olRoom});}
 
 
-// ═══════════════════════════════════════════
+// ===========================================
 // SOUND ENGINE (Web Audio API — no files)
-// ═══════════════════════════════════════════
+// ===========================================
 const SFX = (() => {
   let ctx = null;
   let enabled = true;
@@ -2191,18 +2131,18 @@ const SFX = (() => {
   };
 })();
 
-// ═══════════════════════════════════════════
+// ===========================================
 // TOAST
-// ═══════════════════════════════════════════
+// ===========================================
 function toast(msg,type='ok'){
   const el=document.getElementById('toast');
   el.textContent=msg;el.className='show '+(type||'');
   clearTimeout(el._t);el._t=setTimeout(()=>el.className='',2500);
 }
 
-// ═══════════════════════════════════════════
+// ===========================================
 // INIT
-// ═══════════════════════════════════════════
+// ===========================================
 applyLang();
 </script>
 </body>
