@@ -3,354 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waleed Elhadi — Electrical Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Résumé — Waleed Elhadi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d0d0b;--bg2:#141410;--bg3:#1c1c17;--bg4:#232318;
-  --copper:#c8843a;--copper2:#e8a456;--copper3:#f5c37a;--copper-dim:#6b4420;
-  --ink:#f0ece4;--ink2:#a09880;--ink3:#5a5648;
-  --line:#2a2820;--line2:#3a3828;
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'Outfit',system-ui,sans-serif;
-  --max:1140px;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;font-weight:300;overflow-x:hidden}
+  :root{--milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--copper:#b5622a;--matcha:#5a7a52;--matcha-light:#7a9e70;--text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),#faf6f0;}
+  .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%);}
+  .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
+  .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
+  .back:hover{color:var(--gold);}
+  .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(200,146,42,0.18);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07);}
 
-/* Reveal */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
-.reveal.visible{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.25s}.d4{transition-delay:.34s}
+  /* Hero */
+  .hero{padding:36px;margin-bottom:16px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
+  .hero-name{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:8px;}
+  .hero-name em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--copper));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .hero-title{font-size:15px;color:var(--text-muted);font-weight:300;margin-bottom:16px;}
+  .hero-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);}
+  .hero-meta a{color:var(--gold);text-decoration:none;}
+  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:14px 0;}
+  .hero-bio{font-size:14px;color:var(--text-muted);line-height:1.7;font-weight:300;max-width:480px;}
+  .download-btn{background:linear-gradient(135deg,var(--gold),var(--copper));color:#fff;border:none;border-radius:12px;padding:11px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:none;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(200,146,42,0.25);white-space:nowrap;}
+  .download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,146,42,0.35);}
 
-/* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);height:60px;background:transparent;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
-nav.scrolled{background:rgba(13,13,11,.95);border-color:var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--copper2);text-decoration:none;letter-spacing:.03em}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--copper2)}
+  /* Sections */
+  .section{padding:28px;margin-bottom:14px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;}
+  .section:nth-child(2){animation-delay:.1s}.section:nth-child(3){animation-delay:.18s}
+  .section:nth-child(4){animation-delay:.26s}.section:nth-child(5){animation-delay:.34s}
+  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.25),transparent);}
 
-/* Hero */
-#hero{min-height:100svh;display:flex;flex-direction:column;position:relative;overflow:hidden}
-#circuit-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.4;pointer-events:none}
-.hero-video-wrap{position:relative;width:100%;aspect-ratio:16/6.5;max-height:56vh;overflow:hidden;flex-shrink:0}
-.hero-video-wrap video{width:100%;height:100%;object-fit:cover;opacity:.55}
-.hero-video-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,11,.3) 0%,rgba(13,13,11,0) 30%,rgba(13,13,11,1) 100%)}
-.hero-no-video{height:4rem;flex-shrink:0}
-.hero-content{position:relative;z-index:2;max-width:var(--max);width:100%;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,5vw,4rem) clamp(3rem,8vw,6rem);flex:1;display:flex;flex-direction:column;justify-content:flex-end}
-.hero-eyebrow{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
-.hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--copper)}
-h1.hero-name{font-family:var(--serif);font-size:clamp(3.8rem,10vw,8rem);font-weight:500;line-height:.95;letter-spacing:-.02em;color:var(--ink);margin-bottom:.8rem}
-h1.hero-name em{font-style:italic;color:var(--copper2)}
-.hero-subtitle{font-family:var(--serif);font-size:clamp(1rem,2.2vw,1.4rem);font-style:italic;color:var(--ink2);margin-bottom:2rem;max-width:560px}
-.hero-badges{display:flex;flex-wrap:wrap;gap:.6rem}
-.badge{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--line2);border-radius:2px;padding:.32rem .85rem;background:rgba(255,255,255,.02)}
-.badge.hi{border-color:var(--copper-dim);color:var(--copper2);background:rgba(200,132,58,.07)}
-.scroll-hint{position:absolute;bottom:2rem;right:clamp(1.5rem,5vw,4rem);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;gap:.5rem;animation:bob 2.5s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-.scroll-hint svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5}
+  /* Experience items */
+  .exp-item{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(200,146,42,0.1);}
+  .exp-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+  .exp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;flex-wrap:wrap;}
+  .exp-role{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;}
+  .exp-period{font-size:11px;color:var(--text-muted);letter-spacing:.05em;white-space:nowrap;}
+  .exp-company{font-size:13px;color:var(--gold);margin-bottom:8px;}
+  .exp-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;}
 
-/* Section shell */
-.sw{max-width:var(--max);margin:0 auto;padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,4rem)}
-.s-label{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin-bottom:.7rem;display:flex;align-items:center;gap:.7rem}
-.s-label::after{content:'';height:1px;background:linear-gradient(to right,var(--copper-dim),transparent);width:100px}
-h2.s-title{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:500;line-height:1.1;color:var(--ink);margin-bottom:3rem}
-.hairline{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--line2) 20%,var(--line2) 80%,transparent)}
+  /* Skills */
+  .skills-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+  .skill-tag{font-size:12px;padding:5px 13px;background:rgba(200,146,42,0.08);border:1px solid rgba(200,146,42,0.18);border-radius:20px;color:var(--text-muted);}
 
-/* About */
-.about-grid{display:grid;grid-template-columns:1fr 360px;gap:5rem;align-items:start}
-.about-text{font-size:1.02rem;color:var(--ink2);line-height:1.95}
-.about-text p+p{margin-top:1.1rem}
-.about-text strong{color:var(--ink);font-weight:500}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:1.8rem}
-.stat-cell{background:var(--bg2);padding:1.4rem 1rem;text-align:center}
-.stat-n{font-family:var(--serif);font-size:2.8rem;font-weight:500;color:var(--copper2);line-height:1;display:block;margin-bottom:.3rem}
-.stat-l{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
-.thesis-card{border:1px solid var(--line2);border-left:3px solid var(--copper);border-radius:0 6px 6px 0;padding:1.4rem 1.5rem;background:var(--bg3)}
-.thesis-card .tc-lbl{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--copper);margin-bottom:.5rem}
-.thesis-card h4{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--ink);line-height:1.4;margin-bottom:.45rem}
-.thesis-card p{font-size:.82rem;color:var(--ink3);line-height:1.65}
-
-/* Timeline */
-.timeline{position:relative;padding-top:.5rem}
-.tl-spine{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--copper-dim),var(--line2) 85%,transparent);transform:translateX(-50%)}
-.tl-item{display:grid;grid-template-columns:1fr 80px 1fr;margin-bottom:3rem;position:relative}
-.tl-dot-col{display:flex;align-items:flex-start;justify-content:center;padding-top:1.7rem;position:relative;z-index:2}
-.tl-dot{width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid var(--copper);box-shadow:0 0 0 4px rgba(200,132,58,.1),0 0 10px rgba(200,132,58,.2);flex-shrink:0;transition:box-shadow .3s}
-.tl-item:hover .tl-dot{box-shadow:0 0 0 7px rgba(200,132,58,.15),0 0 20px rgba(200,132,58,.35)}
-.tl-card{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:1.6rem 1.8rem;transition:border-color .3s,background .3s}
-.tl-card:hover{border-color:var(--line2);background:var(--bg3)}
-.tl-l{padding-right:1.5rem}.tl-r{padding-left:1.5rem}
-.tl-l .tl-card::after{content:'';position:absolute;top:1.9rem;right:-7px;width:7px;height:7px;background:var(--bg2);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:rotate(45deg)}
-.tl-r .tl-card::after{content:'';position:absolute;top:1.9rem;left:-7px;width:7px;height:7px;background:var(--bg2);border-bottom:1px solid var(--line);border-left:1px solid var(--line);transform:rotate(45deg)}
-.tl-period{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--copper);margin-bottom:.4rem}
-.tl-company{font-size:.73rem;letter-spacing:.05em;color:var(--ink3);margin-bottom:.35rem}
-.tl-role{font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:.75rem}
-.tl-summary{font-size:.87rem;color:var(--ink2);line-height:1.75}
-
-/* Skills */
-.skills-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.sg{background:var(--bg2);padding:1.8rem 1.6rem;transition:background .25s}
-.sg:hover{background:var(--bg3)}
-.sg-cat{font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;color:var(--copper);margin-bottom:1.1rem;font-weight:500}
-.sg-tags{display:flex;flex-wrap:wrap;gap:.45rem}
-.sg-tag{font-size:.78rem;color:var(--ink2);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:3px;padding:.2rem .6rem;transition:border-color .2s,color .2s}
-.sg:hover .sg-tag{border-color:var(--copper-dim);color:var(--ink)}
-
-/* Education */
-.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
-.edu-blk{margin-bottom:2.2rem}
-.edu-blk h4{font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--ink);margin-bottom:.25rem}
-.edu-inst{font-size:.82rem;color:var(--copper2);letter-spacing:.02em;margin-bottom:.2rem}
-.edu-yr{font-size:.73rem;color:var(--ink3);margin-bottom:.55rem}
-.edu-note{font-size:.82rem;color:var(--ink3);font-style:italic;line-height:1.6;border-left:2px solid var(--copper-dim);padding-left:.85rem}
-.cert-list{display:flex;flex-direction:column;gap:.5rem}
-.cert-item{display:flex;align-items:flex-start;gap:.7rem;font-size:.83rem;color:var(--ink2);line-height:1.5;padding:.55rem .75rem;border-radius:4px;border:1px solid transparent;transition:border-color .2s,background .2s}
-.cert-item:hover{border-color:var(--line);background:var(--bg3)}
-.cert-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--copper);flex-shrink:0;margin-top:.52rem}
-.lang-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.5rem}
-.lang-pill{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--copper2);border:1px solid var(--copper-dim);border-radius:100px;padding:.32rem .95rem;background:rgba(200,132,58,.05)}
-
-/* Contact */
-#contact{background:var(--bg2);border-top:1px solid var(--line)}
-.contact-inner{max-width:var(--max);margin:0 auto;padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,4rem);display:grid;grid-template-columns:1fr auto;align-items:center;gap:3rem}
-.contact-text h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);margin:.7rem 0 .7rem}
-.contact-text p{font-size:.93rem;color:var(--ink2);max-width:400px}
-.c-links{display:flex;flex-direction:column;gap:.75rem;min-width:190px}
-.c-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.88rem 1.8rem;border-radius:4px;font-size:.8rem;letter-spacing:.06em;text-decoration:none;font-weight:500;transition:all .2s;white-space:nowrap}
-.c-primary{background:var(--copper);color:var(--bg)}.c-primary:hover{background:var(--copper2)}
-.c-ghost{border:1px solid var(--line2);color:var(--ink2)}.c-ghost:hover{border-color:var(--copper);color:var(--copper2)}
-footer{border-top:1px solid var(--line);text-align:center;padding:1.5rem;font-size:.7rem;letter-spacing:.06em;color:var(--ink3)}
-
-/* Mobile */
-@media(max-width:900px){
-  .nav-links{display:none}
-  .about-grid{grid-template-columns:1fr;gap:2.5rem}
-  .tl-spine{left:18px}
-  .tl-item{grid-template-columns:42px 1fr;grid-template-rows:auto}
-  .tl-dot-col{grid-column:1;grid-row:1;justify-content:center}
-  .tl-l,.tl-r{grid-column:2;grid-row:1;padding:0}
-  .tl-empty{display:none}
-  .tl-l .tl-card::after{left:-7px;right:auto;border:none;border-bottom:1px solid var(--line);border-left:1px solid var(--line);transform:rotate(45deg)}
-  .tl-r .tl-card::after{left:-7px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);transform:rotate(45deg)}
-  .edu-grid{grid-template-columns:1fr;gap:2rem}
-  .contact-inner{grid-template-columns:1fr;gap:2rem}
-  .c-links{flex-direction:row;flex-wrap:wrap}
-}
-@media(max-width:500px){
-  .stat-grid{grid-template-columns:1fr 1fr}
-  .scroll-hint{display:none}
-}
+  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
+  .footer a{color:var(--gold);text-decoration:none;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:640px){.hero{grid-template-columns:1fr}.exp-head{flex-direction:column}.hero-meta{flex-direction:column;gap:6px}body{cursor:auto}.cursor,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+<div class="bg"></div><div class="bg-matcha"></div><div class="circuit"></div>
 
-<nav id="nav">
-  <a class="nav-logo" href="#hero">W.E.</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="projects.html" style="color:var(--copper2);border:1px solid var(--copper-dim);border-radius:3px;padding:.25rem .75rem">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<div class="container">
+  <a href="/" class="back">← Back</a>
 
-<!-- Floating Projects button (appears after scrolling past hero) -->
-<a href="projects.html" id="fab-proj" style="position:fixed;bottom:2rem;right:2rem;z-index:100;display:flex;align-items:center;gap:.6rem;padding:.75rem 1.3rem;border-radius:100px;background:var(--bg2);border:1px solid var(--copper-dim);color:var(--copper2);font-family:var(--sans);font-size:.75rem;letter-spacing:.06em;text-decoration:none;font-weight:500;backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-  Projects
-</a>
-
-<section id="hero">
-  <canvas id="circuit-canvas"></canvas>
-  <div id="hero-media"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow reveal">Electrical &amp; Control Engineer</p>
-    <h1 class="hero-name reveal d1">Waleed<br><em>Elhadi</em></h1>
-    <p class="hero-subtitle reveal d2" id="hero-sub"></p>
-    <div class="hero-badges reveal d3" id="hero-badges"></div>
+  <!-- Hero -->
+  <div class="hero glass" id="hero-section">
+    <div>
+      <div class="hero-name" id="r-name">Waleed <em>Elhadi</em></div>
+      <div class="hero-title" id="r-title">Electrical Engineer & Software Developer</div>
+      <div class="hero-meta">
+        <span id="r-location">📍 Torino, Italy & Saudi Arabia</span>
+        <a href="mailto:waleedbakhit@hotmail.com" id="r-email">✉ waleedbakhit@hotmail.com</a>
+        <a href="https://waleedelhadi.com">🌐 waleedelhadi.com</a>
+      </div>
+      <div class="divider"></div>
+      <p class="hero-bio" id="r-bio">Electrical engineer with 10+ years in industrial power systems at KJO, Saudi Arabia. Passionate self-taught developer building mobile apps and web projects on the side.</p>
+    </div>
+    <a href="/WALEED_ELHADI_RESUME_.pdf" download class="download-btn">Download PDF ↓</a>
   </div>
-  <div class="scroll-hint">Scroll <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
-</section>
 
-<div class="hairline"></div>
-
-<section id="about">
-  <div class="sw">
-    <div class="reveal"><span class="s-label">Profile</span></div>
-    <h2 class="s-title reveal d1">Who I am</h2>
-    <div class="about-grid">
-      <div class="about-text reveal d2" id="about-body"></div>
-      <div>
-        <div class="stat-grid reveal d2" id="stat-grid"></div>
-        <div class="thesis-card reveal d3">
-          <div class="tc-lbl">MSc Thesis — PoliTO 2021</div>
-          <h4>IoT Open-Source Architecture for Building Facility Maintenance</h4>
-          <p>ESP8266/ESP32 sensor nodes → MQTT → Raspberry Pi broker → Node-RED → MySQL. Focused on the sensor and data collection layer for facility maintenance monitoring. Deployed at the PoliTO main campus.</p>
-        </div>
+  <!-- Experience -->
+  <div class="section glass">
+    <div class="section-label">Experience</div>
+    <div id="exp-section">
+      <div class="exp-item">
+        <div class="exp-head"><div class="exp-role">Electrical Engineer</div><span class="exp-period">2014 – Present</span></div>
+        <div class="exp-company">King Jouf Oil Operations (KJO) — Saudi Arabia</div>
+        <p class="exp-desc">Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.</p>
+      </div>
+      <div class="exp-item">
+        <div class="exp-head"><div class="exp-role">Freelance Developer</div><span class="exp-period">2023 – Present</span></div>
+        <div class="exp-company">Impresa Individuale — Torino, Italy</div>
+        <p class="exp-desc">Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR, Android + iOS) and various client web projects.</p>
       </div>
     </div>
   </div>
-</section>
 
-<div class="hairline"></div>
-
-<section id="experience">
-  <div class="sw">
-    <div class="reveal"><span class="s-label">Career</span></div>
-    <h2 class="s-title reveal d1">Experience</h2>
-    <div class="timeline" id="timeline"><div class="tl-spine"></div></div>
-  </div>
-</section>
-
-<div class="hairline"></div>
-
-<section id="skills">
-  <div class="sw">
-    <div class="reveal"><span class="s-label">Expertise</span></div>
-    <h2 class="s-title reveal d1">Technical skills</h2>
-    <div class="skills-wrap reveal d2" id="skills-wrap"></div>
-  </div>
-</section>
-
-<div class="hairline"></div>
-
-<section id="education">
-  <div class="sw">
-    <div class="reveal"><span class="s-label">Background</span></div>
-    <h2 class="s-title reveal d1">Education &amp; certifications</h2>
-    <div class="edu-grid">
-      <div id="edu-col" class="reveal d2"></div>
-      <div id="cert-col" class="reveal d3"></div>
+  <!-- Education -->
+  <div class="section glass">
+    <div class="section-label">Education</div>
+    <div id="edu-section">
+      <div class="exp-item">
+        <div class="exp-head"><div class="exp-role">B.Sc. Electrical Engineering</div><span class="exp-period">2010 – 2014</span></div>
+        <div class="exp-company">University of Khartoum — Sudan</div>
+        <p class="exp-desc">Specialisation in Power Systems and Control Engineering.</p>
+      </div>
+      <div class="exp-item">
+        <div class="exp-head"><div class="exp-role">Exchange Programme</div><span class="exp-period">2022 – 2023</span></div>
+        <div class="exp-company">Politecnico di Torino — Italy</div>
+        <p class="exp-desc">EDISU scholarship recipient. Studies in Energy Engineering.</p>
+      </div>
     </div>
-    <div id="lang-row" class="lang-row reveal d4"></div>
   </div>
-</section>
 
-<section id="contact">
-  <div class="contact-inner">
-    <div class="contact-text reveal">
-      <span class="s-label">Get in touch</span>
-      <h2>Let's connect</h2>
-      <p>Open to professional conversations, collaborations and new opportunities.</p>
+  <!-- Skills -->
+  <div class="section glass">
+    <div class="section-label">Skills</div>
+    <div class="skills-wrap" id="skills-section">
+      <span class="skill-tag">Electrical Engineering</span>
+      <span class="skill-tag">Power Systems</span>
+      <span class="skill-tag">SCADA</span>
+      <span class="skill-tag">AutoCAD</span>
+      <span class="skill-tag">Relay Protection</span>
+      <span class="skill-tag">Android / Kotlin</span>
+      <span class="skill-tag">iOS / Swift</span>
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Home Assistant</span>
+      <span class="skill-tag">Arabic</span>
+      <span class="skill-tag">English</span>
+      <span class="skill-tag">Italian (Basic)</span>
     </div>
-    <div class="c-links reveal d2" id="c-links"></div>
   </div>
-</section>
 
-<footer id="footer"></footer>
+  <!-- Languages -->
+  <div class="section glass">
+    <div class="section-label">Languages</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" id="lang-section"></div>
+  </div>
 
-<script src="data.js"></script>
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+</div>
+
 <script>
-/* Circuit canvas */
-(function(){
-  const cv=document.getElementById('circuit-canvas'),ctx=cv.getContext('2d');
-  let nodes=[],lines=[],W,H;
-  function resize(){
-    W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;build();
-  }
-  function build(){
-    nodes=[];lines=[];
-    const cols=Math.floor(W/88),rows=Math.floor(H/88);
-    for(let r=0;r<=rows;r++)for(let c=0;c<=cols;c++){
-      if(Math.random()>.42)continue;
-      nodes.push({x:c*88+(Math.random()-.5)*28,y:r*88+(Math.random()-.5)*28,p:Math.random()*Math.PI*2,s:.007+Math.random()*.006});
-    }
-    nodes.forEach((a,i)=>nodes.slice(i+1).forEach(b=>{
-      const d=Math.hypot(a.x-b.x,a.y-b.y);
-      if(d<155&&Math.random()>.5)lines.push({a,b});
-    }));
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    lines.forEach(l=>{
-      const avg=((Math.sin(l.a.p)+1)/2+(Math.sin(l.b.p)+1)/2)/2;
-      ctx.beginPath();ctx.moveTo(l.a.x,l.a.y);
-      ctx.lineTo(l.a.x,l.b.y);ctx.lineTo(l.b.x,l.b.y);
-      ctx.strokeStyle=`rgba(200,132,58,${avg*.16+.04})`;ctx.lineWidth=.8;ctx.stroke();
-    });
-    nodes.forEach(n=>{
-      n.p+=n.s;
-      const p=(Math.sin(n.p)+1)/2;
-      ctx.beginPath();ctx.arc(n.x,n.y,1.8+p*.9,0,Math.PI*2);
-      ctx.fillStyle=`rgba(200,132,58,${p*.45+.12})`;ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-  window.addEventListener('resize',()=>{clearTimeout(window._rt);window._rt=setTimeout(resize,150)});
-  resize();draw();
-})();
+const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
 
-/* Hero */
-document.title=DATA.name+' — '+DATA.title;
-document.getElementById('hero-sub').textContent=DATA.tagline;
-const hb=document.getElementById('hero-badges');
-[{t:DATA.title,h:true},{t:DATA.department,h:true},{t:DATA.location,h:false}].forEach(b=>{
-  const s=document.createElement('span');s.className='badge'+(b.h?' hi':'');s.textContent=b.t;hb.appendChild(s);
-});
-const hm=document.getElementById('hero-media');
-if(DATA.introVideo){
-  hm.className='hero-video-wrap';
-  hm.innerHTML=`<video autoplay muted loop playsinline${DATA.videoPoster?` poster="${DATA.videoPoster}"`:''}><source src="${DATA.introVideo}" type="video/mp4"></video>`;
-}else{hm.className='hero-no-video'}
+// Default data matching admin panel
+const DEFAULT_RESUME = {name:'Waleed Elhadi Bakhit Abdelsakhi',title:'Electrical Engineer & Software Developer',location:'Torino, Italy · Al-Jouf, Saudi Arabia',email:'waleedbakhit@hotmail.com',website:'waleedelhadi.com',bio:'Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia.'};
+const DEFAULT_EXP = [
+  {id:'e1',role:'Electrical Engineer',company:'King Jouf Oil Operations (KJO)',period:'2014 – Present',location:'Al-Jouf, Saudi Arabia',desc:'Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.'},
+  {id:'e2',role:'Freelance Developer',company:'Impresa Individuale',period:'2023 – Present',location:'Torino, Italy',desc:'Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR) and client web projects.'},
+];
+const DEFAULT_EDU = [
+  {id:'ed1',degree:'B.Sc. Electrical Engineering',inst:'University of Khartoum',year:'2008 – 2013',notes:'Specialisation in Power Systems and Control Engineering.'},
+  {id:'ed2',degree:'Exchange Programme — Energy Engineering',inst:'Politecnico di Torino',year:'2022 – 2023',notes:'EDISU scholarship recipient.'},
+];
+const DEFAULT_SKILLS = ['Electrical Engineering','Power Systems','115kV Substations','SCADA','Relay Protection','AutoCAD','Android / Kotlin','iOS / Swift','JavaScript','Python','Home Assistant','Arabic','English','Italian'];
+const DEFAULT_LANGS = [{name:'Arabic',level:'Native'},{name:'English',level:'Fluent'},{name:'Italian',level:'Intermediate'}];
 
-/* About */
-document.getElementById('about-body').innerHTML=DATA.about;
-const sg=document.getElementById('stat-grid');
-[{n:'10+',l:'Years experience'},{n:'2',l:'Countries worked'},{n:DATA.certifications.length+'+',l:'Certifications'},{n:'3',l:'Languages'}]
-.forEach(s=>sg.innerHTML+=`<div class="stat-cell"><span class="stat-n">${s.n}</span><span class="stat-l">${s.l}</span></div>`);
+function loadResume(){
+  try {
+    // Personal info — use admin data or defaults
+    const r = JSON.parse(localStorage.getItem('we_resume') || 'null') || DEFAULT_RESUME;
+    const nameParts = (r.name||'Waleed Elhadi').split(' ');
+    const lastName = nameParts.pop();
+    document.getElementById('r-name').innerHTML = nameParts.join(' ') + ' <em>' + lastName + '</em>';
+    document.getElementById('r-title').textContent = r.title || '';
+    document.getElementById('r-location').textContent = '📍 ' + (r.location || '');
+    const emailEl = document.getElementById('r-email');
+    emailEl.textContent = '✉ ' + (r.email || '');
+    emailEl.href = 'mailto:' + (r.email || '');
+    document.getElementById('r-bio').textContent = r.bio || '';
 
-/* Timeline */
-const tl=document.getElementById('timeline');
-DATA.experience.forEach((e,i)=>{
-  const left=i%2===0;
-  const card=`<div class="tl-card">
-    <div class="tl-period">${e.period}</div>
-    <div class="tl-company">${e.company}</div>
-    <div class="tl-role">${e.role}</div>
-    <p class="tl-summary">${e.summary}</p>
-  </div>`;
-  const div=document.createElement('div');div.className='tl-item reveal';
-  div.innerHTML=left
-    ?`<div class="tl-l">${card}</div><div class="tl-dot-col"><div class="tl-dot"></div></div><div class="tl-empty"></div>`
-    :`<div class="tl-empty"></div><div class="tl-dot-col"><div class="tl-dot"></div></div><div class="tl-r">${card}</div>`;
-  tl.appendChild(div);
-});
+    // Experience
+    const exps = JSON.parse(localStorage.getItem('we_exp') || 'null') || DEFAULT_EXP;
+    document.getElementById('exp-section').innerHTML = exps.map(e=>`
+      <div class="exp-item">
+        <div class="exp-head">
+          <div class="exp-role">${e.role}</div>
+          <span class="exp-period">${e.period}</span>
+        </div>
+        <div class="exp-company">${e.company}${e.location?' · '+e.location:''}</div>
+        <p class="exp-desc">${e.desc}</p>
+      </div>`).join('');
 
-/* Skills */
-const sw=document.getElementById('skills-wrap');
-DATA.skills.forEach(g=>sw.innerHTML+=`<div class="sg"><div class="sg-cat">${g.category}</div><div class="sg-tags">${g.items.map(t=>`<span class="sg-tag">${t}</span>`).join('')}</div></div>`);
+    // Education
+    const edus = JSON.parse(localStorage.getItem('we_edu') || 'null') || DEFAULT_EDU;
+    document.getElementById('edu-section').innerHTML = edus.map(e=>`
+      <div class="exp-item">
+        <div class="exp-head">
+          <div class="exp-role">${e.degree}</div>
+          <span class="exp-period">${e.year}</span>
+        </div>
+        <div class="exp-company">${e.inst}</div>
+        ${e.notes?`<p class="exp-desc">${e.notes}</p>`:''}
+      </div>`).join('');
 
-/* Education */
-const ec=document.getElementById('edu-col');
-DATA.education.forEach(e=>ec.innerHTML+=`<div class="edu-blk"><h4>${e.degree}</h4><div class="edu-inst">${e.institution}</div><div class="edu-yr">${e.year}</div>${e.note?`<div class="edu-note">${e.note}</div>`:''}</div>`);
-document.getElementById('cert-col').innerHTML='<div class="cert-list">'+DATA.certifications.map(c=>`<div class="cert-item">${c}</div>`).join('')+'</div>';
-const lr=document.getElementById('lang-row');
-DATA.languages.forEach(l=>lr.innerHTML+=`<span class="lang-pill">${l}</span>`);
+    // Skills
+    const skills = JSON.parse(localStorage.getItem('we_skills') || 'null') || DEFAULT_SKILLS;
+    document.getElementById('skills-section').innerHTML = skills.map(s=>`<span class="skill-tag">${s}</span>`).join('');
 
-/* Contact */
-const cl=document.getElementById('c-links');
-if(DATA.email)cl.innerHTML+=`<a href="mailto:${DATA.email}" class="c-btn c-primary">Email me</a>`;
-if(DATA.linkedin)cl.innerHTML+=`<a href="${DATA.linkedin}" target="_blank" rel="noopener" class="c-btn c-ghost">LinkedIn</a>`;
-if(DATA.github)cl.innerHTML+=`<a href="${DATA.github}" target="_blank" rel="noopener" class="c-btn c-ghost">GitHub</a>`;
-document.getElementById('footer').textContent=`© ${new Date().getFullYear()} ${DATA.name}`;
+    // Languages
+    const langs = JSON.parse(localStorage.getItem('we_langs') || 'null') || DEFAULT_LANGS;
+    document.getElementById('lang-section').innerHTML = langs.map(l=>`
+      <div><div style="font-size:15px;font-weight:500;margin-bottom:4px">${l.name}</div><div style="font-size:12px;color:var(--text-muted)">${l.level}</div></div>`).join('');
 
-/* Scroll reveal */
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('scrolled',scrollY>30);
-  const fab=document.getElementById('fab-proj');
-  const show=scrollY>window.innerHeight*.6;
-  fab.style.opacity=show?'1':'0';
-  fab.style.pointerEvents=show?'auto':'none';
-},{passive:true});
+  } catch(e){ console.error(e); }
+}
+loadResume();
 </script>
 </body>
 </html>

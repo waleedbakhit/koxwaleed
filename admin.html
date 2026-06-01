@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Waleed Elhadi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--milk:#faf6f0;--gold:#c8922a;--copper:#b5622a;--matcha:#5a7a52;--matcha-light:#7a9e70;--matcha-pale:#d4e8ce;--matcha-ultra:#eef5ec;--text:#2a2318;--text-muted:#7a6a50;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;background:var(--matcha-ultra);color:var(--text);cursor:none;}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 50% at 20% 20%,rgba(90,122,82,0.12) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(200,146,42,0.07) 0%,transparent 60%),#eef5ec;}
+  .circuit{position:fixed;inset:0;z-index:0;opacity:0.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%235a7a52' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%235a7a52'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%235a7a52'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
+  .cursor{width:8px;height:8px;background:var(--matcha);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(90,122,82,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+  .cursor-ring.h{width:44px;height:44px;background:rgba(90,122,82,0.06);}
+
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:rgba(255,252,248,0.72);backdrop-filter:blur(20px);border-right:1px solid rgba(90,122,82,0.15);padding:32px 20px;z-index:10;}
+  .sidebar-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--matcha);margin-bottom:4px;}
+  .sidebar-sub{font-size:10px;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;}
+  .sidebar-cf{font-size:11px;color:var(--matcha);background:rgba(90,122,82,0.1);border:1px solid rgba(90,122,82,0.2);border-radius:8px;padding:6px 10px;margin-bottom:24px;display:flex;align-items:center;gap:6px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;color:var(--text-muted);cursor:none;margin-bottom:4px;transition:background .2s,color .2s;}
+  .nav-item:hover,.nav-item.active{background:rgba(90,122,82,0.1);color:var(--matcha);}
+  .nav-item svg{width:16px;height:16px;flex-shrink:0;}
+  .sidebar-footer{position:absolute;bottom:24px;left:20px;right:20px;font-size:11px;color:var(--text-muted);text-align:center;line-height:1.6;}
+
+  .main{margin-left:220px;padding:40px 36px;position:relative;z-index:1;min-height:100vh;}
+  .page-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;margin-bottom:6px;}
+  .page-sub{font-size:13px;color:var(--text-muted);font-weight:300;margin-bottom:32px;}
+  .panel{display:none;}.panel.active{display:block;}
+  .acard{background:rgba(255,252,248,0.72);backdrop-filter:blur(20px);border:1px solid rgba(90,122,82,0.15);border-radius:18px;padding:28px;margin-bottom:16px;box-shadow:0 2px 12px rgba(90,122,82,0.07);}
+  .acard-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .acard-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+  .fg{display:flex;flex-direction:column;gap:5px;}
+  .fg.full{grid-column:span 2;}
+  .fg label{font-size:9px;font-weight:500;letter-spacing:.15em;color:var(--matcha);text-transform:uppercase;}
+  .fg input,.fg textarea,.fg select{background:rgba(238,245,236,0.65);border:1px solid rgba(90,122,82,0.18);border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;}
+  .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--matcha);}
+  .fg textarea{min-height:80px;resize:vertical;}
+  .btn{background:linear-gradient(135deg,var(--matcha),var(--matcha-light));color:#fff;border:none;border-radius:10px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:none;transition:transform .2s,box-shadow .2s;box-shadow:0 3px 12px rgba(90,122,82,0.25);}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(90,122,82,0.3);}
+  .btn-sm{padding:7px 14px;font-size:12px;}
+  .btn-danger{background:transparent;border:1px solid rgba(192,57,43,0.3);border-radius:8px;padding:6px 14px;font-size:12px;color:#c0392b;cursor:none;font-family:'DM Sans',sans-serif;transition:background .2s;}
+  .btn-danger:hover{background:rgba(192,57,43,0.08);}
+  .btn-edit{background:transparent;border:1px solid rgba(90,122,82,0.3);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--matcha);cursor:none;font-family:'DM Sans',sans-serif;transition:background .2s;margin-right:6px;}
+  .btn-edit:hover{background:rgba(90,122,82,0.08);}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+  .stat{background:rgba(255,252,248,0.72);backdrop-filter:blur(20px);border:1px solid rgba(90,122,82,0.12);border-radius:14px;padding:20px;text-align:center;}
+  .stat-num{font-family:'Playfair Display',serif;font-size:32px;color:var(--matcha);}
+  .stat-label{font-size:11px;color:var(--text-muted);letter-spacing:.08em;margin-top:4px;}
+  .proj-list{display:flex;flex-direction:column;gap:10px;}
+  .proj-item{background:rgba(238,245,236,0.5);border:1px solid rgba(90,122,82,0.12);border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .proj-item-info{flex:1;}
+  .proj-item-name{font-weight:500;font-size:14px;margin-bottom:3px;}
+  .proj-item-meta{font-size:12px;color:var(--text-muted);}
+  .proj-item-actions{display:flex;flex-shrink:0;gap:6px;}
+  .exp-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(90,122,82,0.1);}
+  .exp-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .exp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
+  .exp-role{font-weight:500;font-size:14px;}
+  .exp-period{font-size:11px;color:var(--text-muted);}
+  .exp-company{font-size:13px;color:var(--matcha);margin-bottom:6px;}
+  .exp-desc{font-size:12px;color:var(--text-muted);line-height:1.6;}
+  .skill-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .skill-chip{font-size:12px;padding:4px 12px;background:rgba(90,122,82,0.1);border:1px solid rgba(90,122,82,0.18);border-radius:20px;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+  .skill-chip button{background:none;border:none;cursor:none;color:var(--matcha);font-size:13px;line-height:1;}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--matcha);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;z-index:200;pointer-events:none;}
+  .toast.show{opacity:1;}
+  .section-divider{font-size:10px;font-weight:500;letter-spacing:.2em;color:var(--copper);text-transform:uppercase;margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(200,146,42,0.15);}
+  @media(max-width:768px){.sidebar{display:none}.main{margin-left:0}body{cursor:auto}.cursor,.cursor-ring{display:none}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="bg"></div><div class="circuit"></div>
+<div class="toast" id="toast"></div>
+
+<div class="sidebar">
+  <div class="sidebar-logo">Waleed Elhadi</div>
+  <div class="sidebar-sub">Admin Dashboard</div>
+  <div class="sidebar-cf">🔒 Protected by Cloudflare</div>
+  <div class="nav-item active" onclick="showPanel('overview',this)">
+    <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+    Overview
+  </div>
+  <div class="nav-item" onclick="showPanel('projects',this)">
+    <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="9.5" x2="9" y2="9.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+    Projects
+  </div>
+  <div class="nav-item" onclick="showPanel('resume',this)">
+    <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="11" x2="8" y2="11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+    Résumé
+  </div>
+  <div class="nav-item" onclick="showPanel('settings',this)">
+    <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/></svg>
+    Settings
+  </div>
+  <div class="sidebar-footer">
+    waleedelhadi.com<br>
+    Torino, Italy · 2026
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- OVERVIEW -->
+  <div class="panel active" id="panel-overview">
+    <div class="page-title">Overview</div>
+    <p class="page-sub">Site content summary</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="cnt-apps">0</div><div class="stat-label">Applications</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-sw">0</div><div class="stat-label">Software</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-hw">0</div><div class="stat-label">Hardware</div></div>
+    </div>
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Quick Links</div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="/projects.html" target="_blank" style="color:var(--matcha);font-size:13px;text-decoration:none;border:1px solid rgba(90,122,82,0.2);border-radius:8px;padding:8px 16px;transition:background .2s" onmouseover="this.style.background='rgba(90,122,82,0.08)'" onmouseout="this.style.background='transparent'">Projects →</a>
+        <a href="/resume.html" target="_blank" style="color:var(--matcha);font-size:13px;text-decoration:none;border:1px solid rgba(90,122,82,0.2);border-radius:8px;padding:8px 16px;transition:background .2s" onmouseover="this.style.background='rgba(90,122,82,0.08)'" onmouseout="this.style.background='transparent'">Résumé →</a>
+        <a href="/" target="_blank" style="color:var(--matcha);font-size:13px;text-decoration:none;border:1px solid rgba(90,122,82,0.2);border-radius:8px;padding:8px 16px;transition:background .2s" onmouseover="this.style.background='rgba(90,122,82,0.08)'" onmouseout="this.style.background='transparent'">Homepage →</a>
+        <a href="/services.html" target="_blank" style="color:var(--matcha);font-size:13px;text-decoration:none;border:1px solid rgba(90,122,82,0.2);border-radius:8px;padding:8px 16px;transition:background .2s" onmouseover="this.style.background='rgba(90,122,82,0.08)'" onmouseout="this.style.background='transparent'">Services →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="panel" id="panel-projects">
+    <div class="page-title">Projects</div>
+    <p class="page-sub">Manage projects shown on the projects page — 3 sections</p>
+
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title" id="proj-form-title">Add Project</div></div>
+      <input type="hidden" id="edit-id">
+      <div class="form-grid">
+        <div class="fg"><label>Name</label><input id="p-name" placeholder="Project name"></div>
+        <div class="fg"><label>Section</label>
+          <select id="p-cat">
+            <option value="apps">Applications</option>
+            <option value="software">Software Projects</option>
+            <option value="hardware">Hardware Projects</option>
+          </select>
+        </div>
+        <div class="fg full"><label>Description</label><textarea id="p-desc" placeholder="What does this project do?"></textarea></div>
+        <div class="fg"><label>Tags (comma separated)</label><input id="p-tags" placeholder="Android, iOS, Live"></div>
+        <div class="fg"><label>Meta (comma separated)</label><input id="p-meta" placeholder="📱 Android, 🌍 EN+AR, 💰 $2.99"></div>
+        <div class="fg"><label>Accent Color</label><input id="p-color" placeholder="linear-gradient(180deg,#c8922a,#b5622a)"></div>
+        <div class="fg"><label>Link (optional)</label><input id="p-link" placeholder="https://..."></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn" onclick="saveProject()">Save Project</button>
+        <button class="btn-edit" onclick="clearProjForm()">Clear</button>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title">All Projects</div>
+        <span id="proj-count" style="font-size:12px;color:var(--text-muted)"></span>
+      </div>
+      <div class="proj-list" id="proj-list"></div>
+    </div>
+  </div>
+
+  <!-- RESUME -->
+  <div class="panel" id="panel-resume">
+    <div class="page-title">Résumé</div>
+    <p class="page-sub">Edit all sections shown on the résumé page</p>
+
+    <!-- Personal Info -->
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Personal Info</div></div>
+      <div class="form-grid">
+        <div class="fg"><label>Full Name</label><input id="r-name" value="Waleed Elhadi Bakhit Abdelsakhi"></div>
+        <div class="fg"><label>Title / Role</label><input id="r-title" value="Electrical Engineer & Software Developer"></div>
+        <div class="fg"><label>Location</label><input id="r-location" value="Torino, Italy · Al-Jouf, Saudi Arabia"></div>
+        <div class="fg"><label>Email</label><input id="r-email" value="waleedbakhit@hotmail.com"></div>
+        <div class="fg"><label>Website</label><input id="r-website" value="waleedelhadi.com"></div>
+        <div class="fg"><label>LinkedIn (optional)</label><input id="r-linkedin" placeholder="linkedin.com/in/..."></div>
+        <div class="fg full"><label>Bio / Summary</label>
+          <textarea id="r-bio">Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia. Registered freelancer in Italy (Partita IVA 12788870017).</textarea>
+        </div>
+      </div>
+      <button class="btn" onclick="saveSection('personal')">Save Personal Info</button>
+    </div>
+
+    <!-- Experience -->
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title">Experience</div>
+        <button class="btn btn-sm" onclick="showExpForm()">+ Add</button>
+      </div>
+      <div id="exp-form" style="display:none;margin-bottom:16px;padding:16px;background:rgba(238,245,236,0.5);border-radius:12px;border:1px solid rgba(90,122,82,0.15);">
+        <div class="form-grid">
+          <div class="fg"><label>Role / Position</label><input id="ef-role" placeholder="Electrical Engineer"></div>
+          <div class="fg"><label>Company / Organization</label><input id="ef-company" placeholder="King Jouf Oil Operations"></div>
+          <div class="fg"><label>Period</label><input id="ef-period" placeholder="2014 – Present"></div>
+          <div class="fg"><label>Location</label><input id="ef-loc" placeholder="Al-Jouf, Saudi Arabia"></div>
+          <div class="fg full"><label>Description</label><textarea id="ef-desc" placeholder="What did you do?"></textarea></div>
+        </div>
+        <input type="hidden" id="ef-id">
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm" onclick="saveExp()">Save</button><button class="btn-edit" onclick="hideExpForm()">Cancel</button></div>
+      </div>
+      <div id="exp-list"></div>
+    </div>
+
+    <!-- Education -->
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title">Education</div>
+        <button class="btn btn-sm" onclick="showEduForm()">+ Add</button>
+      </div>
+      <div id="edu-form" style="display:none;margin-bottom:16px;padding:16px;background:rgba(238,245,236,0.5);border-radius:12px;border:1px solid rgba(90,122,82,0.15);">
+        <div class="form-grid">
+          <div class="fg"><label>Degree / Program</label><input id="eduf-degree" placeholder="B.Sc. Electrical Engineering"></div>
+          <div class="fg"><label>Institution</label><input id="eduf-inst" placeholder="University of Khartoum"></div>
+          <div class="fg"><label>Year / Period</label><input id="eduf-year" placeholder="2008 – 2013"></div>
+          <div class="fg full"><label>Notes (optional)</label><input id="eduf-notes" placeholder="Specialisation, achievements..."></div>
+        </div>
+        <input type="hidden" id="eduf-id">
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm" onclick="saveEdu()">Save</button><button class="btn-edit" onclick="hideEduForm()">Cancel</button></div>
+      </div>
+      <div id="edu-list"></div>
+    </div>
+
+    <!-- Skills -->
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Skills</div></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input id="skill-input" placeholder="Add a skill..." style="flex:1;background:rgba(238,245,236,0.65);border:1px solid rgba(90,122,82,0.18);border-radius:9px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;" onkeydown="if(event.key==='Enter')addSkill()">
+        <button class="btn btn-sm" onclick="addSkill()">Add</button>
+      </div>
+      <div class="skill-wrap" id="skill-wrap"></div>
+    </div>
+
+    <!-- Languages -->
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Languages</div></div>
+      <div class="form-grid">
+        <div class="fg"><label>Language 1</label><input id="lang1-name" value="Arabic"></div>
+        <div class="fg"><label>Level</label><input id="lang1-level" value="Native"></div>
+        <div class="fg"><label>Language 2</label><input id="lang2-name" value="English"></div>
+        <div class="fg"><label>Level</label><input id="lang2-level" value="Fluent"></div>
+        <div class="fg"><label>Language 3</label><input id="lang3-name" value="Italian"></div>
+        <div class="fg"><label>Level</label><input id="lang3-level" value="Intermediate"></div>
+      </div>
+      <button class="btn" onclick="saveSection('languages')">Save Languages</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel" id="panel-settings">
+    <div class="page-title">Settings</div>
+    <p class="page-sub">Site configuration and data management</p>
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Access</div></div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">This admin panel is protected by <strong>Cloudflare Access</strong>. Authentication is handled via OTP to your email — no password needed here. To manage access policies, go to your Cloudflare Zero Trust dashboard.</p>
+    </div>
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Data Management</div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn" onclick="exportData()">Export All Data</button>
+        <button class="btn-edit" onclick="importData()">Import Data</button>
+        <button class="btn-danger" onclick="if(confirm('Clear all dynamic projects? This cannot be undone.'))clearProjects()">Clear Projects</button>
+      </div>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
+    </div>
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">About</div></div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;">
+        <strong>Name:</strong> Elhadi Bakhit Abdelsakhi Waleed<br>
+        <strong>Partita IVA:</strong> 12788870017<br>
+        <strong>Codice Fiscale:</strong> LHDWLD92R18Z348X<br>
+        <strong>Address:</strong> Corso Gamba Enrico 24, 10144 Torino<br>
+        <strong>REA:</strong> TO-1325400
+      </p>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// Cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('button,a,input,select,textarea').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('h'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('h'));
+});
+
+// Navigation
+function showPanel(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// Toast
+function toast(msg='Saved'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─── DEFAULT DATA ──────────────────────────────────────────
+const DEFAULT_PROJECTS = [
+  {id:'p1',name:'The Skeptic',category:'apps',desc:'Bilingual Arabic/English social deduction party game. One player is the spy — everyone else knows the secret word. 12 categories, regional packs, Chaos mode, card flip animations and a full leaderboard. Built natively in Kotlin/Compose (Android) and SwiftUI (iOS).',tags:['Game','Android','iOS','Launching'],meta:['📱 Android + iOS','🌍 EN + AR','💰 $2.99 unlock'],color:'linear-gradient(180deg,#c8922a,#b5622a)',link:''},
+  {id:'p2',name:'The Skeptic: Family',category:'apps',desc:'Family-friendly version with teal/amber theme. 12 kid-safe categories — Cartoons, Superheroes, Fairy Tales, Toys and more. Rated Everyone.',tags:['Game','Android','In Progress'],meta:['📱 Android','👨‍👩‍👧 All ages','💰 $2.99 unlock'],color:'linear-gradient(180deg,#6b8f61,#4a6741)',link:''},
+  {id:'p3',name:'Nour',category:'apps',desc:'A personal project — details coming soon.',tags:['In Progress'],meta:['📱 Mobile'],color:'linear-gradient(180deg,#8b6914,#5a4008)',link:''},
+  {id:'p4',name:'waleedelhadi.com',category:'software',desc:'Personal portfolio and hub. Vanilla HTML/CSS/JS, GitHub Pages + Cloudflare. Custom cursor, glass morphism cards, circuit board background.',tags:['Web','Live'],meta:['🌐 Web','🔗 waleedelhadi.com'],color:'linear-gradient(180deg,#7ab8d4,#4a88a8)',link:'https://waleedelhadi.com'},
+  {id:'p5',name:'Home Assistant Dashboard',category:'software',desc:'Private home automation dashboard with custom Lovelace UI. Controls lighting, climate and security. Protected by Cloudflare Access.',tags:['Web','Live'],meta:['🏠 Home Automation','🔒 Admin only'],color:'linear-gradient(180deg,#5a7a52,#3a5a38)',link:''},
+  {id:'p6',name:'KJO Substation Control Systems',category:'hardware',desc:'Design and maintenance of 115kV/13.8kV substation control and protection systems at King Jouf Oil Operations. Includes SCADA integration, relay coordination, fault analysis and electrical safety management.',tags:['Hardware','Professional'],meta:['⚡ Power Systems','🏭 Industrial','🇸🇦 Saudi Arabia'],color:'linear-gradient(180deg,#7a9e70,#5a7a52)',link:''},
+];
+
+const DEFAULT_RESUME = {
+  name:'Waleed Elhadi Bakhit Abdelsakhi',
+  title:'Electrical Engineer & Software Developer',
+  location:'Torino, Italy · Al-Jouf, Saudi Arabia',
+  email:'waleedbakhit@hotmail.com',
+  website:'waleedelhadi.com',
+  linkedin:'',
+  bio:'Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia. Registered freelancer in Italy (Partita IVA 12788870017).',
+};
+
+const DEFAULT_EXP = [
+  {id:'e1',role:'Electrical Engineer',company:'King Jouf Oil Operations (KJO)',period:'2014 – Present',location:'Al-Jouf, Saudi Arabia',desc:'Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.'},
+  {id:'e2',role:'Freelance Developer',company:'Impresa Individuale',period:'2023 – Present',location:'Torino, Italy',desc:'Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR) and client web projects.'},
+];
+
+const DEFAULT_EDU = [
+  {id:'ed1',degree:'B.Sc. Electrical Engineering',inst:'University of Khartoum',year:'2008 – 2013',notes:'Specialisation in Power Systems and Control Engineering.'},
+  {id:'ed2',degree:'Exchange Programme — Energy Engineering',inst:'Politecnico di Torino',year:'2022 – 2023',notes:'EDISU scholarship recipient.'},
+];
+
+const DEFAULT_SKILLS = ['Electrical Engineering','Power Systems','115kV Substations','SCADA','Relay Protection','AutoCAD','Android / Kotlin','iOS / Swift','JavaScript','Python','Home Assistant','Arabic','English','Italian'];
+
+const DEFAULT_LANGS = [
+  {name:'Arabic',level:'Native'},
+  {name:'English',level:'Fluent'},
+  {name:'Italian',level:'Intermediate'},
+];
+
+// ─── STORAGE ──────────────────────────────────────────────
+function getProjects(){
+  const d=localStorage.getItem('we_projects');
+  return d ? JSON.parse(d) : DEFAULT_PROJECTS;
+}
+function setProjects(d){localStorage.setItem('we_projects',JSON.stringify(d));}
+
+function getResume(){
+  const d=localStorage.getItem('we_resume');
+  return d ? JSON.parse(d) : DEFAULT_RESUME;
+}
+function setResume(d){localStorage.setItem('we_resume',JSON.stringify(d));}
+
+function getExp(){
+  const d=localStorage.getItem('we_exp');
+  return d ? JSON.parse(d) : DEFAULT_EXP;
+}
+function setExp(d){localStorage.setItem('we_exp',JSON.stringify(d));}
+
+function getEdu(){
+  const d=localStorage.getItem('we_edu');
+  return d ? JSON.parse(d) : DEFAULT_EDU;
+}
+function setEdu(d){localStorage.setItem('we_edu',JSON.stringify(d));}
+
+function getSkills(){
+  const d=localStorage.getItem('we_skills');
+  return d ? JSON.parse(d) : DEFAULT_SKILLS;
+}
+function setSkills(d){localStorage.setItem('we_skills',JSON.stringify(d));}
+
+function getLangs(){
+  const d=localStorage.getItem('we_langs');
+  return d ? JSON.parse(d) : DEFAULT_LANGS;
+}
+function setLangs(d){localStorage.setItem('we_langs',JSON.stringify(d));}
+
+// ─── PROJECTS ──────────────────────────────────────────────
+function renderProjects(){
+  const data=getProjects();
+  document.getElementById('proj-count').textContent=`${data.length} projects`;
+  document.getElementById('cnt-apps').textContent=data.filter(p=>p.category==='apps').length;
+  document.getElementById('cnt-sw').textContent=data.filter(p=>p.category==='software').length;
+  document.getElementById('cnt-hw').textContent=data.filter(p=>p.category==='hardware').length;
+  const list=document.getElementById('proj-list');
+  if(!data.length){list.innerHTML='<p style="color:var(--text-muted);font-size:13px;font-style:italic;padding:8px 0">No projects. Add one above.</p>';return;}
+  list.innerHTML=data.map((p,i)=>`
+    <div class="proj-item">
+      <div class="proj-item-info">
+        <div class="proj-item-name">${p.name}</div>
+        <div class="proj-item-meta">${p.category} · ${(p.tags||[]).join(', ')}</div>
+      </div>
+      <div class="proj-item-actions">
+        <button class="btn-edit" onclick="editProject(${i})">Edit</button>
+        <button class="btn-danger" onclick="deleteProject(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function saveProject(){
+  const id=document.getElementById('edit-id').value;
+  const p={
+    id:id||'p'+Date.now(),
+    name:document.getElementById('p-name').value.trim(),
+    category:document.getElementById('p-cat').value,
+    desc:document.getElementById('p-desc').value.trim(),
+    tags:document.getElementById('p-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    meta:document.getElementById('p-meta').value.split(',').map(t=>t.trim()).filter(Boolean),
+    color:document.getElementById('p-color').value.trim()||'linear-gradient(180deg,#c8922a,#b5622a)',
+    link:document.getElementById('p-link').value.trim()
+  };
+  if(!p.name){alert('Enter a project name');return;}
+  const data=getProjects();
+  if(id){const idx=data.findIndex(x=>x.id===id);idx>-1?data[idx]=p:data.push(p);}
+  else data.push(p);
+  setProjects(data);renderProjects();clearProjForm();toast('Project saved');
+}
+
+function editProject(i){
+  const p=getProjects()[i];
+  document.getElementById('edit-id').value=p.id;
+  document.getElementById('p-name').value=p.name;
+  document.getElementById('p-cat').value=p.category;
+  document.getElementById('p-desc').value=p.desc;
+  document.getElementById('p-tags').value=(p.tags||[]).join(', ');
+  document.getElementById('p-meta').value=(p.meta||[]).join(', ');
+  document.getElementById('p-color').value=p.color||'';
+  document.getElementById('p-link').value=p.link||'';
+  document.getElementById('proj-form-title').textContent='Edit Project';
+  window.scrollTo(0,0);
+}
+
+function deleteProject(i){
+  if(!confirm('Delete this project?'))return;
+  const d=getProjects();d.splice(i,1);setProjects(d);renderProjects();toast('Deleted');
+}
+
+function clearProjForm(){
+  ['edit-id','p-name','p-desc','p-tags','p-meta','p-color','p-link'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-cat').value='apps';
+  document.getElementById('proj-form-title').textContent='Add Project';
+}
+
+function clearProjects(){setProjects([]);renderProjects();toast('Projects cleared');}
+
+// ─── RESUME PERSONAL ──────────────────────────────────────
+function loadResume(){
+  const r=getResume();
+  document.getElementById('r-name').value=r.name||'';
+  document.getElementById('r-title').value=r.title||'';
+  document.getElementById('r-location').value=r.location||'';
+  document.getElementById('r-email').value=r.email||'';
+  document.getElementById('r-website').value=r.website||'';
+  document.getElementById('r-linkedin').value=r.linkedin||'';
+  document.getElementById('r-bio').value=r.bio||'';
+}
+
+function saveSection(section){
+  if(section==='personal'){
+    setResume({
+      name:document.getElementById('r-name').value,
+      title:document.getElementById('r-title').value,
+      location:document.getElementById('r-location').value,
+      email:document.getElementById('r-email').value,
+      website:document.getElementById('r-website').value,
+      linkedin:document.getElementById('r-linkedin').value,
+      bio:document.getElementById('r-bio').value,
+    });
+    toast('Personal info saved');
+  } else if(section==='languages'){
+    setLangs([
+      {name:document.getElementById('lang1-name').value,level:document.getElementById('lang1-level').value},
+      {name:document.getElementById('lang2-name').value,level:document.getElementById('lang2-level').value},
+      {name:document.getElementById('lang3-name').value,level:document.getElementById('lang3-level').value},
+    ]);
+    toast('Languages saved');
+  }
+}
+
+// ─── EXPERIENCE ───────────────────────────────────────────
+function showExpForm(data){
+  const f=document.getElementById('exp-form');
+  f.style.display='block';
+  if(data){
+    document.getElementById('ef-id').value=data.id;
+    document.getElementById('ef-role').value=data.role;
+    document.getElementById('ef-company').value=data.company;
+    document.getElementById('ef-period').value=data.period;
+    document.getElementById('ef-loc').value=data.location||'';
+    document.getElementById('ef-desc').value=data.desc;
+  } else {
+    ['ef-id','ef-role','ef-company','ef-period','ef-loc','ef-desc'].forEach(id=>document.getElementById(id).value='');
+  }
+}
+function hideExpForm(){document.getElementById('exp-form').style.display='none';}
+
+function saveExp(){
+  const id=document.getElementById('ef-id').value;
+  const e={
+    id:id||'e'+Date.now(),
+    role:document.getElementById('ef-role').value.trim(),
+    company:document.getElementById('ef-company').value.trim(),
+    period:document.getElementById('ef-period').value.trim(),
+    location:document.getElementById('ef-loc').value.trim(),
+    desc:document.getElementById('ef-desc').value.trim()
+  };
+  if(!e.role||!e.company){alert('Fill in role and company');return;}
+  const data=getExp();
+  if(id){const idx=data.findIndex(x=>x.id===id);idx>-1?data[idx]=e:data.push(e);}
+  else data.push(e);
+  setExp(data);renderExp();hideExpForm();toast('Experience saved');
+}
+
+function renderExp(){
+  const data=getExp();
+  const list=document.getElementById('exp-list');
+  if(!data.length){list.innerHTML='<p style="color:var(--text-muted);font-size:13px;font-style:italic">No experience entries.</p>';return;}
+  list.innerHTML=data.map((e,i)=>`
+    <div class="exp-item">
+      <div class="exp-head">
+        <div>
+          <div class="exp-role">${e.role}</div>
+          <div class="exp-company">${e.company}${e.location?' · '+e.location:''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <span class="exp-period">${e.period}</span>
+          <button class="btn-edit" style="padding:4px 10px;font-size:11px" onclick="showExpForm(getExp()[${i}])">Edit</button>
+          <button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="deleteExp(${i})">Del</button>
+        </div>
+      </div>
+      <div class="exp-desc">${e.desc}</div>
+    </div>`).join('');
+}
+
+function deleteExp(i){
+  if(!confirm('Delete?'))return;
+  const d=getExp();d.splice(i,1);setExp(d);renderExp();toast('Deleted');
+}
+
+// ─── EDUCATION ────────────────────────────────────────────
+function showEduForm(data){
+  const f=document.getElementById('edu-form');
+  f.style.display='block';
+  if(data){
+    document.getElementById('eduf-id').value=data.id;
+    document.getElementById('eduf-degree').value=data.degree;
+    document.getElementById('eduf-inst').value=data.inst;
+    document.getElementById('eduf-year').value=data.year;
+    document.getElementById('eduf-notes').value=data.notes||'';
+  } else {
+    ['eduf-id','eduf-degree','eduf-inst','eduf-year','eduf-notes'].forEach(id=>document.getElementById(id).value='');
+  }
+}
+function hideEduForm(){document.getElementById('edu-form').style.display='none';}
+
+function saveEdu(){
+  const id=document.getElementById('eduf-id').value;
+  const e={
+    id:id||'ed'+Date.now(),
+    degree:document.getElementById('eduf-degree').value.trim(),
+    inst:document.getElementById('eduf-inst').value.trim(),
+    year:document.getElementById('eduf-year').value.trim(),
+    notes:document.getElementById('eduf-notes').value.trim()
+  };
+  if(!e.degree||!e.inst){alert('Fill in degree and institution');return;}
+  const data=getEdu();
+  if(id){const idx=data.findIndex(x=>x.id===id);idx>-1?data[idx]=e:data.push(e);}
+  else data.push(e);
+  setEdu(data);renderEdu();hideEduForm();toast('Education saved');
+}
+
+function renderEdu(){
+  const data=getEdu();
+  const list=document.getElementById('edu-list');
+  if(!data.length){list.innerHTML='<p style="color:var(--text-muted);font-size:13px;font-style:italic">No education entries.</p>';return;}
+  list.innerHTML=data.map((e,i)=>`
+    <div class="exp-item">
+      <div class="exp-head">
+        <div>
+          <div class="exp-role">${e.degree}</div>
+          <div class="exp-company">${e.inst}</div>
+          ${e.notes?`<div class="exp-desc" style="margin-top:4px">${e.notes}</div>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <span class="exp-period">${e.year}</span>
+          <button class="btn-edit" style="padding:4px 10px;font-size:11px" onclick="showEduForm(getEdu()[${i}])">Edit</button>
+          <button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="deleteEdu(${i})">Del</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function deleteEdu(i){
+  if(!confirm('Delete?'))return;
+  const d=getEdu();d.splice(i,1);setEdu(d);renderEdu();toast('Deleted');
+}
+
+// ─── SKILLS ───────────────────────────────────────────────
+function renderSkills(){
+  const skills=getSkills();
+  document.getElementById('skill-wrap').innerHTML=skills.map((s,i)=>`
+    <div class="skill-chip">${s}<button onclick="deleteSkill(${i})">×</button></div>`).join('');
+}
+
+function addSkill(){
+  const inp=document.getElementById('skill-input');
+  const s=inp.value.trim();
+  if(!s)return;
+  const skills=getSkills();
+  if(!skills.includes(s)){skills.push(s);setSkills(skills);renderSkills();toast('Skill added');}
+  inp.value='';
+}
+
+function deleteSkill(i){
+  const d=getSkills();d.splice(i,1);setSkills(d);renderSkills();
+}
+
+// ─── LANGUAGES ────────────────────────────────────────────
+function loadLangs(){
+  const langs=getLangs();
+  langs.forEach((l,i)=>{
+    const n=document.getElementById(`lang${i+1}-name`);
+    const lv=document.getElementById(`lang${i+1}-level`);
+    if(n)n.value=l.name||'';
+    if(lv)lv.value=l.level||'';
+  });
+}
+
+// ─── EXPORT / IMPORT ─────────────────────────────────────
+function exportData(){
+  const data={
+    projects:getProjects(),resume:getResume(),
+    exp:getExp(),edu:getEdu(),skills:getSkills(),langs:getLangs()
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='waleedelhadi_site_data.json';a.click();toast('Exported');
+}
+
+function importData(){document.getElementById('import-file').click();}
+
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.projects)setProjects(d.projects);
+      if(d.resume)setResume(d.resume);
+      if(d.exp)setExp(d.exp);
+      if(d.edu)setEdu(d.edu);
+      if(d.skills)setSkills(d.skills);
+      if(d.langs)setLangs(d.langs);
+      init();toast('Data imported');
+    }catch{alert('Invalid JSON file');}
+  };
+  reader.readAsText(file);
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+function init(){
+  renderProjects();
+  loadResume();
+  renderExp();
+  renderEdu();
+  renderSkills();
+  loadLangs();
+}
+init();
+</script>
+</body>
+</html>
