@@ -3,118 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Skeptic — Privacy Policy</title>
+<title>Privacy — Waleed Elhadi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #0d0b08;
-    color: #e0d8c8;
-    font-family: Georgia, serif;
-    line-height: 1.8;
-    padding: 2rem 1.5rem;
-    max-width: 700px;
-    margin: 0 auto;
+  :root {
+    --milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--gold-pale:#f0dbb0;
+    --copper:#b5622a;--copper-pale:#f2ddd0;
+    --matcha:#5a7a52;--matcha-light:#7a9e70;--matcha-pale:#d4e8ce;--matcha-ultra:#eef5ec;
+    --text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);
   }
-  .logo {
-    font-size: .75rem;
-    letter-spacing: .25em;
-    color: #5a4c38;
-    text-transform: uppercase;
-    margin-bottom: .2rem;
-  }
-  h1 {
-    font-size: 2rem;
-    color: #e0aa44;
-    letter-spacing: .05em;
-    margin-bottom: .5rem;
-  }
-  .updated {
-    font-size: .85rem;
-    color: #7a6a50;
-    margin-bottom: 2.5rem;
-  }
-  h2 {
-    font-size: 1.1rem;
-    color: #c8922a;
-    margin: 2rem 0 .6rem;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    font-size: .9rem;
-  }
-  p { margin-bottom: 1rem; color: #b09878; }
-  a { color: #c8922a; text-decoration: none; }
-  a:hover { color: #e0aa44; }
-  hr {
-    border: none;
-    border-top: 1px solid #2a2218;
-    margin: 2.5rem 0;
-  }
-  .footer {
-    font-size: .8rem;
-    color: #5a4c38;
-    text-align: center;
-    margin-top: 3rem;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),radial-gradient(ellipse 30% 30% at 80% 20%,#fdf0de 0%,transparent 50%),#faf6f0;}
+  .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%),radial-gradient(ellipse 20% 18% at 95% 35%,rgba(90,122,82,0.04) 0%,transparent 55%);}
+  .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Cpath d='M120,30 L120,10 L200,10 L200,50 L260,50'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3Ccircle cx='60' cy='120' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
+  .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+  .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
+  .ring{position:fixed;border-radius:50%;border:1px solid;pointer-events:none;z-index:0;}
+  .r1{width:500px;height:500px;border-color:rgba(200,146,42,0.04);top:-200px;left:-180px;}
+  .r2{width:380px;height:380px;border-color:rgba(181,98,42,0.05);bottom:-160px;right:-130px;}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
+  .back:hover{color:var(--gold);}
+  .page-header{margin-bottom:52px;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
+  .eyebrow{font-size:10px;font-weight:500;letter-spacing:.35em;color:var(--matcha);text-transform:uppercase;margin-bottom:12px;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,58px);font-weight:400;line-height:1.1;letter-spacing:-.02em;}
+  .page-header h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--copper));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:16px 0;}
+  .lead{font-size:14px;color:var(--text-muted);font-weight:300;line-height:1.7;max-width:520px;}
+  .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,0.7);border-bottom-color:rgba(200,146,42,0.12);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07),inset 0 1px 0 rgba(255,255,255,0.45);}
+  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:16px;margin-top:40px;opacity:0;animation:fadeUp .6s ease forwards;}
+  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
+  .footer a{color:var(--gold);text-decoration:none;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:640px){body{cursor:auto}.cursor,.cursor-ring{display:none}}
+
+.app-tabs{display:flex;gap:10px;margin-bottom:32px;opacity:0;animation:fadeUp .6s ease .2s forwards;}
+.tab{padding:9px 22px;border-radius:30px;font-size:12px;font-weight:500;letter-spacing:.06em;cursor:none;border:1px solid rgba(200,146,42,0.25);background:transparent;color:var(--text-muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.tab.active{background:linear-gradient(135deg,var(--gold),var(--copper));color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(200,146,42,0.25);}
+.tab:hover:not(.active){border-color:rgba(200,146,42,0.4);color:var(--text);}
+
+.policy{display:none;opacity:0;animation:fadeUp .5s ease forwards;}
+.policy.active{display:block;}
+
+.policy-section{padding:28px;margin-bottom:14px;opacity:0;animation:fadeUp .6s ease forwards;}
+.policy-section:nth-child(1){animation-delay:.1s}.policy-section:nth-child(2){animation-delay:.18s}
+.policy-section:nth-child(3){animation-delay:.26s}.policy-section:nth-child(4){animation-delay:.34s}
+.policy-section:nth-child(5){animation-delay:.42s}
+.ps-title{font-size:10px;font-weight:500;letter-spacing:.2em;color:var(--copper);text-transform:uppercase;margin-bottom:10px;}
+.ps-text{font-size:13px;color:var(--text-muted);line-height:1.75;font-weight:300;}
+.ps-text a{color:var(--gold);text-decoration:none;}
+.ps-text strong{color:var(--text);font-weight:500;}
+
+.lang-note{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--text-muted);margin-bottom:24px;opacity:0;animation:fadeUp .5s ease .15s forwards;}
+.lang-dot{width:6px;height:6px;border-radius:50%;background:var(--matcha);}
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+<div class="bg"></div><div class="bg-matcha"></div><div class="circuit"></div>
+<div class="ring r1"></div><div class="ring r2"></div>
 
-<div class="logo">The</div>
-<h1>SKEPTIC</h1>
-<p class="updated">Privacy Policy — Last updated: May 2026</p>
+<div class="container">
+  <a href="/" class="back">← Back</a>
 
-<h2>Overview</h2>
-<p>The Skeptic is a local party game. It runs entirely on your device and does not connect to any server, collect any personal information, or transmit any data anywhere.</p>
+  <div class="page-header">
+    <p class="eyebrow">Legal</p>
+    <h1>Privacy <em>Policies</em></h1>
+    <div class="divider"></div>
+    <p class="lead">Privacy policies for apps developed by Waleed Elhadi. No personal data is collected.</p>
+  </div>
 
-<h2>Data We Collect</h2>
-<p>None. The app does not collect, store, or share any personal information. Player names you enter during the game exist only in memory for the duration of the session and are never saved to disk or sent anywhere.</p>
+  <div class="app-tabs">
+    <button class="tab active" onclick="showPolicy('skeptic',this)">The Skeptic</button>
+    <button class="tab" onclick="showPolicy('nour',this)">Nour</button>
+  </div>
 
-<h2>Permissions</h2>
-<p>The app requests two permissions:</p>
-<p><strong style="color:#e0d8c8">Vibration</strong> — used to provide haptic feedback during gameplay events such as voting and role reveals. No data is collected through this permission.</p>
-<p><strong style="color:#e0d8c8">Wake Lock</strong> — used to keep the screen on during the discussion timer so the game is not interrupted. No data is collected through this permission.</p>
+  <!-- The Skeptic -->
+  <div class="policy active" id="policy-skeptic">
+    <div class="lang-note"><div class="lang-dot"></div> English · العربية — Last updated May 2026</div>
 
-<h2>Third-Party Services</h2>
-<p>The Skeptic does not use any third-party analytics, advertising, or tracking services. There are no ads in this app.</p>
+    <div class="policy-section glass">
+      <div class="ps-title">Overview</div>
+      <p class="ps-text">The Skeptic is a local party game. It runs entirely on your device and does not connect to any server, collect any personal information, or transmit any data anywhere. <strong>We collect nothing.</strong></p>
+    </div>
+    <div class="policy-section glass">
+      <div class="ps-title">Data We Collect</div>
+      <p class="ps-text">None. Player names you enter exist only in memory for the duration of the session and are never saved to disk or sent anywhere. The app works completely offline.</p>
+    </div>
+    <div class="policy-section glass">
+      <div class="ps-title">Permissions</div>
+      <p class="ps-text"><strong>Vibration</strong> — haptic feedback during gameplay. No data collected.<br><br><strong>Wake Lock</strong> — keeps screen on during the discussion timer. No data collected.<br><br><strong>In-App Purchases</strong> — handled entirely by Google Play / Apple App Store. We never see or store payment information.</p>
+    </div>
+    <div class="policy-section glass">
+      <div class="ps-title">Adults Category</div>
+      <p class="ps-text">The Adults category contains content suitable only for players aged 18 and above. Parents and guardians are responsible for supervising use of this category. The Family version of The Skeptic does not include adult content.</p>
+    </div>
+    <div class="policy-section glass">
+      <div class="ps-title">Contact</div>
+      <p class="ps-text">Questions about this policy: <a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a><br><a href="https://waleedelhadi.com">waleedelhadi.com</a></p>
+    </div>
 
-<h2>Children</h2>
-<p>The Skeptic is intended for general audiences. However, the Adults category within the game contains content suitable only for players aged 18 and above. Parents and guardians are responsible for supervising use of the Adults category.</p>
+    <!-- Arabic -->
+    <div style="margin-top:32px;border-top:1px solid rgba(200,146,42,0.15);padding-top:32px;" dir="rtl">
+      <div class="lang-note" style="flex-direction:row-reverse"><div class="lang-dot"></div> النسخة العربية</div>
+      <div class="policy-section glass" style="margin-top:0">
+        <div class="ps-title">نظرة عامة</div>
+        <p class="ps-text">المتشكك لعبة اجتماعية محلية. تعمل بالكامل على جهازك ولا تتصل بأي خادم ولا تجمع أي معلومات شخصية. <strong>لا نجمع شيئاً.</strong></p>
+      </div>
+      <div class="policy-section glass">
+        <div class="ps-title">البيانات التي نجمعها</div>
+        <p class="ps-text">لا شيء. أسماء اللاعبين موجودة فقط في ذاكرة الجهاز طوال الجلسة ولا تُحفظ أبداً. التطبيق يعمل بدون إنترنت.</p>
+      </div>
+      <div class="policy-section glass">
+        <div class="ps-title">فئة الكبار</div>
+        <p class="ps-text">تحتوي فئة الكبار على محتوى مناسب فقط للبالغين الذين تجاوزوا 18 عاماً. الآباء والأوصياء مسؤولون عن الإشراف على استخدام هذه الفئة.</p>
+      </div>
+      <div class="policy-section glass">
+        <div class="ps-title">التواصل</div>
+        <p class="ps-text"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a></p>
+      </div>
+    </div>
+  </div>
 
-<h2>Changes to This Policy</h2>
-<p>If this privacy policy is updated, the new version will be posted at this URL. Changes take effect immediately upon posting.</p>
+  <!-- Nour -->
+  <div class="policy" id="policy-nour">
+    <div class="lang-note"><div class="lang-dot"></div> Last updated May 2026</div>
+    <div class="policy-section glass">
+      <div class="ps-title">Overview</div>
+      <p class="ps-text">Nour is a personal app developed by Waleed Elhadi. This privacy policy will be updated when the app launches. For questions: <a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a></p>
+    </div>
+  </div>
 
-<h2>Contact</h2>
-<p>If you have any questions about this privacy policy, contact us at:<br>
-<a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a><br>
-<a href="https://waleedelhadi.com" target="_blank">waleedelhadi.com</a>
-</p>
-
-<hr>
-
-<!-- Arabic version -->
-<div dir="rtl" lang="ar">
-
-<h2>نظرة عامة</h2>
-<p>المتشكك لعبة اجتماعية محلية. تعمل بالكامل على جهازك ولا تتصل بأي خادم ولا تجمع أي معلومات شخصية ولا ترسل أي بيانات إلى أي مكان.</p>
-
-<h2>البيانات التي نجمعها</h2>
-<p>لا شيء. التطبيق لا يجمع أي معلومات شخصية أو يخزنها أو يشاركها. أسماء اللاعبين التي تدخلها خلال اللعبة موجودة فقط في ذاكرة الجهاز طوال الجلسة ولا تُحفظ أبداً.</p>
-
-<h2>الأذونات</h2>
-<p><strong style="color:#e0d8c8">الاهتزاز</strong> — يُستخدم لتوفير ردود الفعل اللمسية خلال أحداث اللعبة. لا يتم جمع أي بيانات من خلال هذا الإذن.</p>
-<p><strong style="color:#e0d8c8">إبقاء الشاشة مضاءة</strong> — يُستخدم لإبقاء الشاشة نشطة خلال مؤقت النقاش. لا يتم جمع أي بيانات.</p>
-
-<h2>الأطفال</h2>
-<p>المتشكك مخصص للجمهور العام. غير أن فئة "الكبار" تحتوي على محتوى مناسب فقط للاعبين الذين تجاوزوا 18 عاماً.</p>
-
-<h2>التواصل</h2>
-<p>للاستفسارات:<br>
-<a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a>
-</p>
-
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
 </div>
 
-<div class="footer">© 2026 Waleed Elhadi · The Skeptic · <a href="https://waleedelhadi.com">waleedelhadi.com</a></div>
+<script>
+const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
 
+function showPolicy(id, btn) {
+  document.querySelectorAll('.policy').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('policy-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>

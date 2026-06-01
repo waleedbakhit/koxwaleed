@@ -4,254 +4,150 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects — Waleed Elhadi</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d0d0b;--bg2:#141410;--bg3:#1c1c17;--bg4:#232318;
-  --copper:#c8843a;--copper2:#e8a456;--copper-dim:#6b4420;
-  --teal:#3aac8c;--teal2:#52c8a4;--teal-dim:#1a5c48;
-  --ink:#f0ece4;--ink2:#a09880;--ink3:#5a5648;
-  --line:#2a2820;--line2:#3a3828;
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'Outfit',system-ui,sans-serif;
-  --max:900px;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;font-weight:300;overflow-x:hidden}
+  :root {
+    --milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--gold-pale:#f0dbb0;
+    --copper:#b5622a;--copper-pale:#f2ddd0;
+    --matcha:#5a7a52;--matcha-light:#7a9e70;--matcha-pale:#d4e8ce;--matcha-ultra:#eef5ec;
+    --text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),radial-gradient(ellipse 30% 30% at 80% 20%,#fdf0de 0%,transparent 50%),#faf6f0;}
+  .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%),radial-gradient(ellipse 20% 18% at 95% 35%,rgba(90,122,82,0.04) 0%,transparent 55%);}
+  .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Cpath d='M120,30 L120,10 L200,10 L200,50 L260,50'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3Ccircle cx='60' cy='120' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
+  .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+  .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
+  .ring{position:fixed;border-radius:50%;border:1px solid;pointer-events:none;z-index:0;}
+  .r1{width:500px;height:500px;border-color:rgba(200,146,42,0.04);top:-200px;left:-180px;}
+  .r2{width:380px;height:380px;border-color:rgba(181,98,42,0.05);bottom:-160px;right:-130px;}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
+  .back:hover{color:var(--gold);}
+  .page-header{margin-bottom:52px;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
+  .eyebrow{font-size:10px;font-weight:500;letter-spacing:.35em;color:var(--matcha);text-transform:uppercase;margin-bottom:12px;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,58px);font-weight:400;line-height:1.1;letter-spacing:-.02em;}
+  .page-header h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--copper));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:16px 0;}
+  .lead{font-size:14px;color:var(--text-muted);font-weight:300;line-height:1.7;max-width:520px;}
+  .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,0.7);border-bottom-color:rgba(200,146,42,0.12);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07),inset 0 1px 0 rgba(255,255,255,0.45);}
+  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:16px;margin-top:40px;opacity:0;animation:fadeUp .6s ease forwards;}
+  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
+  .footer a{color:var(--gold);text-decoration:none;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:640px){body{cursor:auto}.cursor,.cursor-ring{display:none}}
 
-/* Reveal */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
-.reveal.visible{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.25s}
+.pcard{display:grid;grid-template-columns:5px 1fr;border-radius:20px;overflow:hidden;margin-bottom:14px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
+.pcard:nth-child(1){animation-delay:.12s}.pcard:nth-child(2){animation-delay:.20s}.pcard:nth-child(3){animation-delay:.28s}
+.pcard:hover{transform:translateY(-4px);border-color:rgba(200,146,42,0.32);box-shadow:0 14px 40px rgba(180,100,30,0.10),inset 0 1px 0 rgba(255,255,255,0.45);}
+.pcard-bar{background:linear-gradient(180deg,var(--gold),var(--copper));}
+.pcard-bar.matcha{background:linear-gradient(180deg,var(--matcha-light),var(--matcha));}
+.pcard-bar.dark{background:linear-gradient(180deg,#8b6914,#5a4008);}
+.pcard-body{padding:26px 24px;}
+.pcard-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;}
+.pcard-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:500;}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:9px;font-weight:500;letter-spacing:.08em;padding:2px 9px;border-radius:20px;text-transform:uppercase;}
+.tag.game{background:rgba(200,146,42,0.1);color:var(--gold);}
+.tag.android{background:rgba(80,160,70,0.1);color:#3a7a28;}
+.tag.ios{background:rgba(50,90,180,0.1);color:#2a4ab5;}
+.tag.wip{background:rgba(200,146,42,0.08);color:var(--copper);}
+.tag.live{background:rgba(50,180,100,0.1);color:#1a8050;}
+.pcard-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;margin-bottom:12px;}
+.pmeta{display:flex;gap:16px;font-size:11px;color:var(--text-muted);}
 
-/* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);height:60px;background:rgba(13,13,11,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.nav-logo{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--copper2);text-decoration:none;letter-spacing:.03em}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--copper2)}
-.nav-links a.active{color:var(--copper2)}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mcard{padding:22px 18px;opacity:0;animation:fadeUp .6s ease forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),border-color .2s;}
+.mcard:nth-child(1){animation-delay:.5s}.mcard:nth-child(2){animation-delay:.58s}.mcard:nth-child(3){animation-delay:.66s}
+.mcard:hover{transform:translateY(-3px);border-color:rgba(200,146,42,0.3);}
+.mcard-icon{width:30px;height:30px;margin-bottom:12px;}
+.mcard-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:500;margin-bottom:6px;}
+.mcard-desc{font-size:12px;color:var(--text-muted);line-height:1.55;font-weight:300;}
 
-/* Page hero */
-.page-hero{padding:clamp(6rem,12vw,9rem) clamp(1.5rem,5vw,4rem) clamp(2rem,5vw,3rem);max-width:var(--max);margin:0 auto}
-.page-eyebrow{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
-.page-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--copper)}
-h1.page-title{font-family:var(--serif);font-size:clamp(3rem,8vw,5.5rem);font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--ink);margin-bottom:1rem}
-h1.page-title em{font-style:italic;color:var(--copper2)}
-.page-sub{font-size:.95rem;color:var(--ink2);max-width:480px;line-height:1.8}
-
-.hairline{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--line2) 20%,var(--line2) 80%,transparent)}
-
-/* ── Single timeline ─────────────────────────────────── */
-.tl-wrap{max-width:var(--max);margin:0 auto;padding:clamp(3rem,8vw,5rem) clamp(1.5rem,5vw,4rem)}
-
-.timeline{position:relative;padding-left:3rem}
-
-/* Spine on the left */
-.timeline::before{
-  content:'';position:absolute;
-  left:7px;top:0;bottom:0;
-  width:1px;
-  background:linear-gradient(to bottom,var(--copper-dim),var(--line2) 85%,transparent);
-}
-
-/* Each item */
-.tl-item{position:relative;margin-bottom:3rem}
-.tl-item:last-child{margin-bottom:0}
-
-/* Dot */
-.tl-item::before{
-  content:'';
-  position:absolute;
-  left:-2.65rem;
-  top:1.5rem;
-  width:13px;height:13px;
-  border-radius:50%;
-  background:var(--bg);
-  border:2px solid var(--teal);
-  box-shadow:0 0 0 4px rgba(58,172,140,.1),0 0 10px rgba(58,172,140,.2);
-  transition:box-shadow .3s;
-  z-index:2;
-}
-.tl-item:hover::before{
-  box-shadow:0 0 0 7px rgba(58,172,140,.15),0 0 20px rgba(58,172,140,.35);
-}
-
-/* Card */
-.proj-card{
-  background:var(--bg2);
-  border:1px solid var(--line);
-  border-radius:10px;
-  overflow:hidden;
-  transition:border-color .3s,background .3s;
-}
-.proj-card:hover{border-color:var(--teal-dim);background:var(--bg3)}
-
-/* ── Slideshow ───────────────────────────────────────── */
-.slideshow{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--bg4)}
-.slides-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.77,0,.18,1);will-change:transform}
-.slide{flex:0 0 100%;height:100%;overflow:hidden}
-.slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s cubic-bezier(.16,1,.3,1)}
-.proj-card:hover .slide img{transform:scale(1.04)}
-
-.proj-img-placeholder{width:100%;aspect-ratio:16/9;background:var(--bg4);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.proj-img-placeholder::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(58,172,140,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(58,172,140,.04) 1px,transparent 1px);background-size:24px 24px}
-.ph-icon{width:36px;height:36px;opacity:.2;position:relative;z-index:1;fill:none;stroke:var(--ink3);stroke-width:1}
-
-.slide-dots{position:absolute;bottom:.6rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:10;background:rgba(0,0,0,.35);border-radius:100px;padding:.3rem .5rem}
-.slide-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .3s,transform .3s;cursor:pointer;border:none;padding:0}
-.slide-dot.active{background:#fff;transform:scale(1.3)}
-.slide-count{position:absolute;top:.65rem;right:.7rem;z-index:10;font-size:.65rem;background:rgba(0,0,0,.5);color:rgba(255,255,255,.75);border-radius:100px;padding:.2rem .55rem;backdrop-filter:blur(4px);pointer-events:none;letter-spacing:.04em}
-
-/* Card body */
-.proj-body{padding:1.5rem 1.8rem 1.8rem}
-.proj-year{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
-.proj-title{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--ink);line-height:1.2;margin-bottom:.75rem}
-.proj-desc{font-size:.88rem;color:var(--ink2);line-height:1.8}
-.proj-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.1rem}
-.proj-tag{font-size:.75rem;color:var(--ink3);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:3px;padding:.2rem .6rem;transition:border-color .2s,color .2s}
-.proj-card:hover .proj-tag{border-color:var(--teal-dim);color:var(--ink2)}
-
-/* Floating back button */
-.fab{position:fixed;bottom:2rem;right:2rem;z-index:100;display:flex;align-items:center;gap:.6rem;padding:.75rem 1.3rem;border-radius:100px;background:var(--bg2);border:1px solid var(--line2);color:var(--ink2);font-family:var(--sans);font-size:.75rem;letter-spacing:.06em;text-decoration:none;font-weight:500;transition:all .25s;backdrop-filter:blur(8px)}
-.fab:hover{border-color:var(--copper);color:var(--copper2);background:var(--bg3)}
-.fab svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;flex-shrink:0}
-
-/* Mobile */
-@media(max-width:600px){
-  .nav-links{display:none}
-  .timeline{padding-left:2.5rem}
-  .timeline::before{left:6px}
-  .tl-item::before{left:-2.15rem}
-  .proj-body{padding:1.2rem 1.3rem 1.5rem}
-  .fab{bottom:1.2rem;right:1.2rem;padding:.65rem 1rem}
-}
+@media(max-width:640px){.pcard-head{flex-direction:column;align-items:flex-start}.mini-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+<div class="bg"></div><div class="bg-matcha"></div><div class="circuit"></div>
+<div class="ring r1"></div><div class="ring r2"></div>
 
-<nav>
-  <a class="nav-logo" href="index.html">W.E.</a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="index.html#about">About</a></li>
-    <li><a href="index.html#experience">Experience</a></li>
-    <li><a href="index.html#skills">Skills</a></li>
-    <li><a href="projects.html" class="active">Projects</a></li>
-    <li><a href="index.html#contact">Contact</a></li>
-  </ul>
-</nav>
+<div class="container">
+  <a href="/" class="back">← Back</a>
 
-<div class="page-hero">
-  <p class="page-eyebrow reveal">Personal builds</p>
-  <h1 class="page-title reveal d1">Things I built<br><em>on my own terms</em></h1>
-  <p class="page-sub reveal d2">Side projects built out of curiosity, not requirement. No procurement process, no budget committee — just the right way to do it.</p>
-</div>
+  <div class="page-header">
+    <p class="eyebrow">Work & Side Projects</p>
+    <h1>Built <em>Things</em></h1>
+    <div class="divider"></div>
+    <p class="lead">Apps, games and experiments across mobile, web and embedded systems.</p>
+  </div>
 
-<div class="hairline"></div>
+  <p class="section-label" style="animation-delay:.18s">Mobile Apps</p>
 
-<div class="tl-wrap">
-  <div class="timeline" id="timeline"></div>
-</div>
-
-<a class="fab" href="index.html">
-  <svg viewBox="0 0 24 24"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
-  Back to portfolio
-</a>
-
-<script src="projects_data.js"></script>
-<script>
-// ── Slideshow engine ──────────────────────────────────────
-const slideshows=[];
-
-function buildSlideshow(imgs,title){
-  const id='ss_'+Math.random().toString(36).slice(2,7);
-  const slides=imgs.map(src=>`<div class="slide"><img src="${src}" alt="${title}" loading="lazy"></div>`).join('');
-  const dots=imgs.length>1
-    ?`<div class="slide-dots" id="dots_${id}">${imgs.map((_,i)=>`<button class="slide-dot${i===0?' active':''}" data-ss="${id}" data-idx="${i}"></button>`).join('')}</div>`:'';
-  const count=imgs.length>1?`<div class="slide-count" id="count_${id}">1 / ${imgs.length}</div>`:'';
-  slideshows.push({id,total:imgs.length,current:0,interval:null});
-  return `<div class="slideshow" id="${id}"><div class="slides-track" id="track_${id}">${slides}</div>${dots}${count}</div>`;
-}
-
-function goToSlide(id,idx){
-  const ss=slideshows.find(s=>s.id===id);if(!ss)return;
-  ss.current=(idx+ss.total)%ss.total;
-  const t=document.getElementById('track_'+id);
-  if(t) t.style.transform=`translateX(-${ss.current*100}%)`;
-  const d=document.getElementById('dots_'+id);
-  if(d) d.querySelectorAll('.slide-dot').forEach((dot,i)=>dot.classList.toggle('active',i===ss.current));
-  const c=document.getElementById('count_'+id);
-  if(c) c.textContent=`${ss.current+1} / ${ss.total}`;
-}
-
-function startAuto(id){
-  const ss=slideshows.find(s=>s.id===id);
-  if(!ss||ss.total<=1||ss.interval)return;
-  ss.interval=setInterval(()=>goToSlide(id,ss.current+1),1500);
-}
-function stopAuto(id){
-  const ss=slideshows.find(s=>s.id===id);
-  if(!ss)return;
-  clearInterval(ss.interval);ss.interval=null;
-}
-
-document.addEventListener('click',e=>{
-  const dot=e.target.closest('.slide-dot');
-  if(!dot)return;
-  stopAuto(dot.dataset.ss);
-  goToSlide(dot.dataset.ss,parseInt(dot.dataset.idx,10));
-});
-
-// ── Render projects ───────────────────────────────────────
-const HOBBY = (typeof PROJECTS!=='undefined'&&PROJECTS.hobby)?PROJECTS.hobby:[];
-
-const tl=document.getElementById('timeline');
-
-HOBBY.forEach(p=>{
-  const imgs=Array.isArray(p.imgs)&&p.imgs.length?p.imgs:(p.img?[p.img]:[]);
-  const titleSize=p.titleSize||'1.3rem';
-  const bodySize=p.bodySize||'0.88rem';
-
-  const mediaHTML=imgs.length
-    ?buildSlideshow(imgs,p.title)
-    :`<div class="proj-img-placeholder"><svg class="ph-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
-
-  const item=document.createElement('div');
-  item.className='tl-item reveal';
-  item.innerHTML=`<div class="proj-card">
-    ${mediaHTML}
-    <div class="proj-body">
-      <div class="proj-year">${p.year}</div>
-      <div class="proj-title" style="font-size:${titleSize}">${p.title}</div>
-      <p class="proj-desc" style="font-size:${bodySize}">${p.desc}</p>
-      <div class="proj-tags">${(p.tags||[]).map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
+  <div class="pcard glass">
+    <div class="pcard-bar"></div>
+    <div class="pcard-body">
+      <div class="pcard-head">
+        <div class="pcard-name">The Skeptic</div>
+        <div class="tags"><span class="tag game">Game</span><span class="tag android">Android</span><span class="tag ios">iOS</span><span class="tag wip">Launching</span></div>
+      </div>
+      <p class="pcard-desc">Bilingual Arabic/English social deduction party game. One player is the spy — everyone else knows the secret word. 12 categories, regional packs, Chaos mode, card flip animations and leaderboard. Native Kotlin/Compose and SwiftUI.</p>
+      <div class="pmeta"><span>📱 Android + iOS</span><span>🌍 EN + AR</span><span>💰 .99 unlock</span></div>
     </div>
-  </div>`;
-  tl.appendChild(item);
-});
+  </div>
 
-// ── Intersection observers ────────────────────────────────
-const ssObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    e.target.querySelectorAll('.slideshow').forEach(el=>{
-      e.isIntersecting?startAuto(el.id):stopAuto(el.id);
-    });
-  });
-},{threshold:0.3});
+  <div class="pcard glass">
+    <div class="pcard-bar matcha"></div>
+    <div class="pcard-body">
+      <div class="pcard-head">
+        <div class="pcard-name">The Skeptic: Family</div>
+        <div class="tags"><span class="tag game">Game</span><span class="tag android">Android</span><span class="tag wip">In Progress</span></div>
+      </div>
+      <p class="pcard-desc">Family-friendly version with teal/amber theme. 12 kid-safe categories — Cartoons, Superheroes, Fairy Tales, Toys and more. Rated Everyone.</p>
+      <div class="pmeta"><span>📱 Android</span><span>👨‍👩‍👧 All ages</span><span>💰 .99 unlock</span></div>
+    </div>
+  </div>
 
-const revObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
-},{threshold:0.1});
+  <div class="pcard glass">
+    <div class="pcard-bar dark"></div>
+    <div class="pcard-body">
+      <div class="pcard-head">
+        <div class="pcard-name">Nour</div>
+        <div class="tags"><span class="tag wip">In Progress</span></div>
+      </div>
+      <p class="pcard-desc">A personal project — details coming soon.</p>
+      <div class="pmeta"><span>📱 Mobile</span></div>
+    </div>
+  </div>
 
-document.querySelectorAll('.tl-item').forEach(el=>{
-  ssObs.observe(el);
-  revObs.observe(el);
-});
-document.querySelectorAll('.reveal:not(.tl-item)').forEach(el=>revObs.observe(el));
+  <p class="section-label" style="animation-delay:.45s">Web</p>
+  <div class="mini-grid">
+    <div class="mcard glass">
+      <svg class="mcard-icon" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="11" stroke="#c8922a" stroke-width="1.3"/><ellipse cx="15" cy="15" rx="5" ry="11" stroke="#c8922a" stroke-width="1.3"/><line x1="4" y1="15" x2="26" y2="15" stroke="#c8922a" stroke-width="1.2" opacity="0.5"/><line x1="6" y1="9" x2="24" y2="9" stroke="#c8922a" stroke-width="1" opacity="0.4"/><line x1="6" y1="21" x2="24" y2="21" stroke="#c8922a" stroke-width="1" opacity="0.4"/></svg>
+      <div class="mcard-name">waleedelhadi.com</div>
+      <p class="mcard-desc">Personal portfolio hub. Vanilla HTML/CSS/JS, GitHub Pages + Cloudflare.</p>
+    </div>
+    <div class="mcard glass">
+      <svg class="mcard-icon" viewBox="0 0 30 30" fill="none"><path d="M5 14 L15 4 L25 14 L25 26 L19 26 L19 19 L11 19 L11 26 L5 26 Z" stroke="#5a7a52" stroke-width="1.3" stroke-linejoin="round"/><rect x="12.5" y="20" width="5" height="6" rx="1" stroke="#5a7a52" stroke-width="1.2"/></svg>
+      <div class="mcard-name">Home Assistant</div>
+      <p class="mcard-desc">Private home automation dashboard. Custom Lovelace UI, admin-only access.</p>
+    </div>
+    <div class="mcard glass">
+      <svg class="mcard-icon" viewBox="0 0 30 30" fill="none"><circle cx="12" cy="12" r="8" stroke="#c8922a" stroke-width="1.3"/><circle cx="12" cy="12" r="3" stroke="#b5622a" stroke-width="1.2" opacity="0.7"/><line x1="18.2" y1="18.2" x2="25" y2="25" stroke="#c8922a" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <div class="mcard-name">The Skeptic Web</div>
+      <p class="mcard-desc">Browser version of The Skeptic. Fully playable without installing an app.</p>
+    </div>
+  </div>
+
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+</div>
+<script>
+const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,.pcard,.mcard').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
 </script>
 </body>
 </html>

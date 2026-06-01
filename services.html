@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Waleed Elhadi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--gold-pale:#f0dbb0;
+    --copper:#b5622a;--copper-pale:#f2ddd0;
+    --matcha:#5a7a52;--matcha-light:#7a9e70;--matcha-pale:#d4e8ce;--matcha-ultra:#eef5ec;
+    --text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),radial-gradient(ellipse 30% 30% at 80% 20%,#fdf0de 0%,transparent 50%),#faf6f0;}
+  .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%),radial-gradient(ellipse 20% 18% at 95% 35%,rgba(90,122,82,0.04) 0%,transparent 55%);}
+  .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Cpath d='M120,30 L120,10 L200,10 L200,50 L260,50'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3Ccircle cx='60' cy='120' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
+  .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+  .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
+  .ring{position:fixed;border-radius:50%;border:1px solid;pointer-events:none;z-index:0;}
+  .r1{width:500px;height:500px;border-color:rgba(200,146,42,0.04);top:-200px;left:-180px;}
+  .r2{width:380px;height:380px;border-color:rgba(181,98,42,0.05);bottom:-160px;right:-130px;}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
+  .back:hover{color:var(--gold);}
+  .page-header{margin-bottom:52px;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
+  .eyebrow{font-size:10px;font-weight:500;letter-spacing:.35em;color:var(--matcha);text-transform:uppercase;margin-bottom:12px;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,58px);font-weight:400;line-height:1.1;letter-spacing:-.02em;}
+  .page-header h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--copper));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:16px 0;}
+  .lead{font-size:14px;color:var(--text-muted);font-weight:300;line-height:1.7;max-width:520px;}
+  .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,0.7);border-bottom-color:rgba(200,146,42,0.12);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07);}
+  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:16px;margin-top:40px;opacity:0;animation:fadeUp .6s ease forwards;}
+  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
+  .footer a{color:var(--gold);text-decoration:none;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:640px){body{cursor:auto}.cursor,.cursor-ring{display:none}}
+
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px;}
+.scard{padding:28px 24px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
+.scard:nth-child(1){animation-delay:.10s}.scard:nth-child(2){animation-delay:.17s}.scard:nth-child(3){animation-delay:.24s}.scard:nth-child(4){animation-delay:.31s}.scard:nth-child(5){animation-delay:.38s}.scard:nth-child(6){animation-delay:.45s}
+.scard:hover{transform:translateY(-4px);border-color:rgba(200,146,42,0.3);box-shadow:0 14px 40px rgba(180,100,30,0.10),inset 0 1px 0 rgba(255,255,255,0.45);}
+.scard-icon{width:36px;height:36px;margin-bottom:14px;}
+.scard-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;margin-bottom:6px;}
+.scard-desc{font-size:13px;color:var(--text-muted);line-height:1.6;font-weight:300;}
+.scard-price{margin-top:12px;font-size:11px;font-weight:500;color:var(--copper);letter-spacing:.06em;text-transform:uppercase;}
+
+.piva{padding:32px;margin-bottom:32px;opacity:0;animation:fadeUp .7s ease .42s forwards;}
+.piva-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:6px;}
+.piva-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;font-weight:300;}
+.piva-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.piva-item label{font-size:9px;font-weight:500;letter-spacing:.18em;color:var(--copper);text-transform:uppercase;display:block;margin-bottom:4px;}
+.piva-item span{font-size:13px;color:var(--text);}
+
+.form-wrap{padding:32px;opacity:0;animation:fadeUp .7s ease .52s forwards;}
+.form-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:6px;}
+.form-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;font-weight:300;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg.full{grid-column:span 2;}
+.fg label{font-size:9px;font-weight:500;letter-spacing:.15em;color:var(--copper);text-transform:uppercase;}
+.fg input,.fg textarea,.fg select{background:rgba(255,248,238,0.65);border:1px solid rgba(200,146,42,0.2);border-radius:10px;padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,42,0.08);}
+.fg textarea{min-height:100px;resize:vertical;}
+.sbtn{margin-top:18px;background:linear-gradient(135deg,var(--gold),var(--copper));color:#fff;border:none;border-radius:12px;padding:13px 32px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;cursor:none;transition:transform .25s cubic-bezier(.25,.8,.25,1),box-shadow .25s;box-shadow:0 4px 18px rgba(200,146,42,0.25);}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,146,42,0.35);}
+
+@media(max-width:900px){.services{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.services,.frow,.piva-grid{grid-template-columns:1fr}.fg.full{grid-column:span 1}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="bg"></div><div class="bg-matcha"></div><div class="circuit"></div>
+<div class="ring r1"></div><div class="ring r2"></div>
+
+<div class="container">
+  <a href="/" class="back">← Back</a>
+
+  <div class="page-header">
+    <p class="eyebrow">Freelance & Consulting</p>
+    <h1>Services <em>&</em> Work</h1>
+    <div class="divider"></div>
+    <p class="lead">Available for freelance projects via registered Italian sole proprietorship (Partita IVA).</p>
+  </div>
+
+  <div class="services">
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="2" width="20" height="28" rx="2.5" stroke="#c8922a" stroke-width="1.4"/><rect x="18" y="8" width="14" height="22" rx="2.5" stroke="#b5622a" stroke-width="1.4" opacity="0.6"/><line x1="8" y1="10" x2="16" y2="10" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/><line x1="8" y1="14" x2="16" y2="14" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/></svg>
+      <div class="scard-title">Mobile App Development</div>
+      <p class="scard-desc">Native Android (Kotlin/Compose) and iOS (SwiftUI). From concept to Play Store and App Store submission including in-app purchases.</p>
+      <p class="scard-price">From €800 / project</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><rect x="3" y="6" width="30" height="22" rx="3" stroke="#c8922a" stroke-width="1.4"/><line x1="3" y1="12" x2="33" y2="12" stroke="#c8922a" stroke-width="1.2" opacity="0.5"/><circle cx="7" cy="9" r="1.2" fill="#b5622a" opacity="0.7"/><circle cx="11" cy="9" r="1.2" fill="#b5622a" opacity="0.5"/><line x1="8" y1="18" x2="18" y2="18" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/><line x1="8" y1="22" x2="14" y2="22" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/><line x1="18" y1="30" x2="18" y2="28" stroke="#c8922a" stroke-width="1.4" stroke-linecap="round"/><line x1="12" y1="30" x2="24" y2="30" stroke="#c8922a" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <div class="scard-title">Website & Web App</div>
+      <p class="scard-desc">Portfolio sites, landing pages, dashboards and web apps. HTML/CSS/JS or React. Fast, clean and mobile-friendly.</p>
+      <p class="scard-price">From €400 / project</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="13" stroke="#c8922a" stroke-width="1.4"/><circle cx="18" cy="18" r="5" stroke="#c8922a" stroke-width="1.4"/><line x1="18" y1="5" x2="18" y2="9" stroke="#c8922a" stroke-width="1.6" stroke-linecap="round"/><line x1="18" y1="27" x2="18" y2="31" stroke="#c8922a" stroke-width="1.6" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="#c8922a" stroke-width="1.6" stroke-linecap="round"/><line x1="27" y1="18" x2="31" y2="18" stroke="#c8922a" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <div class="scard-title">Technical Consulting</div>
+      <p class="scard-desc">Project scoping, architecture review, tech stack advice. Electrical engineering consulting for industrial control and power systems.</p>
+      <p class="scard-price">€60–€100 / hour</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><rect x="6" y="8" width="24" height="20" rx="3" stroke="#c8922a" stroke-width="1.4"/><path d="M12 18 L16 22 L24 14" stroke="#c8922a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="6" y1="28" x2="6" y2="32" stroke="#b5622a" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/><line x1="30" y1="28" x2="30" y2="32" stroke="#b5622a" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/><line x1="4" y1="32" x2="32" y2="32" stroke="#b5622a" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/></svg>
+      <div class="scard-title">App Store Submission</div>
+      <p class="scard-desc">Full submission handling for Google Play and Apple App Store. Metadata, screenshots, ratings, in-app products and compliance review.</p>
+      <p class="scard-price">From €150 / submission</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="14" r="7" stroke="#c8922a" stroke-width="1.4"/><path d="M4 32 C4 25 9 22 18 22 C27 22 32 25 32 32" stroke="#c8922a" stroke-width="1.4" stroke-linecap="round"/><line x1="26" y1="8" x2="30" y2="4" stroke="#b5622a" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/><circle cx="31" cy="3.5" r="2" stroke="#b5622a" stroke-width="1.2" opacity="0.5"/></svg>
+      <div class="scard-title">Personal IT Assistance</div>
+      <p class="scard-desc">Technical support, device setup, smart home installation, Home Assistant configuration and general IT help for individuals and small offices.</p>
+      <p class="scard-price">€40–€80 / hour</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="10" width="28" height="18" rx="3" stroke="#c8922a" stroke-width="1.4"/><line x1="10" y1="16" x2="18" y2="16" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/><line x1="10" y1="20" x2="22" y2="20" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><path d="M24 4 L28 8 L24 8 Z" fill="#b5622a" opacity="0.5"/><line x1="26" y1="4" x2="26" y2="10" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/></svg>
+      <div class="scard-title">Event & Ceremony Organisation</div>
+      <p class="scard-desc">Planning and coordination assistance for personal events, gatherings and ceremonies. Within ATECO 96.99.99 scope.</p>
+      <p class="scard-price">From €200 / event</p>
+    </div>
+  </div>
+
+  <div class="piva glass">
+    <div class="piva-title">Business Information</div>
+    <p class="piva-sub">Impresa individuale — ATECO 96.99.99 — Camera di Commercio di Torino<br><span style="font-size:11px;color:var(--text-muted)">Note: Software development services invoiced under 62.01.09 equivalent scope. Consult your commercialista for classification updates.</span></p>
+    <div class="piva-grid">
+      <div class="piva-item"><label>Legal Name</label><span>Elhadi Bakhit Abdelsakhi Waleed</span></div>
+      <div class="piva-item"><label>Partita IVA</label><span>12788870017</span></div>
+      <div class="piva-item"><label>Codice Fiscale</label><span>LHDWLD92R18Z348X</span></div>
+      <div class="piva-item"><label>Address</label><span>Corso Gamba Enrico 24, 10144 Torino</span></div>
+      <div class="piva-item"><label>REA</label><span>TO-1325400</span></div>
+      <div class="piva-item"><label>Registered</label><span>16 August 2023</span></div>
+    </div>
+  </div>
+
+  <div class="form-wrap glass">
+    <div class="form-title">Start a Project</div>
+    <p class="form-sub">Tell me what you're building and I'll get back within 24 hours.</p>
+    <form action="mailto:waleedbakhit@hotmail.com" method="post" enctype="text/plain">
+      <div class="frow">
+        <div class="fg"><label>Name</label><input type="text" name="name" placeholder="Ahmed Al-Rashid" required></div>
+        <div class="fg"><label>Email</label><input type="email" name="email" placeholder="ahmed@company.com" required></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Service</label><select name="service"><option>Mobile App Development</option><option>Web Development</option><option>Electrical Engineering</option><option>AI Integration</option><option>Other</option></select></div>
+        <div class="fg"><label>Budget</label><select name="budget"><option>Under €500</option><option>€500 – €2,000</option><option>€2,000 – €5,000</option><option>€5,000+</option></select></div>
+      </div>
+      <div class="frow"><div class="fg full"><label>Description</label><textarea name="message" placeholder="Describe your project, timeline and requirements..."></textarea></div></div>
+      <button type="submit" class="sbtn">Send Message →</button>
+    </form>
+  </div>
+
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+</div>
+<script>
+const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button,.scard').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
+</script>
+</body>
+</html>

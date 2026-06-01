@@ -1,0 +1,14 @@
+GitHub
+
+
+cd /d/waleedelhadi
+git add imposter/index.html
+git commit -m "clean rebuild - fix categories, spy guess, voting"
+git push
+
+
+
+Terminal 
+
+
+sudo systemctl restart imposter
