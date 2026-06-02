@@ -6,16 +6,15 @@
 <title>Projects — Waleed Elhadi</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--copper:#b5622a;--copper-pale:#f2ddd0;--matcha:#5a7a52;--matcha-light:#7a9e70;--matcha-pale:#d4e8ce;--text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);}
+  :root{--milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--copper:#b5622a;--matcha:#5a7a52;--matcha-light:#7a9e70;--text:#2a2318;--text-muted:#7a6a50;}
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:#faf6f0;color:var(--text);}
   .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),#faf6f0;}
-  .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%);}
   .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
   .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+  .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
   .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
-  .container{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:60px 24px 80px;}
+  .container{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:60px 24px 80px;}
   .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
   .back:hover{color:var(--gold);}
   .page-header{margin-bottom:52px;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
@@ -25,19 +24,16 @@
   .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:16px 0;}
   .lead{font-size:14px;color:var(--text-muted);font-weight:300;line-height:1.7;}
 
-  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:16px;margin-top:48px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .6s ease forwards;}
-  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.25),transparent);}
+  /* Section label — horizontal line */
+  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:14px;margin-top:44px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .6s ease forwards;}
+  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.3),transparent);}
 
-  .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(200,146,42,0.18);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07);}
-
-  /* Project cards */
-  .pcard{display:grid;grid-template-columns:5px 1fr;border-radius:20px;overflow:hidden;margin-bottom:12px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
-  .pcard:hover{transform:translateY(-4px);border-color:rgba(200,146,42,0.32);box-shadow:0 14px 40px rgba(180,100,30,0.10);}
-  .pcard-bar{background:linear-gradient(180deg,var(--gold),var(--copper));}
-  .pcard-bar.soft{background:linear-gradient(180deg,#7ab8d4,#4a88a8);}
-  .pcard-bar.hw{background:linear-gradient(180deg,var(--matcha-light),var(--matcha));}
-  .pcard-body{padding:22px 22px 20px;}
-  .pcard-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+  /* Project cards — vertical single column */
+  .pcard{display:grid;grid-template-columns:5px 1fr;border-radius:18px;overflow:hidden;margin-bottom:12px;background:rgba(255,252,245,0.52);backdrop-filter:blur(24px);border:1px solid rgba(200,146,42,0.18);box-shadow:0 2px 14px rgba(180,120,40,0.07);opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
+  .pcard:hover{transform:translateY(-3px);border-color:rgba(200,146,42,0.32);box-shadow:0 10px 32px rgba(180,100,30,0.10);}
+  .pcard-bar{min-height:100%;width:5px;}
+  .pcard-body{padding:20px 22px;}
+  .pcard-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px;flex-wrap:wrap;}
   .pcard-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;}
   .tags{display:flex;gap:5px;flex-wrap:wrap;}
   .tag{font-size:9px;font-weight:500;letter-spacing:.07em;padding:2px 8px;border-radius:20px;text-transform:uppercase;}
@@ -51,21 +47,19 @@
   .pcard-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;margin-bottom:10px;}
   .pmeta{display:flex;gap:14px;font-size:11px;color:var(--text-muted);flex-wrap:wrap;}
 
-  /* Empty state */
-  .empty{text-align:center;padding:40px;color:var(--text-muted);font-size:13px;font-weight:300;font-style:italic;}
-
   .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
   .footer a{color:var(--gold);text-decoration:none;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-  @media(max-width:640px){.pcard-head{flex-direction:column}.pcard-bar{width:100%;height:4px}.pcard{grid-template-columns:1fr}body{cursor:auto}.cursor,.cursor-ring{display:none}}
+  @media(max-width:640px){.pcard-head{flex-direction:column}.pcard{grid-template-columns:1fr}.pcard-bar{height:4px;width:100%}body{cursor:auto}.cursor,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
 <div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
-<div class="bg"></div><div class="bg-matcha"></div><div class="circuit"></div>
+<div class="bg"></div><div class="circuit"></div>
 
 <div class="container">
   <a href="/" class="back">← Back</a>
+
   <div class="page-header">
     <p class="eyebrow">Work & Side Projects</p>
     <h1>Built <em>Things</em></h1>
@@ -73,116 +67,111 @@
     <p class="lead">Hardware, software and apps — built across embedded systems, mobile and web.</p>
   </div>
 
-  <!-- Applications -->
+  <!-- Applications — rendered from DATA -->
   <div class="section-label" style="animation-delay:.18s">Applications</div>
-  <div id="projects-apps">
-    <div class="pcard glass">
-      <div class="pcard-bar"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">The Skeptic</div><div class="tags"><span class="tag app">Game</span><span class="tag android">Android</span><span class="tag ios">iOS</span><span class="tag wip">Launching</span></div></div>
-        <p class="pcard-desc">Bilingual Arabic/English social deduction party game. One player is the spy — everyone else knows the secret word. 12 categories, Chaos mode, card flip animations and leaderboard.</p>
-        <div class="pmeta"><span>📱 Android + iOS</span><span>🌍 EN + AR</span><span>💰 $2.99 unlock</span></div>
-      </div>
-    </div>
-    <div class="pcard glass">
-      <div class="pcard-bar" style="background:linear-gradient(180deg,#6b8f61,#4a6741)"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">The Skeptic: Family</div><div class="tags"><span class="tag app">Game</span><span class="tag android">Android</span><span class="tag wip">In Progress</span></div></div>
-        <p class="pcard-desc">Family-friendly version with teal/amber theme. 12 kid-safe categories — Cartoons, Superheroes, Fairy Tales and Toys. Rated Everyone.</p>
-        <div class="pmeta"><span>📱 Android</span><span>👨‍👩‍👧 All ages</span><span>💰 $2.99 unlock</span></div>
-      </div>
-    </div>
-    <div class="pcard glass">
-      <div class="pcard-bar" style="background:linear-gradient(180deg,#8b6914,#5a4008)"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">Nour</div><div class="tags"><span class="tag wip">In Progress</span></div></div>
-        <p class="pcard-desc">A personal project — details coming soon.</p>
-        <div class="pmeta"><span>📱 Mobile</span></div>
-      </div>
-    </div>
-    <div id="dynamic-apps"></div>
-  </div>
+  <div id="section-apps"></div>
 
-  <!-- Software Projects -->
-  <div class="section-label" style="animation-delay:.3s">Software Projects</div>
-  <div id="projects-software">
-    <div class="pcard glass">
-      <div class="pcard-bar soft"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">waleedelhadi.com</div><div class="tags"><span class="tag web">Web</span><span class="tag live">Live</span></div></div>
-        <p class="pcard-desc">Personal portfolio and hub. Vanilla HTML/CSS/JS, GitHub Pages + Cloudflare. Custom cursor, glass morphism cards, circuit board background.</p>
-        <div class="pmeta"><span>🌐 Web</span><span>🔗 waleedelhadi.com</span></div>
-      </div>
-    </div>
-    <div class="pcard glass">
-      <div class="pcard-bar soft"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">Home Assistant Dashboard</div><div class="tags"><span class="tag web">Web</span><span class="tag live">Live</span></div></div>
-        <p class="pcard-desc">Private home automation dashboard built on Home Assistant with custom Lovelace UI. Controls lighting, climate and security remotely.</p>
-        <div class="pmeta"><span>🏠 Home Automation</span><span>🔒 Admin only</span></div>
-      </div>
-    </div>
-    <div id="dynamic-software"></div>
-  </div>
+  <!-- Software -->
+  <div class="section-label" style="animation-delay:.28s">Software Projects</div>
+  <div id="section-software"></div>
 
-  <!-- Hardware Projects -->
-  <div class="section-label" style="animation-delay:.42s">Hardware Projects</div>
-  <div id="projects-hardware">
-    <div class="pcard glass">
-      <div class="pcard-bar hw"></div>
-      <div class="pcard-body">
-        <div class="pcard-head"><div class="pcard-name">KJO Substation Control Systems</div><div class="tags"><span class="tag hw">Hardware</span><span class="tag live">Professional</span></div></div>
-        <p class="pcard-desc">Design and maintenance of 115kV/13.8kV substation control and protection systems at King Jouf Oil Operations. Includes SCADA integration, relay coordination and fault analysis.</p>
-        <div class="pmeta"><span>⚡ Power Systems</span><span>🏭 Industrial</span><span>🇸🇦 Saudi Arabia</span></div>
-      </div>
-    </div>
-    <div id="dynamic-hardware"></div>
-  </div>
+  <!-- Hardware -->
+  <div class="section-label" style="animation-delay:.38s">Hardware Projects</div>
+  <div id="section-hardware"></div>
 
-  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Turin, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
 </div>
 
 <script>
-const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
-(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
-document.querySelectorAll('a,.pcard').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
+const LS = { get(k){ try { return LS.get(k); } catch(e){ return null; } } };
 
-// Default projects matching admin panel
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+
+// Default projects — single source of truth
 const DEFAULT_PROJECTS = [
-  {id:'p1',name:'The Skeptic',category:'apps',desc:'Bilingual Arabic/English social deduction party game. One player is the spy — everyone else knows the secret word. 12 categories, regional packs, Chaos mode, card flip animations and a full leaderboard. Built natively in Kotlin/Compose (Android) and SwiftUI (iOS).',tags:['Game','Android','iOS','Launching'],meta:['📱 Android + iOS','🌍 EN + AR','💰 $2.99 unlock'],color:'linear-gradient(180deg,#c8922a,#b5622a)'},
-  {id:'p2',name:'The Skeptic: Family',category:'apps',desc:'Family-friendly version with teal/amber theme. 12 kid-safe categories — Cartoons, Superheroes, Fairy Tales, Toys and more. Rated Everyone.',tags:['Game','Android','In Progress'],meta:['📱 Android','👨‍👩‍👧 All ages','💰 $2.99 unlock'],color:'linear-gradient(180deg,#6b8f61,#4a6741)'},
-  {id:'p3',name:'Nour',category:'apps',desc:'A personal project — details coming soon.',tags:['In Progress'],meta:['📱 Mobile'],color:'linear-gradient(180deg,#8b6914,#5a4008)'},
-  {id:'p4',name:'waleedelhadi.com',category:'software',desc:'Personal portfolio and hub. Vanilla HTML/CSS/JS, GitHub Pages + Cloudflare. Custom cursor, glass morphism cards, circuit board background.',tags:['Web','Live'],meta:['🌐 Web'],color:'linear-gradient(180deg,#7ab8d4,#4a88a8)'},
-  {id:'p5',name:'Home Assistant Dashboard',category:'software',desc:'Private home automation dashboard with custom Lovelace UI. Controls lighting, climate and security. Protected by Cloudflare Access.',tags:['Web','Live'],meta:['🏠 Home Automation','🔒 Admin only'],color:'linear-gradient(180deg,#5a7a52,#3a5a38)'},
-  {id:'p6',name:'KJO Substation Control Systems',category:'hardware',desc:'Design and maintenance of 115kV/13.8kV substation control and protection systems at King Jouf Oil Operations. Includes SCADA integration, relay coordination, fault analysis and electrical safety management.',tags:['Hardware','Professional'],meta:['⚡ Power Systems','🏭 Industrial','🇸🇦 Saudi Arabia'],color:'linear-gradient(180deg,#7a9e70,#5a7a52)'},
+  {id:'p1',name:'The Skeptic',category:'apps',
+   desc:'Bilingual Arabic/English social deduction party game. One player is the spy — everyone else knows the secret word. 12 categories, regional packs, Chaos mode, card flip animations and leaderboard. Built natively in Kotlin/Compose (Android) and SwiftUI (iOS).',
+   tags:['Game','Android','iOS','Launching'],meta:['📱 Android + iOS','🌍 EN + AR','💰 $2.99 unlock'],
+   color:'linear-gradient(180deg,#c8922a,#b5622a)'},
+  {id:'p2',name:'The Skeptic: Family',category:'apps',
+   desc:'Family-friendly version with teal/amber theme. 12 kid-safe categories — Cartoons, Superheroes, Fairy Tales, Toys and more. Rated Everyone.',
+   tags:['Game','Android','In Progress'],meta:['📱 Android','👨‍👩‍👧 All ages','💰 $2.99 unlock'],
+   color:'linear-gradient(180deg,#6b8f61,#4a6741)'},
+  {id:'p3',name:'Nour',category:'apps',
+   desc:'Saudi Qiyas exam prep app — Arabic, SwiftData, 1500+ questions across quantitative and verbal topics.',
+   tags:['App','iOS','In Progress'],meta:['📱 iOS','🌍 AR'],
+   color:'linear-gradient(180deg,#8b6914,#5a4008)'},
+  {id:'p4',name:'waleedelhadi.com',category:'software',
+   desc:'Personal portfolio hub. Vanilla HTML/CSS/JS, GitHub Pages + Cloudflare. Custom cursor, glass morphism cards, circuit board background, admin panel.',
+   tags:['Web','Live'],meta:['🌐 Web','🔗 waleedelhadi.com'],
+   color:'linear-gradient(180deg,#7ab8d4,#4a88a8)'},
+  {id:'p5',name:'Home Assistant Dashboard',category:'software',
+   desc:'Private home automation dashboard. Custom Lovelace UI. Controls lighting, climate and security. Protected by Cloudflare Access OTP.',
+   tags:['Web','Live'],meta:['🏠 Home Automation','🔒 Admin only'],
+   color:'linear-gradient(180deg,#5a7a52,#3a5a38)'},
+  {id:'p6',name:'IoT Facility Maintenance System',category:'hardware',
+   desc:'MSc thesis project at Politecnico di Torino. Open-source architecture integrating BIM and IoT for preventive maintenance of building facilities. ESP8266/ESP32 sensor nodes → MQTT → Raspberry Pi broker → Node-RED → MySQL. Deployed at PoliTO main campus.',
+   tags:['IoT','Hardware','Academic'],meta:['⚡ Embedded Systems','🏛 PoliTO','📅 2021'],
+   color:'linear-gradient(180deg,#7a9e70,#5a7a52)'},
+  {id:'p7',name:'KJO Electrical Systems',category:'hardware',
+   desc:'Design, operation and maintenance of LV/MV power distribution systems, control panels and automation at Khafji Joint Operations (Saudi Aramco + Kuwait Oil Company). Includes UTP/FOC network cabling, automatic door control systems and SAP-based maintenance management.',
+   tags:['Hardware','Professional'],meta:['⚡ Power Systems','🏭 Industrial','🇸🇦 KJO'],
+   color:'linear-gradient(180deg,#b5622a,#8a4018)'},
 ];
 
-// Load projects from localStorage (admin panel data) or fall back to defaults
-function loadProjects() {
-  try {
-    const stored = localStorage.getItem('we_projects');
-    const data = stored ? JSON.parse(stored) : DEFAULT_PROJECTS;
-    const cats = {apps:'dynamic-apps', software:'dynamic-software', hardware:'dynamic-hardware'};
-    Object.entries(cats).forEach(([cat, id]) => {
-      const el = document.getElementById(id);
-      const items = data.filter(p => p.category === cat);
-      el.innerHTML = items.map(p => `
-        <div class="pcard glass" style="opacity:1;animation:none">
-          <div class="pcard-bar" style="background:${p.color||'linear-gradient(180deg,#c8922a,#b5622a)'}"></div>
-          <div class="pcard-body">
-            <div class="pcard-head">
-              <div class="pcard-name">${p.name}</div>
-              <div class="tags">${(p.tags||[]).map(t=>`<span class="tag app">${t}</span>`).join('')}</div>
-            </div>
-            <p class="pcard-desc">${p.desc}</p>
-            <div class="pmeta">${(p.meta||[]).map(m=>`<span>${m}</span>`).join('')}</div>
-          </div>
-        </div>`).join('');
-    });
-  } catch(e) {}
+function tagClass(t){
+  const map={Game:'app',Android:'android',iOS:'ios','In Progress':'wip',Live:'live',Hardware:'hw',IoT:'hw',Web:'web',App:'app',Academic:'live',Professional:'live'};
+  return map[t]||'app';
 }
-loadProjects();
+
+function renderCard(p,delay){
+  return `<div class="pcard" style="animation-delay:${delay}s">
+    <div class="pcard-bar" style="background:${p.color||'linear-gradient(180deg,#c8922a,#b5622a)'}"></div>
+    <div class="pcard-body">
+      <div class="pcard-head">
+        <div class="pcard-name">${p.name}</div>
+        <div class="tags">${(p.tags||[]).map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join('')}</div>
+      </div>
+      <p class="pcard-desc">${p.desc}</p>
+      <div class="pmeta">${(p.meta||[]).map(m=>`<span>${m}</span>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+let CONTENT = {};
+function render(){
+  const all = (CONTENT.projects !== undefined) ? CONTENT.projects : DEFAULT_PROJECTS;
+
+  const cats = {apps:'section-apps', software:'section-software', hardware:'section-hardware'};
+  let delays = {apps:0.20, software:0.32, hardware:0.44};
+
+  Object.entries(cats).forEach(([cat, id]) => {
+    const items = all.filter(p => p.category === cat);
+    const el = document.getElementById(id);
+    if(!items.length){
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px;font-style:italic;padding:8px 0 16px">No projects in this section yet.</p>';
+      return;
+    }
+    el.innerHTML = items.map((p,i) => renderCard(p, delays[cat] + i*0.06)).join('');
+  });
+
+  // Hover interactions
+  document.querySelectorAll('.pcard').forEach(card=>{
+    card.addEventListener('mouseenter',()=>ring.classList.add('h'));
+    card.addEventListener('mouseleave',()=>{ring.classList.remove('h');card.style.transform='';});
+  });
+}
+async function boot(){
+  try {
+    const res = await fetch('/api/content', {cache:'no-store'});
+    if(res.ok) CONTENT = await res.json();
+  } catch(e){ console.warn('Using local defaults'); }
+  render();
+}
+boot();
 </script>
 </body>
 </html>

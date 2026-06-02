@@ -6,56 +6,82 @@
 <title>Résumé — Waleed Elhadi</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--copper:#b5622a;--matcha:#5a7a52;--matcha-light:#7a9e70;--text:#2a2318;--text-muted:#7a6a50;--shadow:rgba(180,120,40,0.10);}
+  :root{--milk:#faf6f0;--gold:#c8922a;--gold-light:#e0aa44;--copper:#b5622a;--matcha:#5a7a52;--matcha-light:#7a9e70;--text:#2a2318;--text-muted:#7a6a50;}
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:var(--milk);color:var(--text);}
+  body{font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;background:#faf6f0;color:var(--text);}
   .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 55% at 12% 8%,#fef8ec 0%,transparent 55%),radial-gradient(ellipse 50% 45% at 88% 90%,#faeedd 0%,transparent 55%),#faf6f0;}
   .bg-matcha{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 25% 20% at 5% 60%,rgba(90,122,82,0.05) 0%,transparent 60%);}
   .circuit{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23c8922a' stroke-width='1'%3E%3Cpath d='M10,10 L10,50 L50,50 L50,10 Z'/%3E%3Cpath d='M50,30 L120,30 L120,80 L200,80'/%3E%3Cpath d='M10,50 L10,120 L60,120 L60,160 L120,160'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c8922a'/%3E%3Ccircle cx='120' cy='30' r='3' fill='%23c8922a'/%3E%3C/g%3E%3C/svg%3E");background-size:300px 300px;}
   .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
   .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
   .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
-  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
-  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
+  .container{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:60px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:40px;transition:color .2s;cursor:none;}
   .back:hover{color:var(--gold);}
   .glass{background:rgba(255,252,245,0.52);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(200,146,42,0.18);border-radius:20px;box-shadow:0 2px 16px rgba(180,120,40,0.07);}
 
   /* Hero */
   .hero{padding:36px;margin-bottom:16px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
-  .hero-name{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:8px;}
+  .hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--matcha);margin-bottom:12px;}
+  .hero-name{font-family:'Playfair Display',serif;font-size:clamp(34px,5vw,56px);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px;}
   .hero-name em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--copper));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  .hero-title{font-size:15px;color:var(--text-muted);font-weight:300;margin-bottom:16px;}
-  .hero-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);}
+  .hero-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--text-muted);margin-bottom:18px;max-width:480px;line-height:1.5;}
+  .hero-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);}
   .hero-meta a{color:var(--gold);text-decoration:none;}
-  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--copper),transparent);margin:14px 0;}
-  .hero-bio{font-size:14px;color:var(--text-muted);line-height:1.7;font-weight:300;max-width:480px;}
-  .download-btn{background:linear-gradient(135deg,var(--gold),var(--copper));color:#fff;border:none;border-radius:12px;padding:11px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:none;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(200,146,42,0.25);white-space:nowrap;}
+  .hero-meta a:hover{color:var(--copper);}
+  .download-btn{background:linear-gradient(135deg,var(--gold),var(--copper));color:#fff;border:none;border-radius:12px;padding:11px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:none;text-decoration:none;display:inline-block;white-space:nowrap;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(200,146,42,0.25);}
   .download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,146,42,0.35);}
 
-  /* Sections */
-  .section{padding:28px;margin-bottom:14px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;}
-  .section:nth-child(2){animation-delay:.1s}.section:nth-child(3){animation-delay:.18s}
-  .section:nth-child(4){animation-delay:.26s}.section:nth-child(5){animation-delay:.34s}
-  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
-  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.25),transparent);}
+  /* Section */
+  .section{padding:30px;margin-bottom:14px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;}
+  .section:nth-child(2){animation-delay:.08s}.section:nth-child(3){animation-delay:.14s}.section:nth-child(4){animation-delay:.2s}.section:nth-child(5){animation-delay:.26s}.section:nth-child(6){animation-delay:.32s}
+  .s-label{font-size:10px;font-weight:500;letter-spacing:.28em;color:var(--copper);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+  .s-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.3),transparent);}
+  .about-text{font-size:14px;color:var(--text-muted);line-height:1.85;font-weight:300;}
 
-  /* Experience items */
-  .exp-item{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(200,146,42,0.1);}
-  .exp-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-  .exp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;flex-wrap:wrap;}
-  .exp-role{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;}
-  .exp-period{font-size:11px;color:var(--text-muted);letter-spacing:.05em;white-space:nowrap;}
-  .exp-company{font-size:13px;color:var(--gold);margin-bottom:8px;}
-  .exp-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;}
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px;}
+  .stat{text-align:center;padding:16px 8px;background:rgba(200,146,42,0.05);border:1px solid rgba(200,146,42,0.12);border-radius:12px;}
+  .stat-n{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);line-height:1;}
+  .stat-l{font-size:10px;letter-spacing:.06em;color:var(--text-muted);text-transform:uppercase;margin-top:6px;}
+
+  /* Experience timeline */
+  .exp-item{position:relative;padding-left:24px;margin-bottom:24px;}
+  .exp-item:last-child{margin-bottom:0;}
+  .exp-item::before{content:'';position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(200,146,42,0.1);}
+  .exp-item::after{content:'';position:absolute;left:4px;top:18px;bottom:-24px;width:1px;background:linear-gradient(180deg,rgba(200,146,42,0.3),transparent);}
+  .exp-item:last-child::after{display:none;}
+  .exp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:3px;flex-wrap:wrap;}
+  .exp-role{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;}
+  .exp-period{font-size:11px;color:var(--copper);letter-spacing:.04em;white-space:nowrap;}
+  .exp-company{font-size:12px;color:var(--gold);margin-bottom:8px;}
+  .exp-desc{font-size:12.5px;color:var(--text-muted);line-height:1.65;font-weight:300;}
 
   /* Skills */
-  .skills-wrap{display:flex;flex-wrap:wrap;gap:8px;}
-  .skill-tag{font-size:12px;padding:5px 13px;background:rgba(200,146,42,0.08);border:1px solid rgba(200,146,42,0.18);border-radius:20px;color:var(--text-muted);}
+  .skills-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+  .skill-tag{font-size:12px;padding:5px 12px;background:rgba(200,146,42,0.07);border:1px solid rgba(200,146,42,0.18);border-radius:20px;color:var(--text-muted);}
 
-  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
+  /* Education */
+  .edu-item{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(200,146,42,0.1);}
+  .edu-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+  .edu-degree{font-family:'Playfair Display',serif;font-size:15px;font-weight:500;}
+  .edu-inst{font-size:12px;color:var(--gold);margin:2px 0;}
+  .edu-year{font-size:11px;color:var(--copper);margin-bottom:6px;}
+  .edu-note{font-size:12px;color:var(--text-muted);line-height:1.6;font-weight:300;font-style:italic;border-left:2px solid rgba(200,146,42,0.25);padding-left:12px;}
+
+  /* Certs */
+  .cert-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .cert-item{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text-muted);line-height:1.5;font-weight:300;}
+  .cert-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px;}
+
+  /* Languages */
+  .lang-wrap{display:flex;gap:10px;flex-wrap:wrap;}
+  .lang-pill{font-size:12px;letter-spacing:.04em;color:var(--copper);border:1px solid rgba(200,146,42,0.3);border-radius:100px;padding:6px 16px;background:rgba(200,146,42,0.05);}
+
+  .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .5s forwards;}
   .footer a{color:var(--gold);text-decoration:none;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-  @media(max-width:640px){.hero{grid-template-columns:1fr}.exp-head{flex-direction:column}.hero-meta{flex-direction:column;gap:6px}body{cursor:auto}.cursor,.cursor-ring{display:none}}
+  @media(max-width:640px){.hero{grid-template-columns:1fr}.exp-head{flex-direction:column}.stats{grid-template-columns:repeat(2,1fr)}.cert-list{grid-template-columns:1fr}body{cursor:auto}.cursor,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
@@ -65,154 +91,146 @@
 <div class="container">
   <a href="/" class="back">← Back</a>
 
-  <!-- Hero -->
-  <div class="hero glass" id="hero-section">
+  <div class="hero glass">
     <div>
+      <p class="hero-eyebrow" id="r-eyebrow">Electrical & Control Engineer</p>
       <div class="hero-name" id="r-name">Waleed <em>Elhadi</em></div>
-      <div class="hero-title" id="r-title">Electrical Engineer & Software Developer</div>
-      <div class="hero-meta">
-        <span id="r-location">📍 Torino, Italy & Saudi Arabia</span>
-        <a href="mailto:waleedbakhit@hotmail.com" id="r-email">✉ waleedbakhit@hotmail.com</a>
-        <a href="https://waleedelhadi.com">🌐 waleedelhadi.com</a>
-      </div>
-      <div class="divider"></div>
-      <p class="hero-bio" id="r-bio">Electrical engineer with 10+ years in industrial power systems at KJO, Saudi Arabia. Passionate self-taught developer building mobile apps and web projects on the side.</p>
+      <p class="hero-tagline" id="r-tagline"></p>
+      <div class="hero-meta" id="r-meta"></div>
     </div>
     <a href="/WALEED_ELHADI_RESUME_.pdf" download class="download-btn">Download PDF ↓</a>
   </div>
 
-  <!-- Experience -->
   <div class="section glass">
-    <div class="section-label">Experience</div>
-    <div id="exp-section">
-      <div class="exp-item">
-        <div class="exp-head"><div class="exp-role">Electrical Engineer</div><span class="exp-period">2014 – Present</span></div>
-        <div class="exp-company">King Jouf Oil Operations (KJO) — Saudi Arabia</div>
-        <p class="exp-desc">Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.</p>
-      </div>
-      <div class="exp-item">
-        <div class="exp-head"><div class="exp-role">Freelance Developer</div><span class="exp-period">2023 – Present</span></div>
-        <div class="exp-company">Impresa Individuale — Torino, Italy</div>
-        <p class="exp-desc">Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR, Android + iOS) and various client web projects.</p>
-      </div>
-    </div>
+    <div class="s-label">Profile</div>
+    <p class="about-text" id="r-bio"></p>
+    <div class="stats" id="r-stats"></div>
   </div>
 
-  <!-- Education -->
   <div class="section glass">
-    <div class="section-label">Education</div>
-    <div id="edu-section">
-      <div class="exp-item">
-        <div class="exp-head"><div class="exp-role">B.Sc. Electrical Engineering</div><span class="exp-period">2010 – 2014</span></div>
-        <div class="exp-company">University of Khartoum — Sudan</div>
-        <p class="exp-desc">Specialisation in Power Systems and Control Engineering.</p>
-      </div>
-      <div class="exp-item">
-        <div class="exp-head"><div class="exp-role">Exchange Programme</div><span class="exp-period">2022 – 2023</span></div>
-        <div class="exp-company">Politecnico di Torino — Italy</div>
-        <p class="exp-desc">EDISU scholarship recipient. Studies in Energy Engineering.</p>
-      </div>
-    </div>
+    <div class="s-label">Experience</div>
+    <div id="r-exp"></div>
   </div>
 
-  <!-- Skills -->
   <div class="section glass">
-    <div class="section-label">Skills</div>
-    <div class="skills-wrap" id="skills-section">
-      <span class="skill-tag">Electrical Engineering</span>
-      <span class="skill-tag">Power Systems</span>
-      <span class="skill-tag">SCADA</span>
-      <span class="skill-tag">AutoCAD</span>
-      <span class="skill-tag">Relay Protection</span>
-      <span class="skill-tag">Android / Kotlin</span>
-      <span class="skill-tag">iOS / Swift</span>
-      <span class="skill-tag">JavaScript</span>
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">Home Assistant</span>
-      <span class="skill-tag">Arabic</span>
-      <span class="skill-tag">English</span>
-      <span class="skill-tag">Italian (Basic)</span>
-    </div>
+    <div class="s-label">Technical Skills</div>
+    <div class="skills-wrap" id="r-skills"></div>
   </div>
 
-  <!-- Languages -->
   <div class="section glass">
-    <div class="section-label">Languages</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" id="lang-section"></div>
+    <div class="s-label">Education</div>
+    <div id="r-edu"></div>
   </div>
 
-  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+  <div class="section glass">
+    <div class="s-label">Certifications</div>
+    <div class="cert-list" id="r-certs"></div>
+  </div>
+
+  <div class="section glass">
+    <div class="s-label">Languages</div>
+    <div class="lang-wrap" id="r-langs"></div>
+  </div>
+
+  <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Turin, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
 </div>
 
+<script src="data.js"></script>
 <script>
-const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
-(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
-document.querySelectorAll('a').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
+const LS = { get(k){ try { return LS.get(k); } catch(e){ return null; } } };
 
-// Default data matching admin panel
-const DEFAULT_RESUME = {name:'Waleed Elhadi Bakhit Abdelsakhi',title:'Electrical Engineer & Software Developer',location:'Torino, Italy · Al-Jouf, Saudi Arabia',email:'waleedbakhit@hotmail.com',website:'waleedelhadi.com',bio:'Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia.'};
-const DEFAULT_EXP = [
-  {id:'e1',role:'Electrical Engineer',company:'King Jouf Oil Operations (KJO)',period:'2014 – Present',location:'Al-Jouf, Saudi Arabia',desc:'Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.'},
-  {id:'e2',role:'Freelance Developer',company:'Impresa Individuale',period:'2023 – Present',location:'Torino, Italy',desc:'Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR) and client web projects.'},
-];
-const DEFAULT_EDU = [
-  {id:'ed1',degree:'B.Sc. Electrical Engineering',inst:'University of Khartoum',year:'2008 – 2013',notes:'Specialisation in Power Systems and Control Engineering.'},
-  {id:'ed2',degree:'Exchange Programme — Energy Engineering',inst:'Politecnico di Torino',year:'2022 – 2023',notes:'EDISU scholarship recipient.'},
-];
-const DEFAULT_SKILLS = ['Electrical Engineering','Power Systems','115kV Substations','SCADA','Relay Protection','AutoCAD','Android / Kotlin','iOS / Swift','JavaScript','Python','Home Assistant','Arabic','English','Italian'];
-const DEFAULT_LANGS = [{name:'Arabic',level:'Native'},{name:'English',level:'Fluent'},{name:'Italian',level:'Intermediate'}];
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('h'));el.addEventListener('mouseleave',()=>ring.classList.remove('h'));});
 
-function loadResume(){
-  try {
-    // Personal info — use admin data or defaults
-    const r = JSON.parse(localStorage.getItem('we_resume') || 'null') || DEFAULT_RESUME;
-    const nameParts = (r.name||'Waleed Elhadi').split(' ');
-    const lastName = nameParts.pop();
-    document.getElementById('r-name').innerHTML = nameParts.join(' ') + ' <em>' + lastName + '</em>';
-    document.getElementById('r-title').textContent = r.title || '';
-    document.getElementById('r-location').textContent = '📍 ' + (r.location || '');
-    const emailEl = document.getElementById('r-email');
-    emailEl.textContent = '✉ ' + (r.email || '');
-    emailEl.href = 'mailto:' + (r.email || '');
-    document.getElementById('r-bio').textContent = r.bio || '';
-
-    // Experience
-    const exps = JSON.parse(localStorage.getItem('we_exp') || 'null') || DEFAULT_EXP;
-    document.getElementById('exp-section').innerHTML = exps.map(e=>`
-      <div class="exp-item">
-        <div class="exp-head">
-          <div class="exp-role">${e.role}</div>
-          <span class="exp-period">${e.period}</span>
-        </div>
-        <div class="exp-company">${e.company}${e.location?' · '+e.location:''}</div>
-        <p class="exp-desc">${e.desc}</p>
-      </div>`).join('');
-
-    // Education
-    const edus = JSON.parse(localStorage.getItem('we_edu') || 'null') || DEFAULT_EDU;
-    document.getElementById('edu-section').innerHTML = edus.map(e=>`
-      <div class="exp-item">
-        <div class="exp-head">
-          <div class="exp-role">${e.degree}</div>
-          <span class="exp-period">${e.year}</span>
-        </div>
-        <div class="exp-company">${e.inst}</div>
-        ${e.notes?`<p class="exp-desc">${e.notes}</p>`:''}
-      </div>`).join('');
-
-    // Skills
-    const skills = JSON.parse(localStorage.getItem('we_skills') || 'null') || DEFAULT_SKILLS;
-    document.getElementById('skills-section').innerHTML = skills.map(s=>`<span class="skill-tag">${s}</span>`).join('');
-
-    // Languages
-    const langs = JSON.parse(localStorage.getItem('we_langs') || 'null') || DEFAULT_LANGS;
-    document.getElementById('lang-section').innerHTML = langs.map(l=>`
-      <div><div style="font-size:15px;font-weight:500;margin-bottom:4px">${l.name}</div><div style="font-size:12px;color:var(--text-muted)">${l.level}</div></div>`).join('');
-
-  } catch(e){ console.error(e); }
+// Cloud content (loaded from API), falls back to data.js DATA
+let CONTENT = {};
+const FIELD = {we_resume:'resume',we_exp:'exp',we_edu:'edu',we_skills:'skills',we_certs:'certs',we_langs:'langs'};
+function val(key, fallback){
+  const f = FIELD[key];
+  if(f && CONTENT[f] !== undefined) return CONTENT[f];
+  return fallback;
 }
-loadResume();
+
+function render(){
+  // Personal — from we_resume or DATA
+  const r = val('we_resume', {
+    name: DATA.name, title: DATA.title, location: DATA.location,
+    email: DATA.email, website: DATA.website, github: DATA.github,
+    linkedin: DATA.linkedin, tagline: DATA.tagline, bio: DATA.about
+  });
+
+  document.getElementById('r-eyebrow').textContent = r.title || DATA.title;
+  const parts = (r.name||DATA.name).trim().split(' ');
+  const last = parts.pop();
+  document.getElementById('r-name').innerHTML = parts.join(' ') + ' <em>' + last + '</em>';
+  document.getElementById('r-tagline').textContent = r.tagline || DATA.tagline || '';
+
+  // Bio — data.js uses HTML, admin uses plain text
+  const bio = r.bio || DATA.about;
+  document.getElementById('r-bio').innerHTML = bio.indexOf('<p>') > -1 ? bio : '<p>'+bio+'</p>';
+
+  // Meta links
+  const meta = [];
+  if(r.location||DATA.location) meta.push('📍 '+(r.location||DATA.location));
+  if(r.email||DATA.email) meta.push(`<a href="mailto:${r.email||DATA.email}">✉ ${r.email||DATA.email}</a>`);
+  if(r.website||DATA.website) meta.push(`<a href="https://${(r.website||DATA.website).replace('https://','')}">🌐 ${(r.website||DATA.website).replace('https://','')}</a>`);
+  if(r.github||DATA.github) meta.push(`<a href="${r.github||DATA.github}" target="_blank">⌨ GitHub</a>`);
+  document.getElementById('r-meta').innerHTML = meta.join('');
+
+  // Stats
+  const exp = val('we_exp', DATA.experience.map(e=>({role:e.role,company:e.company,period:e.period,desc:e.summary})));
+  const certs = val('we_certs', DATA.certifications);
+  const langs = val('we_langs', DATA.languages.map(l=>{const p=l.split('—');return {name:p[0].trim(),level:(p[1]||'').trim()};}));
+  document.getElementById('r-stats').innerHTML = `
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Years Exp</div></div>
+    <div class="stat"><div class="stat-n">2</div><div class="stat-l">Countries</div></div>
+    <div class="stat"><div class="stat-n">${certs.length}+</div><div class="stat-l">Certificates</div></div>
+    <div class="stat"><div class="stat-n">${langs.length}</div><div class="stat-l">Languages</div></div>`;
+
+  // Experience
+  document.getElementById('r-exp').innerHTML = exp.map(e=>`
+    <div class="exp-item">
+      <div class="exp-head"><div class="exp-role">${e.role}</div><div class="exp-period">${e.period}</div></div>
+      <div class="exp-company">${e.company}${e.location?' · '+e.location:''}</div>
+      <p class="exp-desc">${e.desc||e.summary||''}</p>
+    </div>`).join('');
+
+  // Skills — admin stores flat array, data.js stores grouped
+  let skills = val('we_skills', null);
+  if(!skills){
+    skills = [];
+    DATA.skills.forEach(g=>g.items.forEach(i=>skills.push(i)));
+  }
+  document.getElementById('r-skills').innerHTML = skills.map(s=>`<span class="skill-tag">${s}</span>`).join('');
+
+  // Education
+  const edu = val('we_edu', DATA.education.map(e=>({degree:e.degree,inst:e.institution,year:e.year,notes:e.note})));
+  document.getElementById('r-edu').innerHTML = edu.map(e=>`
+    <div class="edu-item">
+      <div class="edu-degree">${e.degree}</div>
+      <div class="edu-inst">${e.inst||e.institution}</div>
+      <div class="edu-year">${e.year}</div>
+      ${(e.notes||e.note)?`<div class="edu-note">${e.notes||e.note}</div>`:''}
+    </div>`).join('');
+
+  // Certifications
+  document.getElementById('r-certs').innerHTML = certs.map(c=>`<div class="cert-item">${c}</div>`).join('');
+
+  // Languages
+  document.getElementById('r-langs').innerHTML = langs.map(l=>
+    `<span class="lang-pill">${l.name}${l.level?' — '+l.level:''}</span>`).join('');
+}
+async function boot(){
+  try {
+    const res = await fetch('/api/content', {cache:'no-store'});
+    if(res.ok) CONTENT = await res.json();
+  } catch(e){ console.warn('Using local defaults'); }
+  render();
+}
+boot();
 </script>
 </body>
 </html>

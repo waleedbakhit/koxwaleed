@@ -93,6 +93,10 @@
     <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="5" y1="11" x2="8" y2="11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
     Résumé
   </div>
+  <div class="nav-item" onclick="showPanel('services',this)">
+    <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="2.5" x2="8" y2="4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="8" y1="12" x2="8" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="2.5" y1="8" x2="4" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="12" y1="8" x2="13.5" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Services
+  </div>
   <div class="nav-item" onclick="showPanel('settings',this)">
     <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/></svg>
     Settings
@@ -177,9 +181,11 @@
         <div class="fg"><label>Location</label><input id="r-location" value="Torino, Italy · Al-Jouf, Saudi Arabia"></div>
         <div class="fg"><label>Email</label><input id="r-email" value="waleedbakhit@hotmail.com"></div>
         <div class="fg"><label>Website</label><input id="r-website" value="waleedelhadi.com"></div>
+        <div class="fg"><label>GitHub</label><input id="r-github" value="https://github.com/waleedbakhit"></div>
         <div class="fg"><label>LinkedIn (optional)</label><input id="r-linkedin" placeholder="linkedin.com/in/..."></div>
+        <div class="fg full"><label>Tagline (hero subtitle)</label><input id="r-tagline" value="Optimising operations cost-effectively through practical, out-of-the-box engineering thinking."></div>
         <div class="fg full"><label>Bio / Summary</label>
-          <textarea id="r-bio">Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia. Registered freelancer in Italy (Partita IVA 12788870017).</textarea>
+          <textarea id="r-bio" style="min-height:120px">Electrical Engineer with a Master of Science in Engineering & Management (IoT) from Politecnico di Torino, and over 10 years of experience in electrical, control and power distribution systems — primarily with Khafji Joint Operations (KJO), a joint venture of Saudi Aramco and Kuwait Oil Company. Proven track record delivering complex projects on time and under budget. Also an independent software developer building bilingual mobile apps and web platforms.</textarea>
         </div>
       </div>
       <button class="btn" onclick="saveSection('personal')">Save Personal Info</button>
@@ -234,6 +240,16 @@
       <div class="skill-wrap" id="skill-wrap"></div>
     </div>
 
+    <!-- Certifications -->
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title">Certifications</div></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input id="cert-input" placeholder="Add a certification..." style="flex:1;background:rgba(238,245,236,0.65);border:1px solid rgba(90,122,82,0.18);border-radius:9px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;" onkeydown="if(event.key==='Enter')addCert()">
+        <button class="btn btn-sm" onclick="addCert()">Add</button>
+      </div>
+      <div class="skill-wrap" id="cert-wrap"></div>
+    </div>
+
     <!-- Languages -->
     <div class="acard">
       <div class="acard-head"><div class="acard-title">Languages</div></div>
@@ -241,11 +257,40 @@
         <div class="fg"><label>Language 1</label><input id="lang1-name" value="Arabic"></div>
         <div class="fg"><label>Level</label><input id="lang1-level" value="Native"></div>
         <div class="fg"><label>Language 2</label><input id="lang2-name" value="English"></div>
-        <div class="fg"><label>Level</label><input id="lang2-level" value="Fluent"></div>
+        <div class="fg"><label>Level</label><input id="lang2-level" value="Advanced"></div>
         <div class="fg"><label>Language 3</label><input id="lang3-name" value="Italian"></div>
-        <div class="fg"><label>Level</label><input id="lang3-level" value="Intermediate"></div>
+        <div class="fg"><label>Level</label><input id="lang3-level" value="Beginner"></div>
       </div>
       <button class="btn" onclick="saveSection('languages')">Save Languages</button>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="panel" id="panel-services">
+    <div class="page-title">Services</div>
+    <p class="page-sub">Manage services shown on the services page</p>
+
+    <div class="acard">
+      <div class="acard-head"><div class="acard-title" id="svc-form-title">Add Service</div></div>
+      <input type="hidden" id="sv-id">
+      <div class="form-grid">
+        <div class="fg"><label>Title</label><input id="sv-title" placeholder="Mobile App Development"></div>
+        <div class="fg"><label>Price</label><input id="sv-price" placeholder="From €800 / project"></div>
+        <div class="fg full"><label>Description</label><textarea id="sv-desc" placeholder="What does this service include?"></textarea></div>
+        <div class="fg"><label>Icon (SVG path data or emoji)</label><input id="sv-icon" placeholder="📱 or SVG path"></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn" onclick="saveService()">Save Service</button>
+        <button class="btn-edit" onclick="clearSvcForm()">Clear</button>
+      </div>
+    </div>
+
+    <div class="acard">
+      <div class="acard-head">
+        <div class="acard-title">All Services</div>
+        <span id="svc-count" style="font-size:12px;color:var(--text-muted)"></span>
+      </div>
+      <div class="proj-list" id="svc-list"></div>
     </div>
   </div>
 
@@ -281,6 +326,13 @@
 </div><!-- /main -->
 
 <script>
+// Safe localStorage wrapper (preview sandboxes may block it)
+const LS = {
+  get(k){ try { return LS.get(k); } catch(e){ return _mem[k]||null; } },
+  set(k,v){ try { LS.set(k,v); } catch(e){ _mem[k]=v; } },
+};
+let _mem = {};
+
 // Cursor
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -317,69 +369,74 @@ const DEFAULT_PROJECTS = [
 ];
 
 const DEFAULT_RESUME = {
-  name:'Waleed Elhadi Bakhit Abdelsakhi',
-  title:'Electrical Engineer & Software Developer',
-  location:'Torino, Italy · Al-Jouf, Saudi Arabia',
+  name:'Waleed Elhadi',
+  title:'Electrical & Control Engineer',
+  location:'Turin, Italy · Khafji, Saudi Arabia',
   email:'waleedbakhit@hotmail.com',
   website:'waleedelhadi.com',
+  github:'https://github.com/waleedbakhit',
   linkedin:'',
-  bio:'Electrical engineer with 10+ years in industrial power systems at King Jouf Oil Operations (KJO), Saudi Arabia. Self-taught developer building bilingual mobile apps and web projects. Currently based between Torino, Italy and Al-Jouf, Saudi Arabia. Registered freelancer in Italy (Partita IVA 12788870017).',
+  tagline:'Optimising operations cost-effectively through practical, out-of-the-box engineering thinking.',
+  bio:'Electrical Engineer with a Master of Science in Engineering & Management (IoT) from Politecnico di Torino, and over 10 years of experience in electrical, control and power distribution systems — primarily with Khafji Joint Operations (KJO), a joint venture of Saudi Aramco and Kuwait Oil Company. Proven track record delivering complex projects on time and under budget. Also an independent software developer building bilingual mobile apps and web platforms. Registered freelancer in Italy (Partita IVA 12788870017).',
 };
 
 const DEFAULT_EXP = [
-  {id:'e1',role:'Electrical Engineer',company:'King Jouf Oil Operations (KJO)',period:'2014 – Present',location:'Al-Jouf, Saudi Arabia',desc:'Design, operation and maintenance of 115kV/13.8kV substation control and protection systems. SCADA integration, relay coordination, fault analysis and electrical safety management for major oil operations facility.'},
-  {id:'e2',role:'Freelance Developer',company:'Impresa Individuale',period:'2023 – Present',location:'Torino, Italy',desc:'Mobile app development (Android/iOS), web development and technical consulting under Italian Partita IVA. Projects include The Skeptic game (bilingual EN/AR) and client web projects.'},
+  {id:'e1',role:'Electrical and Control Engineer',company:'Al Jalhami Cont. & Trading Co. — KJO',period:'Jan 2022 – Present',location:'Khafji, Saudi Arabia',desc:'Contract No. HT673CB20, Khafji Joint Operations — Community & Business Department. Design and troubleshoot electrical panels, control circuits and power distribution systems. Perform load calculations and load balancing. Diagnose and rectify faults in LV panels, cabling and automation components. Supervise corrective works on automatic, sliding and rotating door control systems. Manage UTP/FOC network cabling: installation, termination, testing and commissioning. Coordinate procurement and timely delivery of electrical materials.'},
+  {id:'e2',role:'Lead Design and Planning Engineer',company:'LAMDA Sudan Electrical Entity',period:'May 2021 – Dec 2021',location:'Sudan',desc:'Applied MSc Engineering & Management competencies across technical and managerial aspects of electrical projects. Led planning, cost estimating and budgeting for medium to high voltage overhead transmission lines including transformer and switchgear installation. Made strategic decisions to guide company growth. Designed renewable energy systems, agricultural irrigation systems and energy backup solutions.'},
+  {id:'e3',role:'Maintenance Electrical Engineer',company:'SMS — Saad Al-Din Mursi & Sons Co. — KJO',period:'Sep 2016 – Sep 2018',location:'Khafji, Saudi Arabia',desc:'Contract No. HT323CB14, Khafji Joint Operations — Community & Business Department. Maintained main and sub-power stations, RMUs, performing preventive and routine maintenance across community villas, hospital, sports stadium, swimming pool, offices, auditorium, street lighting, fibre optics and networking systems. Created and managed maintenance materials on SAP.'},
 ];
 
 const DEFAULT_EDU = [
-  {id:'ed1',degree:'B.Sc. Electrical Engineering',inst:'University of Khartoum',year:'2008 – 2013',notes:'Specialisation in Power Systems and Control Engineering.'},
-  {id:'ed2',degree:'Exchange Programme — Energy Engineering',inst:'Politecnico di Torino',year:'2022 – 2023',notes:'EDISU scholarship recipient.'},
+  {id:'ed1',degree:'M.Sc. Engineering & Management (IoT)',inst:'Politecnico di Torino — Turin, Italy',year:'Oct 2018 – Apr 2021',notes:'EDISU Scholarship. Thesis: Implementation of an IoT Open-Source Architecture for Building Facility Maintenance. Deployed at PoliTO main campus.'},
+  {id:'ed2',degree:'B.Sc. Electrical Engineering',inst:'Academy of Engineering Science — Khartoum, Sudan',year:'Sep 2009 – Jan 2014',notes:'Honours Degree. Thesis: Optimal Transmission Line Design.'},
 ];
 
-const DEFAULT_SKILLS = ['Electrical Engineering','Power Systems','115kV Substations','SCADA','Relay Protection','AutoCAD','Android / Kotlin','iOS / Swift','JavaScript','Python','Home Assistant','Arabic','English','Italian'];
+const DEFAULT_SKILLS = ['LV/MV Power Systems','Control Circuits','Power Distribution','Load Calculations','Fault Diagnosis','Switchgear','RMU','SCADA','Node-RED','Arduino','IoT','BIM','UTP/FOC Cabling','AutoCAD','SAP','Python','C++','SQL','HTML','Android/Kotlin','iOS/Swift','MS Office','Photoshop','Project Management','Risk Assessment'];
+
+const DEFAULT_CERTS = ['BOSIT — Basic Offshore Safety Training','OSHA (30 Hours)','Authorized Gas Tester (AGT)','Permit to Work','Job Safety Analysis & Risk Assessment (JSA/JHA)','Hazard Recognition Course','Safety Management System','Basic Safety Course','Project Initiation — Google','Project Management','Electrical Installation Design for Buildings & Facilities','Solar Panels Design and Installation','Low Voltage Switchgear','4-Month Training — Sudanese Thermal Power Generation Co.'];
 
 const DEFAULT_LANGS = [
   {name:'Arabic',level:'Native'},
-  {name:'English',level:'Fluent'},
-  {name:'Italian',level:'Intermediate'},
+  {name:'English',level:'Advanced'},
+  {name:'Italian',level:'Beginner'},
 ];
 
 // ─── STORAGE ──────────────────────────────────────────────
 function getProjects(){
-  const d=localStorage.getItem('we_projects');
+  const d=LS.get('we_projects');
   return d ? JSON.parse(d) : DEFAULT_PROJECTS;
 }
-function setProjects(d){localStorage.setItem('we_projects',JSON.stringify(d));}
+function setProjects(d){LS.set('we_projects',JSON.stringify(d));}
 
 function getResume(){
-  const d=localStorage.getItem('we_resume');
+  const d=LS.get('we_resume');
   return d ? JSON.parse(d) : DEFAULT_RESUME;
 }
-function setResume(d){localStorage.setItem('we_resume',JSON.stringify(d));}
+function setResume(d){LS.set('we_resume',JSON.stringify(d));}
 
 function getExp(){
-  const d=localStorage.getItem('we_exp');
+  const d=LS.get('we_exp');
   return d ? JSON.parse(d) : DEFAULT_EXP;
 }
-function setExp(d){localStorage.setItem('we_exp',JSON.stringify(d));}
+function setExp(d){LS.set('we_exp',JSON.stringify(d));}
 
 function getEdu(){
-  const d=localStorage.getItem('we_edu');
+  const d=LS.get('we_edu');
   return d ? JSON.parse(d) : DEFAULT_EDU;
 }
-function setEdu(d){localStorage.setItem('we_edu',JSON.stringify(d));}
+function setEdu(d){LS.set('we_edu',JSON.stringify(d));}
 
 function getSkills(){
-  const d=localStorage.getItem('we_skills');
+  const d=LS.get('we_skills');
   return d ? JSON.parse(d) : DEFAULT_SKILLS;
 }
-function setSkills(d){localStorage.setItem('we_skills',JSON.stringify(d));}
+function setSkills(d){LS.set('we_skills',JSON.stringify(d));}
 
 function getLangs(){
-  const d=localStorage.getItem('we_langs');
+  const d=LS.get('we_langs');
   return d ? JSON.parse(d) : DEFAULT_LANGS;
 }
-function setLangs(d){localStorage.setItem('we_langs',JSON.stringify(d));}
+function setLangs(d){LS.set('we_langs',JSON.stringify(d));}
 
 // ─── PROJECTS ──────────────────────────────────────────────
 function renderProjects(){
@@ -457,7 +514,9 @@ function loadResume(){
   document.getElementById('r-location').value=r.location||'';
   document.getElementById('r-email').value=r.email||'';
   document.getElementById('r-website').value=r.website||'';
+  document.getElementById('r-github').value=r.github||'';
   document.getElementById('r-linkedin').value=r.linkedin||'';
+  document.getElementById('r-tagline').value=r.tagline||'';
   document.getElementById('r-bio').value=r.bio||'';
 }
 
@@ -469,7 +528,9 @@ function saveSection(section){
       location:document.getElementById('r-location').value,
       email:document.getElementById('r-email').value,
       website:document.getElementById('r-website').value,
+      github:document.getElementById('r-github').value,
       linkedin:document.getElementById('r-linkedin').value,
+      tagline:document.getElementById('r-tagline').value,
       bio:document.getElementById('r-bio').value,
     });
     toast('Personal info saved');
@@ -621,6 +682,23 @@ function deleteSkill(i){
   const d=getSkills();d.splice(i,1);setSkills(d);renderSkills();
 }
 
+// ─── CERTIFICATIONS ───────────────────────────────────────
+function getCerts(){const d=LS.get('we_certs');return d?JSON.parse(d):DEFAULT_CERTS;}
+function setCerts(d){LS.set('we_certs',JSON.stringify(d));}
+function renderCerts(){
+  const certs=getCerts();
+  document.getElementById('cert-wrap').innerHTML=certs.map((c,i)=>`
+    <div class="skill-chip">${c}<button onclick="deleteCert(${i})">×</button></div>`).join('');
+}
+function addCert(){
+  const inp=document.getElementById('cert-input');
+  const c=inp.value.trim();if(!c)return;
+  const certs=getCerts();
+  if(!certs.includes(c)){certs.push(c);setCerts(certs);renderCerts();toast('Certification added');}
+  inp.value='';
+}
+function deleteCert(i){const d=getCerts();d.splice(i,1);setCerts(d);renderCerts();}
+
 // ─── LANGUAGES ────────────────────────────────────────────
 function loadLangs(){
   const langs=getLangs();
@@ -634,10 +712,7 @@ function loadLangs(){
 
 // ─── EXPORT / IMPORT ─────────────────────────────────────
 function exportData(){
-  const data={
-    projects:getProjects(),resume:getResume(),
-    exp:getExp(),edu:getEdu(),skills:getSkills(),langs:getLangs()
-  };
+  const data=CONTENT;
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='waleedelhadi_site_data.json';a.click();toast('Exported');
@@ -656,6 +731,7 @@ function handleImport(e){
       if(d.exp)setExp(d.exp);
       if(d.edu)setEdu(d.edu);
       if(d.skills)setSkills(d.skills);
+      if(d.certs)setCerts(d.certs);
       if(d.langs)setLangs(d.langs);
       init();toast('Data imported');
     }catch{alert('Invalid JSON file');}
@@ -663,14 +739,99 @@ function handleImport(e){
   reader.readAsText(file);
 }
 
+// ─── SERVICES ─────────────────────────────────────────────
+const DEFAULT_SERVICES = [
+  {id:'sv1',title:'Mobile App Development',price:'From €800 / project',desc:'Native Android (Kotlin/Compose) and iOS (SwiftUI). From concept to Play Store and App Store submission including in-app purchases.',icon:'📱'},
+  {id:'sv2',title:'Website & Web App',price:'From €400 / project',desc:'Clean websites and web apps. HTML/CSS/JS or React. Fast, clean and mobile-friendly.',icon:'🌐'},
+  {id:'sv3',title:'Technical Consulting',price:'€60–€100 / hour',desc:'Project scoping, architecture review, tech stack advice. Electrical engineering consulting for industrial control and power systems.',icon:'⚙️'},
+  {id:'sv4',title:'App Store Submission',price:'From €150 / submission',desc:'Full submission handling for Google Play and Apple App Store. Metadata, screenshots, ratings, in-app products and compliance review.',icon:'🚀'},
+  {id:'sv5',title:'Personal IT Assistance',price:'€40–€80 / hour',desc:'Technical support, device setup, smart home installation, Home Assistant configuration and general IT help.',icon:'💻'},
+  {id:'sv6',title:'Event & Ceremony Organisation',price:'From €200 / event',desc:'Planning and coordination assistance for personal events, gatherings and ceremonies.',icon:'🎪'},
+  {id:'sv7',title:'Thesis Review & Auditing',price:'From €80 / thesis',desc:'Technical review of engineering and computer science theses. Structural feedback, methodology auditing, language polish and academic formatting — Bachelor and Master level.',icon:'📋'},
+  {id:'sv8',title:'Electrical Drawings & Schematics',price:'From €120 / drawing set',desc:'Professional electrical diagrams, single-line diagrams, control panel schematics and AutoCAD drawings for residential, commercial and industrial projects.',icon:'⚡'},
+];
+
+function getServices(){
+  const d=LS.get('we_services');
+  return d ? JSON.parse(d) : DEFAULT_SERVICES;
+}
+function setServices(d){LS.set('we_services',JSON.stringify(d));}
+
+function renderServices(){
+  const data=getServices();
+  document.getElementById('svc-count').textContent=`${data.length} service${data.length!==1?'s':''}`;
+  const list=document.getElementById('svc-list');
+  if(!data.length){list.innerHTML='<p style="color:var(--text-muted);font-size:13px;font-style:italic;padding:8px 0">No services yet.</p>';return;}
+  list.innerHTML=data.map((sv,i)=>`
+    <div class="proj-item">
+      <div class="proj-item-info">
+        <div class="proj-item-name">${sv.icon||''} ${sv.title}</div>
+        <div class="proj-item-meta">${sv.price}</div>
+      </div>
+      <div class="proj-item-actions">
+        <button class="btn-edit" onclick="editService(${i})">Edit</button>
+        <button class="btn-danger" onclick="deleteService(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function saveService(){
+  const id=document.getElementById('sv-id').value;
+  const sv={
+    id:id||'sv'+Date.now(),
+    title:document.getElementById('sv-title').value.trim(),
+    price:document.getElementById('sv-price').value.trim(),
+    desc:document.getElementById('sv-desc').value.trim(),
+    icon:document.getElementById('sv-icon').value.trim()
+  };
+  if(!sv.title){alert('Enter a service title');return;}
+  const data=getServices();
+  if(id){const idx=data.findIndex(x=>x.id===id);idx>-1?data[idx]=sv:data.push(sv);}
+  else data.push(sv);
+  setServices(data);renderServices();clearSvcForm();toast('Service saved');
+}
+
+function editService(i){
+  const sv=getServices()[i];
+  document.getElementById('sv-id').value=sv.id;
+  document.getElementById('sv-title').value=sv.title;
+  document.getElementById('sv-price').value=sv.price;
+  document.getElementById('sv-desc').value=sv.desc;
+  document.getElementById('sv-icon').value=sv.icon||'';
+  document.getElementById('svc-form-title').textContent='Edit Service';
+  window.scrollTo(0,0);
+}
+
+function deleteService(i){
+  if(!confirm('Delete this service?'))return;
+  const d=getServices();d.splice(i,1);setServices(d);renderServices();toast('Deleted');
+}
+
+function clearSvcForm(){
+  ['sv-id','sv-title','sv-price','sv-desc','sv-icon'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('svc-form-title').textContent='Add Service';
+}
+
 // ─── INIT ─────────────────────────────────────────────────
-function init(){
+async function init(){
+  await loadFromCloud();
+  // Seed CONTENT from defaults for any missing field
+  if(CONTENT.resume===undefined)  CONTENT.resume  = DEFAULT_RESUME;
+  if(CONTENT.exp===undefined)     CONTENT.exp     = DEFAULT_EXP;
+  if(CONTENT.edu===undefined)     CONTENT.edu     = DEFAULT_EDU;
+  if(CONTENT.skills===undefined)  CONTENT.skills  = DEFAULT_SKILLS;
+  if(CONTENT.certs===undefined)   CONTENT.certs   = DEFAULT_CERTS;
+  if(CONTENT.langs===undefined)   CONTENT.langs   = DEFAULT_LANGS;
+  if(CONTENT.projects===undefined)CONTENT.projects= DEFAULT_PROJECTS;
+  if(CONTENT.services===undefined)CONTENT.services= DEFAULT_SERVICES;
   renderProjects();
   loadResume();
   renderExp();
   renderEdu();
   renderSkills();
+  renderCerts();
   loadLangs();
+  renderServices();
 }
 init();
 </script>

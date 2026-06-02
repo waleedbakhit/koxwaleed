@@ -1,122 +1,97 @@
-// ============================================================
-//  YOUR PERSONAL DATA — the only file you ever need to edit.
-//  Save → git push → Cloudflare Pages redeploys in ~30 sec.
-// ============================================================
-
 const DATA = {
+  name: "Waleed Elhadi",
+  title: "Electrical & Control Engineer",
+  department: "Engineering & Management (IoT)",
+  location: "Turin, Italy · Khafji, Saudi Arabia",
+  email: "waleedbakhit@hotmail.com",
+  phone_it: "+39 348 885 3263",
+  phone_sa: "+966 593 469 892",
+  linkedin: "",
+  github: "https://github.com/waleedbakhit",
+  website: "https://waleedelhadi.com",
 
-  // ── Basic info ──────────────────────────────────────────
-  name:       "Waleed Elhadi",
-  title:      "Electrical & Control Engineer",
-  department: "MSc Engineering & Management (IoT) · PoliTo",
-  location:   "Khafji, Saudi Arabia",
-  email:      "waleedbakhit@hotmail.com",
-  linkedin:   "",   // paste your LinkedIn URL here
-  github:     "",   // paste your GitHub URL here
+  tagline: "Optimising operations cost-effectively through practical, out-of-the-box engineering thinking.",
 
-  // ── Hero video ──────────────────────────────────────────
-  // Drop your video in assets/ and set the filename below.
-  // Leave as "" to hide the video section until you're ready.
-  introVideo:  "",
-  videoPoster: "",
+  about: `
+    <p>Electrical Engineer with a <strong>Master of Science in Engineering & Management (IoT)</strong> from Politecnico di Torino, and over <strong>10 years of experience</strong> in electrical, control and power distribution systems — primarily with <strong>Khafji Joint Operations (KJO)</strong>, a joint venture of Saudi Aramco and Kuwait Oil Company.</p>
+    <p>Proven track record delivering complex projects on time and under budget across multinational environments. Experienced in LV/MV power systems, automation, network infrastructure, and project management. Also an independent software developer building bilingual mobile apps and web platforms.</p>
+    <p>Currently based between Turin, Italy and Khafji, Saudi Arabia. Registered freelance developer in Italy (<strong>Partita IVA 12788870017</strong>).</p>
+  `,
 
-  // ── Tagline (shows under your name in the hero) ─────────
-  tagline: "Building smart electrical systems — from power stations and oil facilities to university campuses and home labs.",
-
-  // ── About ───────────────────────────────────────────────
-  // You can use <strong>text</strong> for emphasis.
-  about: `<p>I am an Electrical & Control Engineer with over 10 years of field experience across Sudan, Italy, and Saudi Arabia. Most of that time has been at <strong>Khafji Joint Operations</strong> — the ARAMCO and Kuwait Oil Company joint venture — working on the electrical and control infrastructure of a large industrial community: power distribution, LV panels, control circuits, network cabling, and facility systems.</p>
-
-<p>Alongside that, I hold an <strong>MSc in Engineering & Management (IoT) from the Politecnico di Torino</strong>, where I was awarded the EDISU scholarship. For my thesis I built an open-source IoT monitoring system using ESP microcontrollers, MQTT, Raspberry Pi, Node-RED, and MySQL — focused on the sensor and data collection layer for building facility maintenance. The data I collected was subsequently used by another research team for BIM integration studies.</p>
-
-<p>I am drawn to the practical side of engineering: building things that work reliably, diagnosing faults methodically, and finding straightforward solutions to operational problems. Outside of work I continue building — home automation, embedded systems, and infrastructure projects that keep the skills sharp.</p>`,
-
-  // ── Experience ──────────────────────────────────────────
   experience: [
     {
-      role:    "Electrical & Control Engineer",
-      company: "Al Jalhami Cont. & Trading Co. · KJO, Khafji",
-      period:  "January 2022 – Present",
-      summary: "Contract HT673CB20 — Community & Business Department, Khafji Joint Operations (ARAMCO / Kuwait Oil JV). Designing and troubleshooting electrical panels, control circuits, and power distribution systems. Load calculations and load balancing across LV systems. Supervising corrective works on automatic, sliding, and rotating door control systems. Managing UTP/FOC network cabling end-to-end: installation, termination, testing, and commissioning.",
+      period: "Jan 2022 – Present",
+      company: "Al Jalhami Contracting & Trading Co. — KJO, Khafji, Saudi Arabia",
+      role: "Electrical and Control Engineer",
+      summary: "Contract No. HT673CB20, Khafji Joint Operations — Community & Business Department. Design and troubleshoot electrical panels, control circuits and power distribution systems. Perform load calculations and load balancing. Diagnose and rectify faults in LV panels, cabling and automation components. Supervise corrective works on automatic, sliding and rotating door control systems. Manage UTP/FOC network cabling: installation, termination, testing and commissioning. Coordinate procurement and timely delivery of electrical materials and equipment."
     },
     {
-      role:    "Lead Design & Planning Engineer",
-      company: "LAMDA Sudan Electrical Entity",
-      period:  "May 2021 – December 2021",
-      summary: "Applied MSc competencies across technical and managerial dimensions of electrical projects. Led planning, cost estimation, and budgeting for medium-to-high voltage overhead transmission lines including transformer and switchgear installation. Involved in renewable energy system design, agricultural irrigation systems, and energy backup solutions.",
+      period: "May 2021 – Dec 2021",
+      company: "LAMDA Sudan Electrical Entity — Sudan",
+      role: "Lead Design and Planning Engineer",
+      summary: "Applied MSc Engineering & Management competencies across technical and managerial aspects of electrical projects. Led planning, cost estimating and budgeting for medium to high voltage overhead transmission lines including transformer and switchgear installation. Made strategic decisions to guide company growth. Involved in designing renewable energy systems, agricultural irrigation systems and energy backup solutions."
     },
     {
-      role:    "MSc Researcher & Intern",
-      company: "Politecnico di Torino — Turin, Italy",
-      period:  "October 2018 – April 2021",
-      summary: "Awarded the EDISU scholarship. Thesis: Implementation of an IoT Open-Source Architecture for Building Facility Maintenance. Designed and deployed the sensor and data collection layer at the PoliTO main campus — ESP microcontrollers sending readings via MQTT to a Raspberry Pi broker, processed through Node-RED and stored in MySQL. The collected dataset was subsequently used by another team for BIM integration research.",
-    },
-    {
-      role:    "Maintenance Electrical Engineer",
-      company: "SMS — Saad Al-Din Mursi & Sons Co. · KJO, Khafji",
-      period:  "September 2016 – September 2018",
-      summary: "Contract HT323CB14 — Community & Business Department, Khafji Joint Operations. Maintaining main and sub-power stations, RMUs, and performing preventive maintenance across community villas, hospital, sports stadium, auditorium, street lighting, and fibre optic networks. Supervised technicians, estimated costs, scheduled works, and managed procurement via SAP.",
-    },
+      period: "Sep 2016 – Sep 2018",
+      company: "SMS — Saad Al-Din Mursi & Sons Co. — KJO, Khafji, Saudi Arabia",
+      role: "Maintenance Electrical Engineer",
+      summary: "Contract No. HT323CB14, Khafji Joint Operations — Community & Business Department. Maintained main and sub-power stations, RMUs, performing preventive and routine maintenance across community villas, hospital, sports stadium, swimming pool, offices, auditorium, street lighting, fibre optics and networking systems. Researched and developed engineering solutions for operational issues. Created and managed maintenance materials on SAP."
+    }
   ],
 
-  // ── Skills ──────────────────────────────────────────────
   skills: [
     {
-      category: "Power & Electrical",
-      items: ["LV/MV Power Distribution", "Load Calculations", "Panel Design", "Switchgear", "Preventive Maintenance", "RMU Operations"],
+      category: "Electrical Engineering",
+      items: ["LV/MV Power Systems","Control Circuits","Power Distribution","Load Calculations","Fault Diagnosis","Preventive Maintenance","Switchgear","RMU","Transformers","UPS Systems"]
     },
     {
-      category: "Control & Networks",
-      items: ["Control Circuit Design", "UTP / FOC Cabling", "BMS", "HVAC Control", "Automation Systems", "Node-RED"],
+      category: "Automation & Networks",
+      items: ["Control Panels","UTP/FOC Cabling","SCADA","Node-RED","Arduino","IoT Systems","BIM Integration","MQTT"]
     },
     {
-      category: "IoT & Embedded",
-      items: ["IoT Architecture", "Raspberry Pi", "Arduino / ESP32", "MQTT", "Home Assistant", "BIM Integration"],
+      category: "Software & Development",
+      items: ["Android / Kotlin","iOS / Swift","Python","JavaScript","HTML/CSS","SQL","AutoCAD","SAP","MS Office","Photoshop","C++"]
     },
     {
-      category: "Software & Tools",
-      items: ["AutoCAD", "SAP", "MS Office", "Python", "C++", "SQL", "HTML", "Photoshop"],
-    },
-    {
-      category: "Management",
-      items: ["Project Planning", "Cost Estimation", "Budgeting", "Team Supervision", "Procurement", "JSA / JHA"],
-    },
+      category: "Project Management",
+      items: ["Cost Estimating","Budgeting","Scheduling","Procurement","Team Supervision","Risk Assessment","JSA/JHA","Permit to Work"]
+    }
   ],
 
-  // ── Education ───────────────────────────────────────────
   education: [
     {
-      degree:      "M.Sc. Engineering & Management (IoT)",
-      institution: "Politecnico di Torino, Italy",
-      year:        "2021",
-      note:        "EDISU Scholarship recipient. Thesis: IoT open-source architecture for building facility maintenance — implemented in the PoliTO main campus.",
+      degree: "Master of Science — Engineering & Management (IoT)",
+      institution: "Politecnico di Torino — Turin, Italy",
+      year: "October 2018 – April 2021",
+      note: "EDISU Scholarship recipient. Thesis: Implementation of an IoT Open-Source Architecture for Building Facility Maintenance. Deployed at PoliTO main campus — ESP8266/ESP32 → MQTT → Raspberry Pi → Node-RED → MySQL."
     },
     {
-      degree:      "B.Sc. Electrical Engineering (Power) — Honours",
-      institution: "Academy of Engineering Sciences, Khartoum, Sudan",
-      year:        "2014",
-      note:        "Thesis: Optimal Transmission Line Design.",
-    },
+      degree: "Bachelor of Science — Electrical Engineering",
+      institution: "Academy of Engineering Science — Khartoum, Sudan",
+      year: "September 2009 – January 2014",
+      note: "Honours Degree. Thesis: Optimal Transmission Line Design."
+    }
   ],
 
-  // ── Certifications ──────────────────────────────────────
   certifications: [
-    "Saudi Council of Engineers — Professional Accreditation (No. 284379)",
     "BOSIT — Basic Offshore Safety Training",
-    "Google — Foundations of Project Management (Coursera, 2022)",
-    "OSHA 30-Hour Safety Certification",
-    "Authorized Gas Tester (AGT) — KJO / ISD",
-    "Permit to Work (PTW) Issuer/Receiver — KJO / ISD",
-    "Hazard Recognition Training — KJO / ISD",
-    "H₂S Awareness Training — KJO / ISD",
-    "Low Voltage Switchgear — Exemplar Center (24 hrs)",
-    "Electrical Installations Design for Buildings & Facilities — Exemplar Center (27 hrs)",
+    "OSHA (30 Hours)",
+    "Authorized Gas Tester (AGT)",
+    "Permit to Work",
+    "Job Safety Analysis & Risk Assessment (JSA/JHA)",
+    "Hazard Recognition Course",
+    "Safety Management System",
+    "Basic Safety Course",
+    "Project Initiation — Google",
+    "Project Management",
+    "Electrical Installation Design for Buildings & Facilities",
     "Solar Panels Design and Installation",
-    "Power Station Training — Sudanese Thermal Generation Co., Khartoum North (2013)",
-    "Facility Training — KJO Maintenance & Support Services, Al-Khafji (2014)",
+    "Low Voltage Switchgear",
+    "4-Month Training — Sudanese Thermal Power Generation Co."
   ],
 
-  // ── Languages ───────────────────────────────────────────
-  languages: ["Arabic (native)", "English (advanced)", "Italian (beginner)"],
+  languages: ["Arabic — Native", "English — Advanced", "Italian — Beginner"],
 
+  introVideo: "",
+  videoPoster: ""
 };

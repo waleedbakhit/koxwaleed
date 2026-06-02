@@ -41,9 +41,9 @@
 
 .services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px;}
 .scard{padding:28px 24px;opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
-.scard:nth-child(1){animation-delay:.10s}.scard:nth-child(2){animation-delay:.17s}.scard:nth-child(3){animation-delay:.24s}.scard:nth-child(4){animation-delay:.31s}.scard:nth-child(5){animation-delay:.38s}.scard:nth-child(6){animation-delay:.45s}
+.scard:nth-child(1){animation-delay:.10s}.scard:nth-child(2){animation-delay:.16s}.scard:nth-child(3){animation-delay:.22s}.scard:nth-child(4){animation-delay:.28s}.scard:nth-child(5){animation-delay:.34s}.scard:nth-child(6){animation-delay:.40s}.scard:nth-child(7){animation-delay:.46s}.scard:nth-child(8){animation-delay:.52s}
 .scard:hover{transform:translateY(-4px);border-color:rgba(200,146,42,0.3);box-shadow:0 14px 40px rgba(180,100,30,0.10),inset 0 1px 0 rgba(255,255,255,0.45);}
-.scard-icon{width:36px;height:36px;margin-bottom:14px;}
+.scard-icon{width:36px;height:36px;margin-bottom:14px;} .scard-icon-emoji{font-size:28px;margin-bottom:14px;}
 .scard-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;margin-bottom:6px;}
 .scard-desc{font-size:13px;color:var(--text-muted);line-height:1.6;font-weight:300;}
 .scard-price{margin-top:12px;font-size:11px;font-weight:500;color:var(--copper);letter-spacing:.06em;text-transform:uppercase;}
@@ -121,8 +121,42 @@
     <div class="scard glass">
       <svg class="scard-icon" viewBox="0 0 36 36" fill="none"><rect x="4" y="10" width="28" height="18" rx="3" stroke="#c8922a" stroke-width="1.4"/><line x1="10" y1="16" x2="18" y2="16" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/><line x1="10" y1="20" x2="22" y2="20" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><path d="M24 4 L28 8 L24 8 Z" fill="#b5622a" opacity="0.5"/><line x1="26" y1="4" x2="26" y2="10" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/></svg>
       <div class="scard-title">Event & Ceremony Organisation</div>
-      <p class="scard-desc">Planning and coordination assistance for personal events, gatherings and ceremonies. Within ATECO 96.99.99 scope.</p>
+      <p class="scard-desc">Planning and coordination assistance for personal events, gatherings and ceremonies.</p>
       <p class="scard-price">From €200 / event</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none">
+        <rect x="5" y="3" width="26" height="30" rx="2.5" stroke="#c8922a" stroke-width="1.4"/>
+        <line x1="10" y1="10" x2="26" y2="10" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+        <line x1="10" y1="15" x2="26" y2="15" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+        <line x1="10" y1="20" x2="20" y2="20" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+        <circle cx="24" cy="26" r="4" stroke="#b5622a" stroke-width="1.3" opacity="0.8"/>
+        <line x1="22.5" y1="26" x2="25.5" y2="26" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="24" y1="24.5" x2="24" y2="27.5" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+      <div class="scard-title">Thesis Review & Auditing</div>
+      <p class="scard-desc">Technical review of engineering and computer science theses. Structural feedback, methodology auditing, language polish and academic formatting — Bachelor and Master level.</p>
+      <p class="scard-price">From €80 / thesis</p>
+    </div>
+    <div class="scard glass">
+      <svg class="scard-icon" viewBox="0 0 36 36" fill="none">
+        <rect x="3" y="5" width="30" height="26" rx="2.5" stroke="#c8922a" stroke-width="1.4"/>
+        <!-- resistor -->
+        <line x1="6" y1="16" x2="10" y2="16" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round"/>
+        <rect x="10" y="13.5" width="6" height="5" rx="1" stroke="#c8922a" stroke-width="1.2"/>
+        <line x1="16" y1="16" x2="30" y2="16" stroke="#c8922a" stroke-width="1.3" stroke-linecap="round"/>
+        <!-- capacitor -->
+        <line x1="6" y1="24" x2="15" y2="24" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="15" y1="21" x2="15" y2="27" stroke="#b5622a" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        <line x1="17" y1="21" x2="17" y2="27" stroke="#b5622a" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        <line x1="17" y1="24" x2="30" y2="24" stroke="#b5622a" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+        <!-- ground -->
+        <line x1="18" y1="10" x2="18" y2="13" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+        <line x1="15" y1="13" x2="21" y2="13" stroke="#c8922a" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <div class="scard-title">Electrical Drawings & Schematics</div>
+      <p class="scard-desc">Professional electrical diagrams, single-line diagrams, control panel schematics and AutoCAD drawings for residential, commercial and industrial projects.</p>
+      <p class="scard-price">From €120 / drawing set</p>
     </div>
   </div>
 
@@ -142,7 +176,7 @@
   <div class="form-wrap glass">
     <div class="form-title">Start a Project</div>
     <p class="form-sub">Tell me what you're building and I'll get back within 24 hours.</p>
-    <form action="mailto:waleedbakhit@hotmail.com" method="post" enctype="text/plain">
+    <form id="contact-form" onsubmit="sendForm(event)">
       <div class="frow">
         <div class="fg"><label>Name</label><input type="text" name="name" placeholder="Ahmed Al-Rashid" required></div>
         <div class="fg"><label>Email</label><input type="email" name="email" placeholder="ahmed@company.com" required></div>
@@ -152,17 +186,70 @@
         <div class="fg"><label>Budget</label><select name="budget"><option>Under €500</option><option>€500 – €2,000</option><option>€2,000 – €5,000</option><option>€5,000+</option></select></div>
       </div>
       <div class="frow"><div class="fg full"><label>Description</label><textarea name="message" placeholder="Describe your project, timeline and requirements..."></textarea></div></div>
-      <button type="submit" class="sbtn">Send Message →</button>
+      <button type="submit" class="sbtn" id="submit-btn">Send Message →</button>
     </form>
   </div>
 
   <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Torino, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
 </div>
 <script>
+const LS = { get(k){ try { return LS.get(k); } catch(e){ return null; } } };
+
 const c=document.getElementById('cursor'),r=document.getElementById('cursorRing');let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
 (function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
 document.querySelectorAll('a,button,.scard').forEach(el=>{el.addEventListener('mouseenter',()=>r.classList.add('h'));el.addEventListener('mouseleave',()=>r.classList.remove('h'));});
+
+// Load services from admin if available
+const DEFAULT_SERVICES = [
+  {id:'sv1',title:'Mobile App Development',price:'From €800 / project',desc:'Native Android (Kotlin/Compose) and iOS (SwiftUI). From concept to Play Store and App Store submission including in-app purchases.',icon:'📱'},
+  {id:'sv2',title:'Website & Web App',price:'From €400 / project',desc:'Clean websites and web apps. HTML/CSS/JS or React. Fast, clean and mobile-friendly.',icon:'🌐'},
+  {id:'sv3',title:'Technical Consulting',price:'€60–€100 / hour',desc:'Project scoping, architecture review, tech stack advice. Electrical engineering consulting for industrial control and power systems.',icon:'⚙️'},
+  {id:'sv4',title:'App Store Submission',price:'From €150 / submission',desc:'Full submission handling for Google Play and Apple App Store. Metadata, screenshots, ratings, in-app products and compliance review.',icon:'🚀'},
+  {id:'sv5',title:'Personal IT Assistance',price:'€40–€80 / hour',desc:'Technical support, device setup, smart home installation, Home Assistant configuration and general IT help.',icon:'💻'},
+  {id:'sv6',title:'Event & Ceremony Organisation',price:'From €200 / event',desc:'Planning and coordination for personal events, gatherings and ceremonies.',icon:'🎪'},
+  {id:'sv7',title:'Thesis Review & Auditing',price:'From €80 / thesis',desc:'Technical review of engineering and CS theses. Structural feedback, methodology auditing, language polish — Bachelor and Master level.',icon:'📋'},
+  {id:'sv8',title:'Electrical Drawings & Schematics',price:'From €120 / drawing set',desc:'Professional electrical diagrams, single-line diagrams, control panel schematics and AutoCAD drawings for residential, commercial and industrial projects.',icon:'⚡'},
+];
+
+let CONTENT = {};
+function loadServices(){
+  const services = (CONTENT.services !== undefined) ? CONTENT.services : DEFAULT_SERVICES;
+  const grid = document.querySelector('.services');
+  if(!grid) return;
+  grid.innerHTML = services.map(sv => `
+    <div class="scard glass">
+      <div class="scard-icon-emoji">${sv.icon||'⚡'}</div>
+      <div class="scard-title">${sv.title}</div>
+      <p class="scard-desc">${sv.desc}</p>
+      <p class="scard-price">${sv.price}</p>
+    </div>`).join('');
+}
+async function bootServices(){
+  try {
+    const res = await fetch('/api/content', {cache:'no-store'});
+    if(res.ok) CONTENT = await res.json();
+  } catch(e){ console.warn('Using local defaults'); }
+  loadServices();
+}
+bootServices();
+
+function sendForm(e){
+  e.preventDefault();
+  const name = document.getElementById('contact-form').querySelector('[name="name"]').value;
+  const email = document.getElementById('contact-form').querySelector('[name="email"]').value;
+  const service = document.getElementById('contact-form').querySelector('[name="service"]').value;
+  const budget = document.getElementById('contact-form').querySelector('[name="budget"]').value;
+  const msg = document.getElementById('contact-form').querySelector('[name="message"]').value;
+  
+  const body = `Name: ${name}%0AEmail: ${email}%0AService: ${service}%0ABudget: ${budget}%0A%0A${msg}`;
+  const subject = `Project Inquiry — ${service}`;
+  window.location.href = `mailto:waleedbakhit@hotmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Opening your email client...';
+  setTimeout(()=>btn.textContent='Send Message →', 3000);
+}
 </script>
 </body>
 </html>
