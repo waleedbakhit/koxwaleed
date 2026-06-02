@@ -25,8 +25,22 @@
   .lead{font-size:14px;color:var(--text-muted);font-weight:300;line-height:1.7;}
 
   /* Section label — horizontal line */
-  .section-label{font-size:10px;font-weight:500;letter-spacing:.3em;color:var(--copper);text-transform:uppercase;margin-bottom:14px;margin-top:44px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .6s ease forwards;}
-  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(200,146,42,0.3),transparent);}
+  .section-label{
+    font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    margin-bottom:18px;padding:14px 18px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;gap:9px;text-align:center;
+    position:relative;
+    opacity:0;animation:fadeUp .6s ease forwards;
+    border:1px solid;
+  }
+  .section-label span{position:relative;z-index:1;}
+  /* Milky tinted — soft, matching column color */
+  .section-label.apps{background:rgba(200,146,42,0.12);color:#9a6e1e;border-color:rgba(200,146,42,0.25);}
+  .section-label.software{background:rgba(74,136,168,0.12);color:#3a6a85;border-color:rgba(74,136,168,0.25);}
+  .section-label.hardware{background:rgba(90,122,82,0.12);color:#4a6741;border-color:rgba(90,122,82,0.25);}
+  .section-label.apps svg line,.section-label.apps svg rect{stroke:#9a6e1e!important;}
+  .section-label.software svg polyline{stroke:#3a6a85!important;}
+  .section-label.hardware svg line,.section-label.hardware svg rect{stroke:#4a6741!important;}
 
   /* Project cards — vertical single column */
   .pcard{display:grid;grid-template-columns:5px 1fr;border-radius:18px;overflow:hidden;margin-bottom:12px;background:rgba(255,252,245,0.52);backdrop-filter:blur(24px);border:1px solid rgba(200,146,42,0.18);box-shadow:0 2px 14px rgba(180,120,40,0.07);opacity:0;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;cursor:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),box-shadow .3s,border-color .3s;}
@@ -51,7 +65,22 @@
   .footer a{color:var(--gold);text-decoration:none;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
   .columns{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
-  .column{min-width:0;}
+  .column{
+    min-width:0;
+    padding:18px;
+    border-radius:22px;
+    position:relative;
+    overflow:hidden;
+  }
+  /* Glossy colored column panel */
+  .column::before{
+    content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.15) 30%,rgba(255,255,255,0.04) 100%);
+  }
+  .column.apps{background:linear-gradient(180deg,rgba(200,146,42,0.14),rgba(200,146,42,0.04));border:1px solid rgba(200,146,42,0.2);box-shadow:0 8px 30px rgba(200,146,42,0.1);}
+  .column.software{background:linear-gradient(180deg,rgba(74,136,168,0.14),rgba(74,136,168,0.04));border:1px solid rgba(74,136,168,0.2);box-shadow:0 8px 30px rgba(74,136,168,0.1);}
+  .column.hardware{background:linear-gradient(180deg,rgba(90,122,82,0.14),rgba(90,122,82,0.04));border:1px solid rgba(90,122,82,0.2);box-shadow:0 8px 30px rgba(90,122,82,0.1);}
+  .column > *{position:relative;z-index:1;}
   /* In column mode cards stack vertically within each column */
   .column .pcard{grid-template-columns:1fr;}
   .column .pcard-bar{height:4px;width:100%;}
@@ -90,16 +119,16 @@
 
   <!-- 3 columns side by side -->
   <div class="columns">
-    <div class="column">
-      <div class="section-label" style="animation-delay:.18s">Applications</div>
+    <div class="column apps">
+      <div class="section-label apps" style="animation-delay:.18s"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="1.5" width="10" height="15" rx="2" stroke="white" stroke-width="1.4"/><line x1="7.5" y1="13.5" x2="10.5" y2="13.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg><span>Applications</span></div>
       <div id="section-apps"></div>
     </div>
-    <div class="column">
-      <div class="section-label" style="animation-delay:.28s">Software</div>
+    <div class="column software">
+      <div class="section-label software" style="animation-delay:.28s"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="6,5 2.5,9 6,13" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12,5 15.5,9 12,13" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Software</span></div>
       <div id="section-software"></div>
     </div>
-    <div class="column">
-      <div class="section-label" style="animation-delay:.38s">Hardware</div>
+    <div class="column hardware">
+      <div class="section-label hardware" style="animation-delay:.38s"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" rx="1.5" stroke="white" stroke-width="1.4"/><line x1="7" y1="1.5" x2="7" y2="4" stroke="white" stroke-width="1.3" stroke-linecap="round"/><line x1="11" y1="1.5" x2="11" y2="4" stroke="white" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="14" x2="7" y2="16.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><line x1="11" y1="14" x2="11" y2="16.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><line x1="1.5" y1="7" x2="4" y2="7" stroke="white" stroke-width="1.3" stroke-linecap="round"/><line x1="14" y1="7" x2="16.5" y2="7" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg><span>Hardware</span></div>
       <div id="section-hardware"></div>
     </div>
   </div>
