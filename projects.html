@@ -55,8 +55,8 @@
   /* In column mode cards stack vertically within each column */
   .column .pcard{grid-template-columns:1fr;}
   .column .pcard-bar{height:4px;width:100%;}
-  .pcard-imgwrap{position:relative;width:100%;height:200px;overflow:hidden;background:rgba(200,146,42,0.06);cursor:pointer;}
-  .pcard-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;}
+  .pcard-imgwrap{position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;background:rgba(200,146,42,0.06);cursor:pointer;}
+  .pcard-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;}
   .pcard-img.active{opacity:1;}
   .pcard-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
   .pcard-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);transition:background .3s;}
@@ -224,7 +224,7 @@ function render(){
       dots.forEach((d,i)=>d.classList.toggle('active',i===n));
     }
     wrap.addEventListener('mouseenter',()=>{
-      timer=setInterval(()=>{ idx=(idx+1)%imgs.length; show(idx); },1000);
+      timer=setInterval(()=>{ idx=(idx+1)%imgs.length; show(idx); },2000);
     });
     wrap.addEventListener('mouseleave',()=>{
       clearInterval(timer); idx=0; show(0);
