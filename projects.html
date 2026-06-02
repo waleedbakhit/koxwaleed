@@ -55,7 +55,21 @@
   /* In column mode cards stack vertically within each column */
   .column .pcard{grid-template-columns:1fr;}
   .column .pcard-bar{height:4px;width:100%;}
-  .pcard-img{width:100%;height:140px;object-fit:cover;display:block;background:rgba(200,146,42,0.06);}
+  .pcard-imgwrap{position:relative;width:100%;height:200px;overflow:hidden;background:rgba(200,146,42,0.06);cursor:pointer;}
+  .pcard-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;}
+  .pcard-img.active{opacity:1;}
+  .pcard-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
+  .pcard-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);transition:background .3s;}
+  .pcard-dot.active{background:#fff;}
+  .pcard-zoom{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:2;opacity:0;transition:opacity .2s;}
+  .pcard-imgwrap:hover .pcard-zoom{opacity:1;}
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(20,15,8,0.92);z-index:9000;display:none;align-items:center;justify-content:center;padding:40px;cursor:zoom-out;}
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:90%;max-height:85%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+  .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .lightbox-prev{left:24px;}.lightbox-next{right:24px;}
+  .lightbox-close{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:20px;cursor:pointer;}
   @media(max-width:900px){.columns{grid-template-columns:1fr;gap:32px;max-width:600px;margin:0 auto;}}
   @media(max-width:640px){.pcard-head{flex-direction:column}body{cursor:auto}.cursor,.cursor-ring{display:none}}
 </style>
@@ -91,6 +105,13 @@
   </div>
 
   <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Turin, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lbPrev(event)">‹</button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+  <button class="lightbox-nav lightbox-next" onclick="lbNext(event)">›</button>
 </div>
 
 <script>
@@ -137,11 +158,27 @@ function tagClass(t){
   return map[t]||'app';
 }
 
+function getImages(p){
+  if(Array.isArray(p.images) && p.images.length) return p.images;
+  if(p.image) return [p.image];
+  return [];
+}
+
 function renderCard(p,delay){
-  const img = p.image ? `<img class="pcard-img" src="${p.image}" alt="${p.name}">` : '';
+  const imgs = getImages(p);
+  let imgHtml = '';
+  if(imgs.length){
+    const slides = imgs.map((src,i)=>`<img class="pcard-img ${i===0?'active':''}" src="${src}" alt="${p.name}">`).join('');
+    const dots = imgs.length>1 ? `<div class="pcard-dots">${imgs.map((_,i)=>`<div class="pcard-dot ${i===0?'active':''}"></div>`).join('')}</div>` : '';
+    imgHtml = `<div class="pcard-imgwrap" data-images='${JSON.stringify(imgs).replace(/'/g,"&#39;")}' onclick="openLightbox(this)">
+      ${slides}
+      ${dots}
+      <div class="pcard-zoom"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="white" stroke-width="1.4"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>`;
+  }
   return `<div class="pcard" style="animation-delay:${delay}s">
     <div class="pcard-bar" style="background:${p.color||'linear-gradient(180deg,#c8922a,#b5622a)'}"></div>
-    ${img}
+    ${imgHtml}
     <div class="pcard-body">
       <div class="pcard-head">
         <div class="pcard-name">${p.name}</div>
@@ -170,12 +207,52 @@ function render(){
     el.innerHTML = items.map((p,i) => renderCard(p, delays[cat] + i*0.06)).join('');
   });
 
-  // Hover interactions
+  // Hover interactions + auto-swipe carousel
   document.querySelectorAll('.pcard').forEach(card=>{
     card.addEventListener('mouseenter',()=>ring.classList.add('h'));
     card.addEventListener('mouseleave',()=>{ring.classList.remove('h');card.style.transform='';});
   });
+
+  // Auto-swipe images on hover (every 1 second)
+  document.querySelectorAll('.pcard-imgwrap').forEach(wrap=>{
+    const imgs = wrap.querySelectorAll('.pcard-img');
+    const dots = wrap.querySelectorAll('.pcard-dot');
+    if(imgs.length<2) return;
+    let idx=0, timer=null;
+    function show(n){
+      imgs.forEach((im,i)=>im.classList.toggle('active',i===n));
+      dots.forEach((d,i)=>d.classList.toggle('active',i===n));
+    }
+    wrap.addEventListener('mouseenter',()=>{
+      timer=setInterval(()=>{ idx=(idx+1)%imgs.length; show(idx); },1000);
+    });
+    wrap.addEventListener('mouseleave',()=>{
+      clearInterval(timer); idx=0; show(0);
+    });
+  });
 }
+
+// ─── LIGHTBOX ─────────────────────────────────────────────
+let lbImages=[], lbIndex=0;
+function openLightbox(wrap){
+  event.stopPropagation();
+  lbImages = JSON.parse(wrap.getAttribute('data-images').replace(/&#39;/g,"'"));
+  lbIndex = 0;
+  // find currently active image to start from
+  const active = wrap.querySelector('.pcard-img.active');
+  if(active){ const all=[...wrap.querySelectorAll('.pcard-img')]; lbIndex=all.indexOf(active); }
+  showLightbox();
+  document.getElementById('lightbox').classList.add('open');
+}
+function showLightbox(){
+  document.getElementById('lb-img').src = lbImages[lbIndex];
+  const multi = lbImages.length>1;
+  document.querySelector('.lightbox-prev').style.display = multi?'flex':'none';
+  document.querySelector('.lightbox-next').style.display = multi?'flex':'none';
+}
+function lbNext(e){ e.stopPropagation(); lbIndex=(lbIndex+1)%lbImages.length; showLightbox(); }
+function lbPrev(e){ e.stopPropagation(); lbIndex=(lbIndex-1+lbImages.length)%lbImages.length; showLightbox(); }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
 async function boot(){
   try {
     const res = await fetch('/api/content', {cache:'no-store'});

@@ -151,9 +151,9 @@
         <div class="fg"><label>Meta (comma separated)</label><input id="p-meta" placeholder="📱 Android, 🌍 EN+AR, 💰 $2.99"></div>
         <div class="fg"><label>Accent Color</label><input id="p-color" placeholder="linear-gradient(180deg,#c8922a,#b5622a)"></div>
         <div class="fg"><label>Link (optional)</label><input id="p-link" placeholder="https://..."></div>
-        <div class="fg full"><label>Project Image (optional)</label>
-          <input type="file" id="p-image-file" accept="image/*" onchange="handleImageUpload(event)" style="font-size:12px;color:var(--text-muted)">
-          <div id="p-image-preview" style="margin-top:8px"></div>
+        <div class="fg full"><label>Project Images (optional — select multiple)</label>
+          <input type="file" id="p-image-file" accept="image/*" multiple onchange="handleImageUpload(event)" style="font-size:12px;color:var(--text-muted)">
+          <div id="p-image-preview" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"></div>
           <input type="hidden" id="p-image">
         </div>
       </div>
@@ -518,31 +518,54 @@ function renderProjects(){
     </div>`).join('');
 }
 
-// Resize + compress image in browser before saving (keeps KV small)
-function handleImageUpload(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const img = new Image();
-    img.onload = () => {
-      const max = 800;
-      let {width, height} = img;
-      if(width > max){ height = height*max/width; width = max; }
-      const canvas = document.createElement('canvas');
-      canvas.width = width; canvas.height = height;
-      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.78);
-      document.getElementById('p-image').value = dataUrl;
-      document.getElementById('p-image-preview').innerHTML =
-        `<img src="${dataUrl}" style="max-width:160px;border-radius:10px;border:1px solid rgba(90,122,82,0.2)">
-         <button class="btn-danger" style="margin-left:8px" onclick="clearImage()">Remove</button>`;
+// Multiple images — resize + compress each, store as JSON array
+let uploadedImages = [];
+
+function resizeImage(file){
+  return new Promise(resolve=>{
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 1200;  // larger for better quality
+        let {width, height} = img;
+        if(width > max){ height = height*max/width; width = max; }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = ev.target.result;
     };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+  });
 }
+
+async function handleImageUpload(e){
+  const files = Array.from(e.target.files);
+  for(const file of files){
+    const dataUrl = await resizeImage(file);
+    uploadedImages.push(dataUrl);
+  }
+  renderImagePreviews();
+}
+
+function renderImagePreviews(){
+  document.getElementById('p-image').value = JSON.stringify(uploadedImages);
+  document.getElementById('p-image-preview').innerHTML = uploadedImages.map((src,i)=>`
+    <div style="position:relative">
+      <img src="${src}" style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid rgba(90,122,82,0.2)">
+      <button class="btn-danger" style="position:absolute;top:-6px;right:-6px;padding:2px 7px;border-radius:50%;font-size:11px" onclick="removeImage(${i})">×</button>
+    </div>`).join('');
+}
+
+function removeImage(i){
+  uploadedImages.splice(i,1);
+  renderImagePreviews();
+}
+
 function clearImage(){
+  uploadedImages = [];
   document.getElementById('p-image').value='';
   document.getElementById('p-image-preview').innerHTML='';
   document.getElementById('p-image-file').value='';
@@ -559,7 +582,7 @@ function saveProject(){
     meta:document.getElementById('p-meta').value.split(',').map(t=>t.trim()).filter(Boolean),
     color:document.getElementById('p-color').value.trim()||'linear-gradient(180deg,#c8922a,#b5622a)',
     link:document.getElementById('p-link').value.trim(),
-    image:document.getElementById('p-image').value
+    images: uploadedImages.slice()
   };
   if(!p.name){alert('Enter a project name');return;}
   const data=getProjects();
@@ -578,9 +601,9 @@ function editProject(i){
   document.getElementById('p-meta').value=(p.meta||[]).join(', ');
   document.getElementById('p-color').value=p.color||'';
   document.getElementById('p-link').value=p.link||'';
-  document.getElementById('p-image').value=p.image||'';
-  document.getElementById('p-image-preview').innerHTML = p.image ?
-    `<img src="${p.image}" style="max-width:160px;border-radius:10px;border:1px solid rgba(90,122,82,0.2)"><button class="btn-danger" style="margin-left:8px" onclick="clearImage()">Remove</button>` : '';
+  // Support old single-image projects + new multi-image
+  uploadedImages = Array.isArray(p.images) ? p.images.slice() : (p.image ? [p.image] : []);
+  renderImagePreviews();
   document.getElementById('proj-form-title').textContent='Edit Project';
   window.scrollTo(0,0);
 }
@@ -592,6 +615,7 @@ function deleteProject(i){
 
 function clearProjForm(){
   ['edit-id','p-name','p-desc','p-tags','p-meta','p-color','p-link','p-image'].forEach(id=>document.getElementById(id).value='');
+  uploadedImages = [];
   document.getElementById('p-image-preview').innerHTML='';
   const f=document.getElementById('p-image-file'); if(f) f.value='';
   document.getElementById('p-cat').value='apps';
