@@ -14,7 +14,7 @@
   .cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
   .cursor-ring{width:28px;height:28px;border:1px solid rgba(200,146,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
   .cursor-ring.h{width:44px;height:44px;background:rgba(200,146,42,0.05);}
-  .container{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:60px 24px 80px;}
+  .container{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:60px 24px 80px;}
   .back{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px;text-decoration:none;letter-spacing:.04em;margin-bottom:48px;transition:color .2s;cursor:none;}
   .back:hover{color:var(--gold);}
   .page-header{margin-bottom:52px;opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) forwards;}
@@ -50,7 +50,14 @@
   .footer{margin-top:56px;text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:.04em;opacity:0;animation:fadeUp .7s ease .8s forwards;}
   .footer a{color:var(--gold);text-decoration:none;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-  @media(max-width:640px){.pcard-head{flex-direction:column}.pcard{grid-template-columns:1fr}.pcard-bar{height:4px;width:100%}body{cursor:auto}.cursor,.cursor-ring{display:none}}
+  .columns{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
+  .column{min-width:0;}
+  /* In column mode cards stack vertically within each column */
+  .column .pcard{grid-template-columns:1fr;}
+  .column .pcard-bar{height:4px;width:100%;}
+  .pcard-img{width:100%;height:140px;object-fit:cover;display:block;background:rgba(200,146,42,0.06);}
+  @media(max-width:900px){.columns{grid-template-columns:1fr;gap:32px;max-width:600px;margin:0 auto;}}
+  @media(max-width:640px){.pcard-head{flex-direction:column}body{cursor:auto}.cursor,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
@@ -67,17 +74,21 @@
     <p class="lead">Hardware, software and apps — built across embedded systems, mobile and web.</p>
   </div>
 
-  <!-- Applications — rendered from DATA -->
-  <div class="section-label" style="animation-delay:.18s">Applications</div>
-  <div id="section-apps"></div>
-
-  <!-- Software -->
-  <div class="section-label" style="animation-delay:.28s">Software Projects</div>
-  <div id="section-software"></div>
-
-  <!-- Hardware -->
-  <div class="section-label" style="animation-delay:.38s">Hardware Projects</div>
-  <div id="section-hardware"></div>
+  <!-- 3 columns side by side -->
+  <div class="columns">
+    <div class="column">
+      <div class="section-label" style="animation-delay:.18s">Applications</div>
+      <div id="section-apps"></div>
+    </div>
+    <div class="column">
+      <div class="section-label" style="animation-delay:.28s">Software</div>
+      <div id="section-software"></div>
+    </div>
+    <div class="column">
+      <div class="section-label" style="animation-delay:.38s">Hardware</div>
+      <div id="section-hardware"></div>
+    </div>
+  </div>
 
   <div class="footer"><a href="mailto:waleedbakhit@hotmail.com">waleedbakhit@hotmail.com</a> &nbsp;·&nbsp; Turin, Italy &nbsp;·&nbsp; © 2026 Waleed Elhadi</div>
 </div>
@@ -127,8 +138,10 @@ function tagClass(t){
 }
 
 function renderCard(p,delay){
+  const img = p.image ? `<img class="pcard-img" src="${p.image}" alt="${p.name}">` : '';
   return `<div class="pcard" style="animation-delay:${delay}s">
     <div class="pcard-bar" style="background:${p.color||'linear-gradient(180deg,#c8922a,#b5622a)'}"></div>
+    ${img}
     <div class="pcard-body">
       <div class="pcard-head">
         <div class="pcard-name">${p.name}</div>

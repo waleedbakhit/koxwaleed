@@ -151,6 +151,11 @@
         <div class="fg"><label>Meta (comma separated)</label><input id="p-meta" placeholder="📱 Android, 🌍 EN+AR, 💰 $2.99"></div>
         <div class="fg"><label>Accent Color</label><input id="p-color" placeholder="linear-gradient(180deg,#c8922a,#b5622a)"></div>
         <div class="fg"><label>Link (optional)</label><input id="p-link" placeholder="https://..."></div>
+        <div class="fg full"><label>Project Image (optional)</label>
+          <input type="file" id="p-image-file" accept="image/*" onchange="handleImageUpload(event)" style="font-size:12px;color:var(--text-muted)">
+          <div id="p-image-preview" style="margin-top:8px"></div>
+          <input type="hidden" id="p-image">
+        </div>
       </div>
       <div style="display:flex;gap:8px;">
         <button class="btn" onclick="saveProject()">Save Project</button>
@@ -513,6 +518,36 @@ function renderProjects(){
     </div>`).join('');
 }
 
+// Resize + compress image in browser before saving (keeps KV small)
+function handleImageUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 800;
+      let {width, height} = img;
+      if(width > max){ height = height*max/width; width = max; }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.78);
+      document.getElementById('p-image').value = dataUrl;
+      document.getElementById('p-image-preview').innerHTML =
+        `<img src="${dataUrl}" style="max-width:160px;border-radius:10px;border:1px solid rgba(90,122,82,0.2)">
+         <button class="btn-danger" style="margin-left:8px" onclick="clearImage()">Remove</button>`;
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function clearImage(){
+  document.getElementById('p-image').value='';
+  document.getElementById('p-image-preview').innerHTML='';
+  document.getElementById('p-image-file').value='';
+}
+
 function saveProject(){
   const id=document.getElementById('edit-id').value;
   const p={
@@ -523,7 +558,8 @@ function saveProject(){
     tags:document.getElementById('p-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
     meta:document.getElementById('p-meta').value.split(',').map(t=>t.trim()).filter(Boolean),
     color:document.getElementById('p-color').value.trim()||'linear-gradient(180deg,#c8922a,#b5622a)',
-    link:document.getElementById('p-link').value.trim()
+    link:document.getElementById('p-link').value.trim(),
+    image:document.getElementById('p-image').value
   };
   if(!p.name){alert('Enter a project name');return;}
   const data=getProjects();
@@ -542,6 +578,9 @@ function editProject(i){
   document.getElementById('p-meta').value=(p.meta||[]).join(', ');
   document.getElementById('p-color').value=p.color||'';
   document.getElementById('p-link').value=p.link||'';
+  document.getElementById('p-image').value=p.image||'';
+  document.getElementById('p-image-preview').innerHTML = p.image ?
+    `<img src="${p.image}" style="max-width:160px;border-radius:10px;border:1px solid rgba(90,122,82,0.2)"><button class="btn-danger" style="margin-left:8px" onclick="clearImage()">Remove</button>` : '';
   document.getElementById('proj-form-title').textContent='Edit Project';
   window.scrollTo(0,0);
 }
@@ -552,7 +591,9 @@ function deleteProject(i){
 }
 
 function clearProjForm(){
-  ['edit-id','p-name','p-desc','p-tags','p-meta','p-color','p-link'].forEach(id=>document.getElementById(id).value='');
+  ['edit-id','p-name','p-desc','p-tags','p-meta','p-color','p-link','p-image'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-image-preview').innerHTML='';
+  const f=document.getElementById('p-image-file'); if(f) f.value='';
   document.getElementById('p-cat').value='apps';
   document.getElementById('proj-form-title').textContent='Add Project';
 }
