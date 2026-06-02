@@ -326,12 +326,65 @@
 </div><!-- /main -->
 
 <script>
-// Safe localStorage wrapper (preview sandboxes may block it)
-const LS = {
-  get(k){ try { return LS.get(k); } catch(e){ return _mem[k]||null; } },
-  set(k,v){ try { LS.set(k,v); } catch(e){ _mem[k]=v; } },
+// ─── CLOUD API STORAGE ────────────────────────────────────
+const API = '/api/content';
+let CONTENT = {};
+const KEYMAP = {
+  we_resume:'resume', we_exp:'exp', we_edu:'edu', we_skills:'skills',
+  we_certs:'certs', we_langs:'langs', we_projects:'projects', we_services:'services'
 };
-let _mem = {};
+const LS = {
+  get(k){
+    const f = KEYMAP[k];
+    if(f && CONTENT[f] !== undefined) return JSON.stringify(CONTENT[f]);
+    return null;
+  },
+  set(k,v){
+    const f = KEYMAP[k];
+    if(f){ CONTENT[f] = JSON.parse(v); saveToCloud(); }
+  }
+};
+
+async function loadFromCloud(){
+  try {
+    const res = await fetch(API, {cache:'no-store'});
+    if(res.ok){ CONTENT = await res.json(); return true; }
+  } catch(e){ console.warn('Cloud load failed', e); }
+  return false;
+}
+
+function getWriteKey(){
+  let k = '';
+  try { k = localStorage.getItem('we_write_key') || ''; } catch(e){}
+  if(!k){
+    k = prompt('Enter your admin write key (asked once, then remembered):') || '';
+    try { localStorage.setItem('we_write_key', k); } catch(e){}
+  }
+  return k;
+}
+
+let saveTimer = null;
+function saveToCloud(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    const key = getWriteKey();
+    try {
+      const res = await fetch(API, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-Write-Key':key},
+        body: JSON.stringify(CONTENT)
+      });
+      if(res.ok){
+        toast('Saved to cloud ✓');
+      } else if(res.status === 401){
+        try { localStorage.removeItem('we_write_key'); } catch(e){}
+        toast('Wrong write key — try saving again');
+      } else {
+        toast('Save failed ('+res.status+')');
+      }
+    } catch(e){ toast('Save failed — offline?'); }
+  }, 600);
+}
 
 // Cursor
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
